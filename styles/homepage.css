@@ -1,0 +1,142 @@
+/* =======================
+   GENERAL PAGE STYLES
+========================= */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Merriweather', serif;
+  background: #111;
+  color: #f4e8c1;
+  display: flex;
+  flex-direction: column;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #222 0%, #111 100%);
+  z-index: -2;
+}
+
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* behind everything */
+  overflow: hidden;
+}
+
+/* =======================
+   HEADER
+========================= */
+.site-header {
+  background: rgba(0, 0, 0, 0.65);
+  color: #C4B200;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+/* =======================
+   MAIN CONTAINER
+========================= */
+.home-container {
+  flex: 1; /* take all remaining vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.home-container h1 {
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  color: #C4B200;
+  text-shadow: 0 0 8px rgba(255, 180, 0, 0.6);
+}
+
+.home-link {
+    margin-left: auto; /* push it to the right */
+    color: #f4e8c1;
+    text-decoration: none;
+    font-size: 1rem;
+    text-shadow: 0 0 5px rgba(255,140,0,0.7);
+    transition: transform 0.2s ease;
+}
+
+.home-link:hover {
+    transform: scale(1.1);
+}
+
+/* =======================
+   BUTTONS
+========================= */
+.home-buttons {
+  display: flex;
+  flex-direction: column; /* vertically stacked */
+  gap: 20px; /* space between buttons */
+  width: 100%;
+  max-width: 300px; /* limits button container width */
+  align-items: center;
+}
+
+/* =======================
+   FOOTER
+========================= */
+.site-footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  color: #ccc;
+  background-color: rgba(30, 30, 30, 0.9);
+  border-top: 1px solid #444;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+/* =======================
+   RESPONSIVE STYLES
+========================= */
+@media screen and (max-width: 600px) {
+  .home-container h1 {
+      font-size: 2em;
+  }
+
+  .home-buttons {
+      max-width: 90%;
+  }
+
+  .StandardBTN, .AltBTN {
+      font-size: 1em;
+      padding: 12px 20px;
+  }
+
+  .home-link {
+      font-size: 1.2rem; /* slightly bigger for touch */
+      margin-left: 10px; /* keep some padding */
+      padding: 5px 10px;
+    }
+    
+    .site-header {
+        flex-direction: column; /* stack logo and link */
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+}

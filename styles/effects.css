@@ -1,0 +1,97 @@
+/* =======================
+   BUTTON STYLES
+========================= */
+
+.StandardBTN {
+  background: rgba(0, 0, 0, 0.65);
+  color: #C4B200;
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+
+.AltBTN {
+  background: #552c1c;
+  color: #f4e8c1;
+  padding: 12px 28px;
+  margin: 10px;
+  border: 2px solid #9b5d2e;
+  border-radius: 6px;
+  font-size: 1em;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+
+/* =======================
+   FLAME GLOW EFFECT
+========================= */
+@keyframes flameGlow {
+  0% { box-shadow: 0 0 10px rgba(255,140,0,0.6); }
+  20% { box-shadow: 0 0 18px rgba(255,100,0,0.75); }
+  40% { box-shadow: 0 0 30px rgba(255,80,0,0.85); }
+  60% { box-shadow: 0 0 22px rgba(255,60,0,0.7); }
+  80% { box-shadow: 0 0 26px rgba(255,110,0,0.9); }
+  100% { box-shadow: 0 0 10px rgba(255,140,0,0.6); }
+}
+
+.flame-hover {
+  animation: flameGlow 2s infinite ease-in-out;
+}
+
+.flame-hover-slow {
+  animation: flameGlow 4s infinite ease-in-out;
+}
+
+.flame-hover-fast {
+  animation: flameGlow 1s infinite ease-in-out;
+}
+
+/* =======================
+   SELECTION BOXES
+========================= */
+.selection-box {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.selection-input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: none;
+    background: rgba(0,0,0,0.65);
+    color: #C4B200;
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.6);
+}
+
+.selection-dropdown {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.85);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.selection-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #f4e8c1;
+}
+
+.selection-item:hover {
+    background: rgba(255,140,0,0.2);
+}
