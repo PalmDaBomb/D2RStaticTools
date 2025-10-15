@@ -1,0 +1,7 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Maul | Normal | 21 | 30 | 43 | 10 | 6 | 1 | 69 | 0 | 21
+Great Maul | Normal | 32 | 38 | 58 | 20 | 6 | 2 | 99 | 0 | 32
+War Club | Exceptional | 45 | 53 | 78 | 10 | 6 | 1 | 124 | 0 | 25
+Martel de Fer | Exceptional | 53 | 61 | 99 | 20 | 6 | 2 | 169 | 0 | 25
+Ogre Maul | Elite | 69 | 77 | 106 | 10 | 6 | 1 | 225 | 0 | 51
+Thunder Maul | Elite | 85 | 33 | 180 | 20 | 6 | 2 | 253 | 0 | 65

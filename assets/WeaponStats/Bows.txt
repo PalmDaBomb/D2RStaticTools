@@ -1,0 +1,27 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Short Bow | Normal | 1 | 1 | 4 | 5 | 3 | 0 | 0 | 15 | 0
+Hunter's Bow | Normal | 5 | 2 | 6 | -10 | 4 | 0 | 0 | 28 | 0
+Long Bow | Normal | 8 | 3 | 10 | 0 | 5 | 0 | 22 | 19 | 0
+Composite Bow | Normal | 12 | 4 | 8 | -10 | 4 | 0 | 25 | 35 | 0
+Short Battle Bow | Normal | 18 | 5 | 11 | 0 | 5 | 0 | 30 | 40 | 0
+Long Battle Bow | Normal | 23 | 3 | 18 | 10 | 6 | 0 | 40 | 50 | 0
+Short War Bow | Normal | 27 | 6 | 14 | 0 | 5 | 0 | 35 | 55 | 0
+Long War Bow | Normal | 31 | 3 | 23 | 10 | 6 | 0 | 50 | 65 | 0
+Edge Bow | Exceptional | 30 | 6 | 19 | 5 | 3 | 0 | 25 | 43 | 18
+Razor Bow | Exceptional | 33 | 8 | 22 | -10 | 4 | 0 | 25 | 62 | 21
+Cedar Bow | Exceptional | 35 | 10 | 29 | 0 | 5 | 0 | 53 | 49 | 23
+Double Bow | Exceptional | 39 | 11 | 26 | -10 | 4 | 0 | 58 | 73 | 25
+Short Siege Bow | Exceptional | 43 | 13 | 30 | 0 | 5 | 0 | 65 | 80 | 25
+Large Siege Bow | Exceptional | 46 | 10 | 42 | 10 | 6 | 0 | 80 | 95 | 25
+Rune Bow | Exceptional | 49 | 14 | 35 | 0 | 5 | 0 | 73 | 103 | 25
+Gothic Bow | Exceptional | 52 | 10 | 50 | 10 | 6 | 0 | 95 | 118 | 25
+Spider Bow | Elite | 55 | 23 | 50 | 5 | 3 | 0 | 64 | 143 | 41
+Blade Bow | Elite | 60 | 21 | 41 | -10 | 4 | 0 | 76 | 119 | 45
+Shadow Bow | Elite | 63 | 15 | 59 | 0 | 5 | 0 | 52 | 188 | 47
+Great Bow | Elite | 68 | 12 | 52 | -10 | 4 | 0 | 121 | 107 | 51
+Diamond Bow | Elite | 72 | 33 | 40 | 0 | 5 | 0 | 89 | 132 | 54
+Crusader Bow | Elite | 77 | 15 | 63 | 10 | 6 | 0 | 97 | 121 | 57
+Ward Bow | Elite | 80 | 20 | 53 | 0 | 5 | 0 | 72 | 146 | 60
+Hydra Bow | Elite | 85 | 10 | 68 | 10 | 6 | 0 | 134 | 167 | 63
+Matriarchal Bow | Elite | 53 | 20 | 47 | -10 | 5 | 0 | 87 | 187 | 39
+Grand Matron Bow | Elite | 78 | 14 | 72 | 10 | 5 | 0 | 108 | 152 | 58

@@ -1,0 +1,34 @@
+RuneNumber | RuneName | Creation Formula | CombinesInto Formula | Weapon Effect | Armor Effect | Shield Effect | Drop Chance (%) | Expected Drop
+1 | El | NA | 3 El = Eld | +50 Attack Rating | +15 Defense; +1 Light Radius | +15 Defense; +1 Light Radius | 2.30568 | 43.37
+2 | Eld | 3 El = Eld | 3 Eld = Tir | +2 Mana per Kill | +2 Mana per Kill | +2 Mana per Kill | 1.53712 | 65.06
+3 | Tir | 3 Eld = Tir | 3 Tir = Nef | Knockback | +30 Defense (Missiles) | +30 Defense (Missiles) | 5.76419 | 17.35
+4 | Nef | 3 Tir = Nef | 3 Nef = Eth | +30 Defense vs. Missile | +30 Defense vs. Missile | +30 Defense vs. Missile | 3.84279 | 26.02
+5 | Eth | 3 Nef = Eth | 3 Eth = Ith | -25% Target Defense | +15% Mana Regen | +15% Mana Regen | 8.06987 | 12.39
+6 | Ith | 3 Eth = Ith | 3 Ith = Tal | +9 Max Damage | 15% Damage Taken Recovers Mana | 15% Damage Taken Recovers Mana | 5.37991 | 18.59
+7 | Tal | 3 Ith = Tal | 3 Tal = Ral | +75 Poison Damage (5 sec) | +30% Poison Resist | +35% Poison Resist | 11.52838 | 8.67
+8 | Ral | 3 Tal = Ral | 3 Ral = Ort | +5-30 Fire Damage | +30% Fire Resist | +35% Fire Resist | 7.68559 | 13.01
+9 | Ort | 3 Ral = Ort | 3 Ort = Thul | +1-50 Lightning Damage | +30% Lightning Resist | +35% Lightning Resist | 11.52838 | 8.67
+10 | Thul | 3 Ort = Thul | 3 Thul + Chipped Topaz = Amn | +3-14 Cold Damage (3 sec) | +30% Cold Resist | +35% Cold Resist | 7.68559 | 13.01
+11 | Amn | 3 Thul + Chipped Topaz = Amn | 3 Amn + Chipped Amethyst = Sol | 7% Life Steal | Attack Takes 15 Damage | Attack Takes 15 Damage | 8.90830 | 11.23
+12 | Sol | 3 Amn + Chipped Amethyst = Sol | 3 Sol + Chipped Sapphire = Shael | +9 Min Damage | Damage Reduced By 7 | Damage Reduced By 7 | 5.93886 | 16.84
+13 | Shael | 3 Sol + Chipped Sapphire = Shael | 3 Shael + Chipped Ruby = Dol | +20% Increased Attack Speed | +20% Faster Hit Recovery | +20% Faster Block Rate | 5.34498 | 18.71
+14 | Dol | 3 Shael + Chipped Ruby = Dol | 3 Dol + Chipped Emerald = Hel | +25% Hit Causes Monster to Flee | +7 Life Regen | +7 Life Regen | 3.56332 | 28.06
+15 | Hel | 3 Dol + Chipped Emerald = Hel | 3 Hel + Chipped Diamond = Io | Requirements -20% | Requirements -20% | Requirements -20% | 2.96943 | 33.68
+16 | Io | 3 Hel + Chipped Diamond = Io | 3 Io + Flawed Topaz = Lum | +10 Vitality | +10 Vitality | +10 Vitality | 1.97962 | 50.51
+17 | Lum | 3 Io + Flawed Topaz = Lum | 3 Lum + Flawed Amethyst = Ko | +10 Energy | +10 Energy | +10 Energy | 1.56720 | 63.81
+18 | Ko | 3 Lum + Flawed Amethyst = Ko | 3 Ko + Flawed Sapphire = Fal | +10 Dexterity | +10 Dexterity | +10 Dexterity | 1.04480 | 95.71
+19 | Fal | 3 Ko + Flawed Sapphire = Fal | 3 Fal + Flawed Ruby = Lem | +10 Strength | +10 Strength | +10 Strength | 0.80537 | 124.17
+20 | Lem | 3 Fal + Flawed Ruby = Lem | 3 Lem + Flawed Emerald = Pul | 75% Extra Gold From Monsters | 50% Extra Gold From Monsters | 50% Extra Gold From Monsters | 0.53691 | 186.25
+21 | Pul | 3 Lem + Flawed Emerald = Pul | 2 Pul + Flawed Diamond = Um | +75% Damage to Demons, +100 AR vs Demons | +30% Defense | +30% Defense | 0.40828 | 244.93
+22 | Um | 2 Pul + Flawed Diamond = Um | 2 Um + Flawed Topaz = Mal | +25% Chance of Open Wounds | +15 All Resist | +22 All Resist | 0.27218 | 367.40
+23 | Mal | 2 Um + Topaz = Mal | 2 Mal + Amethyst = Ist | Prevent Monster Heal | Magic Damage Reduced by 7 | Magic Damage Reduced by 7 | 0.27767 | 360.13
+24 | Ist | 2 Mal + Amethyst = Ist | 2 Ist + Sapphire = Gul | +30% Better Chance of Magic Find | +25% Better Chance of Magic Find | +25% Better Chance of Magic Find | 0.18512 | 540.20
+25 | Gul | 2 Ist + Sapphire = Gul | 2 Gul + Ruby = Vex | +20% Attack Rating | +5% Max Poison Resist | +5% Max Poison Resist | 0.19578 | 510.78
+26 | Vex | 2 Gul + Ruby = Vex | 2 Vex + Emerald = Ohm | 7% Mana Steal | +5% Max Fire Resist | +5% Max Fire Resist | 0.13052 | 766.17
+27 | Ohm | 2 Vex + Emerald = Ohm | 2 Ohm + Diamond = Lo | +50% Enhanced Damage | +5% Max Cold Resist | +5% Max Cold Resist | 0.13750 | 727.29
+28 | Lo | 2 Ohm + Diamond = Lo | 2 Lo + Flawless Topaz = Sur | 20% Deadly Strike | +5% Max Lightning Resist | +5% Max Lightning Resist | 0.09166 | 1090.94
+29 | Sur | 2 Lo + Flawless Topaz = Sur | 2 Sur + Flawless Amethyst = Ber | Hit Blinds Target | +5% Max Mana | +50 Mana | 0.10168 | 983.43
+30 | Ber | 2 Sur + Flawless Amethyst = Ber | 2 Ber + Flawless Sapphire = Jah | 20% Crushing Blow | Damage Reduced by 8% | Damage Reduced by 8% | 0.06779 | 1475.15
+31 | Jah | 2 Ber + Flawless Sapphire = Jah | 2 Jah + Flawless Ruby = Cham | Ignores Target's Defense | +5% Max Life | +50 Life | 0.07570 | 1320.92
+32 | Cham | 2 Jah + Flawless Ruby = Cham | 2 Cham + Flawless Emerald = Zod | Freeze Target +3 | Cannot Be Frozen | Cannot Be Frozen | 0.05047 | 1981.38
+33 | Zod | 2 Cham + Flawless Emerald = Zod | N/A | Indestructible | Indestructible | Indestructible | 0.01934 | 5171.00

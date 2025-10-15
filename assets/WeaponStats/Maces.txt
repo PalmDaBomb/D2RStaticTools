@@ -1,0 +1,19 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Club | Normal | 1 | 1 | 6 | -10 | 2 | 0 | 0 | 0 | 1
+Spiked Club | Normal | 4 | 5 | 8 | 0 | 2 | 1 | 0 | 0 | 4
+Mace | Normal | 8 | 3 | 10 | 0 | 2 | 0 | 27 | 0 | 8
+Morning Star | Normal | 13 | 7 | 16 | 10 | 3 | 1 | 36 | 0 | 13
+Flail | Normal | 19 | 1 | 24 | -10 | 5 | 2 | 41 | 35 | 19
+War Hammer | Normal | 25 | 19 | 29 | 20 | 4 | 0 | 53 | 0 | 25
+Cudgel | Exceptional | 30 | 6 | 21 | -10 | 2 | 0 | 25 | 0 | 18
+Barbed Club | Exceptional | 32 | 13 | 25 | 0 | 3 | 1 | 30 | 0 | 20
+Flanged Mace | Exceptional | 35 | 15 | 23 | 0 | 2 | 0 | 61 | 0 | 23
+Jagged Star | Exceptional | 39 | 20 | 31 | 10 | 3 | 1 | 74 | 0 | 25
+Knout | Exceptional | 43 | 13 | 35 | -10 | 5 | 2 | 82 | 73 | 25
+Battle Hammer | Exceptional | 48 | 35 | 58 | 20 | 4 | 0 | 100 | 0 | 25
+Truncheon | Elite | 52 | 35 | 43 | -10 | 2 | 0 | 88 | 43 | 39
+Tyrant Club | Elite | 57 | 32 | 58 | 0 | 3 | 1 | 133 | 0 | 42
+Reinforced Mace | Elite | 63 | 41 | 49 | 0 | 2 | 0 | 145 | 46 | 47
+Devil Star | Elite | 70 | 43 | 53 | 10 | 3 | 1 | 153 | 44 | 52
+Scourge | Elite | 76 | 3 | 80 | -10 | 5 | 2 | 125 | 77 | 57
+Legendary Mallet | Elite | 82 | 50 | 61 | 20 | 4 | 1 | 189 | 0 | 61

@@ -1,0 +1,25 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Short Sword | Normal | 1 | 2 | 7 | 0 | 2 | 2 | 24 | 0 | 1
+Scimitar | Normal | 5 | 2 | 6 | -20 | 2 | 2 | 22 | 0 | 5
+Sabre | Normal | 8 | 3 | 8 | -10 | 2 | 2 | 32 | 25 | 8
+Falchion | Normal | 11 | 9 | 17 | 20 | 2 | 2 | 32 | 0 | 11
+Crystal Sword | Normal | 11 | 5 | 15 | 0 | 6 | 1 | 20 | 0 | 11
+Broad Sword | Normal | 15 | 7 | 14 | 0 | 4 | 0 | 32 | 0 | 15
+Long Sword | Normal | 20 | 3 | 19 | -10 | 4 | 1 | 44 | 39 | 20
+War Sword | Normal | 27 | 8 | 20 | 0 | 3 | 1 | 44 | 45 | 27
+Gladius | Exceptional | 30 | 8 | 22 | 0 | 2 | 2 | 24 | 0 | 30
+Cutlass | Exceptional | 43 | 8 | 21 | -30 | 2 | 2 | 22 | 25 | 43
+Shamshir | Exceptional | 35 | 10 | 24 | -10 | 2 | 2 | 32 | 58 | 35
+Tulwar | Exceptional | 37 | 16 | 35 | 20 | 2 | 2 | 32 | 42 | 37
+Dimensional Blade | Exceptional | 37 | 13 | 35 | 0 | 6 | 1 | 20 | 60 | 37
+Battle Sword | Exceptional | 40 | 16 | 34 | 0 | 4 | 0 | 32 | 43 | 40
+Rune Sword | Exceptional | 44 | 10 | 42 | -10 | 4 | 1 | 44 | 79 | 44
+Ancient Sword | Exceptional | 49 | 18 | 43 | 0 | 3 | 1 | 44 | 88 | 49
+Falcata | Elite | 56 | 31 | 59 | 0 | 2 | 2 | 150 | 88 | 56
+Ataghan | Elite | 61 | 26 | 46 | -20 | 2 | 2 | 138 | 95 | 61
+Elegant Blade | Elite | 63 | 33 | 45 | -10 | 2 | 2 | 109 | 122 | 63
+Hydra Edge | Elite | 69 | 28 | 68 | 10 | 2 | 2 | 142 | 105 | 69
+Phase Blade | Elite | 73 | 31 | 35 | -30 | 6 | 1 | 25 | 136 | 73
+Conquest Sword | Elite | 78 | 37 | 53 | 0 | 4 | 0 | 142 | 112 | 78
+Cryptic Sword | Elite | 82 | 5 | 77 | -10 | 4 | 1 | 99 | 109 | 82
+Mythical Sword | Elite | 85 | 40 | 50 | 0 | 3 | 1 | 147 | 124 | 85

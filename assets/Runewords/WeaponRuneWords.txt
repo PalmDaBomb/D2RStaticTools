@@ -1,0 +1,18 @@
+Entry: Grief
+ImageURL: 
+RuneOrder: Eth;Tir;Lo;Mal;Ral
+CompatibleItems: Swords;2HSwords;Axes;2HAxes
+AddedBaseDMG: 340-400
+AddedEnhancedDMG: 0-0
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 30-40
+Stat: 35% Chance To Cast Level 15 Venom (Striking)
+Stat: Ignore Target Defense
+Stat: +(1.875 per character level) 1.875-185.625% Damage To Demons (Based on Character Level)
+Stat: Adds 5-30 Fire Damage
+Stat: -(20-25)% To Enemy Poison Resist
+Stat: +20% Deadly Strike
+Stat: Prevent Monster Heal
+Stat: +2 To Mana After Each Kill
+Stat: +10-15 Life After Each Kill

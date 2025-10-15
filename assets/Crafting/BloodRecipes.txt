@@ -1,0 +1,5 @@
+New Entry: Blood Weapon
+Ingredients: Magical Axe(any);Jewel(any);Ort Rune;Perfect Ruby
+PresetMod:LifeSteal: 1-4% Life Steal
+PresetMod:+Life: +10-20 Life
+PresetMod:EnhancedDMG: +35-60% Damage

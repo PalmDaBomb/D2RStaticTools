@@ -1,0 +1,16 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Large Axe | Normal | 6 | 6 | 13 | -10 | 4 | 2 | 35 | 0 | 0
+Broad Axe | Normal | 12 | 10 | 18 | 0 | 5 | 2 | 48 | 0 | 0
+Battle Axe | Normal | 17 | 12 | 32 | 10 | 5 | 2 | 54 | 0 | 0
+Great Axe | Normal | 23 | 9 | 30 | -10 | 6 | 1 | 63 | 39 | 0
+Giant Axe | Normal | 27 | 22 | 45 | 10 | 6 | 4 | 70 | 0 | 0
+Military Axe | Exceptional | 34 | 14 | 34 | -10 | 4 | 2 | 73 | 0 | 25
+Bearded Axe | Exceptional | 38 | 21 | 49 | 0 | 5 | 2 | 92 | 0 | 25
+Tabar | Exceptional | 42 | 24 | 77 | 10 | 5 | 2 | 101 | 0 | 25
+Gothic Axe | Exceptional | 46 | 18 | 70 | -10 | 5 | 3 | 115 | 79 | 25
+Ancient Axe | Exceptional | 51 | 43 | 85 | 10 | 6 | 4 | 125 | 0 | 25
+Feral Axe | Elite | 57 | 25 | 123 | -15 | 4 | 2 | 196 | 0 | 42
+Silver-Edged Axe | Elite | 65 | 62 | 110 | 0 | 5 | 2 | 166 | 65 | 48
+Decapitator | Elite | 73 | 49 | 137 | 10 | 5 | 2 | 189 | 33 | 54
+Champion Axe | Elite | 82 | 59 | 94 | -10 | 6 | 3 | 167 | 59 | 61
+Glorious Axe | Elite | 85 | 60 | 124 | 10 | 6 | 4 | 164 | 55 | 66

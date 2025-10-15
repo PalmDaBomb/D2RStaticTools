@@ -1,0 +1,19 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Two-handed Sword | Normal | 10 | 8 | 17 | 0 | 3 | 2 | 35 | 27 | 10
+Claymore | Normal | 17 | 13 | 30 | 10 | 4 | 2 | 47 | 0 | 17
+Giant Sword | Normal | 21 | 9 | 28 | 0 | 4 | 2 | 56 | 34 | 21
+Bastard Sword | Normal | 24 | 20 | 28 | 10 | 4 | 1 | 62 | 0 | 24
+Flamberge | Normal | 27 | 13 | 26 | -10 | 5 | 2 | 70 | 49 | 27
+Great Sword | Normal | 33 | 25 | 42 | 10 | 6 | 2 | 100 | 60 | 33
+Espandon | Exceptional | 37 | 18 | 40 | 0 | 3 | 2 | 73 | 61 | 37
+Dacian Falx | Exceptional | 42 | 26 | 61 | 10 | 4 | 2 | 91 | 20 | 42
+Tusk Sword | Exceptional | 45 | 19 | 58 | 0 | 4 | 2 | 104 | 71 | 45
+Gothic Sword | Exceptional | 48 | 39 | 60 | 10 | 4 | 1 | 113 | 20 | 48
+Zweihander | Exceptional | 49 | 29 | 54 | -10 | 5 | 2 | 125 | 94 | 49
+Executioner Sword | Exceptional | 54 | 47 | 80 | 10 | 6 | 2 | 170 | 110 | 54
+Legend Sword | Elite | 59 | 50 | 94 | -15 | 3 | 2 | 175 | 100 | 59
+Highland Blade | Elite | 66 | 67 | 96 | -5 | 4 | 2 | 171 | 104 | 66
+Balrog Blade | Elite | 71 | 55 | 118 | 0 | 4 | 2 | 185 | 87 | 71
+Champion Sword | Elite | 77 | 71 | 83 | -10 | 4 | 2 | 163 | 103 | 77
+Colossus Sword | Elite | 80 | 61 | 121 | 10 | 5 | 2 | 182 | 95 | 80
+Colossus Blade | Elite | 85 | 58 | 115 | 5 | 6 | 2 | 189 | 110 | 85

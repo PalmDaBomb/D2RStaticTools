@@ -1,0 +1,16 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Spear | Normal | 5 | 3 | 15 | -10 | 3 | 3 | 0 | 20 | 0
+Trident | Normal | 9 | 9 | 15 | 0 | 4 | 3 | 38 | 24 | 0
+Brandistock | Normal | 16 | 7 | 17 | -20 | 5 | 4 | 40 | 50 | 0
+Spetum | Normal | 20 | 15 | 23 | 0 | 6 | 4 | 54 | 35 | 0
+Pike | Normal | 24 | 14 | 63 | 20 | 6 | 4 | 60 | 45 | 0
+War Spear | Exceptional | 33 | 10 | 37 | -10 | 3 | 3 | 25 | 25 | 21
+Fuscina | Exceptional | 36 | 19 | 37 | 0 | 4 | 3 | 77 | 25 | 24
+War Fork | Exceptional | 41 | 16 | 40 | -20 | 5 | 4 | 80 | 95 | 25
+Yari | Exceptional | 44 | 29 | 59 | 0 | 6 | 4 | 101 | 0 | 25
+Lance | Exceptional | 47 | 27 | 114 | 20 | 6 | 4 | 110 | 88 | 25
+Hyperion Spear | Elite | 58 | 35 | 119 | -10 | 3 | 3 | 155 | 120 | 43
+Stygian Pike | Elite | 66 | 29 | 144 | 0 | 4 | 3 | 168 | 97 | 49
+Mancatcher | Elite | 74 | 42 | 92 | -20 | 5 | 4 | 132 | 134 | 55
+Ghost Spear | Elite | 83 | 18 | 155 | 0 | 6 | 4 | 122 | 163 | 62
+War Pike | Elite | 85 | 33 | 178 | 20 | 6 | 4 | 165 | 106 | 66

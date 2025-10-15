@@ -1,0 +1,16 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Hand Axe | Normal | 3 | 3 | 6 | 0 | 2 | 1 | 0 | 0 | 0
+Axe | Normal | 7 | 4 | 11 | 10 | 4 | 2 | 32 | 0 | 0
+Double Axe | Normal | 13 | 5 | 13 | 10 | 5 | 2 | 43 | 0 | 0
+Military Pick | Normal | 19 | 7 | 11 | -10 | 6 | 2 | 49 | 33 | 0
+War Axe | Normal | 25 | 10 | 18 | 0 | 6 | 3 | 67 | 0 | 0
+Hatchet | Exceptional | 31 | 10 | 21 | 0 | 2 | 1 | 25 | 25 | 29
+Cleaver | Exceptional | 34 | 10 | 33 | 10 | 4 | 2 | 68 | 0 | 22
+Twin Axe | Exceptional | 39 | 13 | 38 | 10 | 5 | 2 | 85 | 0 | 25
+Crowbill | Exceptional | 43 | 14 | 34 | -10 | 6 | 2 | 94 | 70 | 25
+Naga | Exceptional | 48 | 16 | 45 | 0 | 6 | 3 | 121 | 0 | 25
+Tomahawk | Elite | 54 | 33 | 58 | 0 | 2 | 1 | 125 | 67 | 40
+Small Crescent | Elite | 61 | 38 | 60 | 10 | 4 | 2 | 115 | 83 | 45
+Ettin Axe | Elite | 70 | 33 | 66 | 10 | 5 | 2 | 145 | 45 | 52
+War Spike | Elite | 79 | 30 | 48 | -10 | 6 | 2 | 133 | 54 | 59
+Berserker Axe | Elite | 85 | 24 | 71 | 0 | 6 | 3 | 138 | 59 | 64

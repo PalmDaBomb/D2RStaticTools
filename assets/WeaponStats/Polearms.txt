@@ -1,0 +1,19 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+Bardiche | Normal | 5 | 1 | 27 | 10 | 3 | 2 | 40 | 0 | 0
+Voulge | Normal | 11 | 6 | 21 | 0 | 4 | 2 | 50 | 0 | 0
+Scythe | Normal | 15 | 8 | 20 | -10 | 5 | 1 | 41 | 41 | 0
+Poleaxe | Normal | 21 | 18 | 39 | 10 | 5 | 3 | 62 | 0 | 0
+Halberd | Normal | 29 | 12 | 45 | 0 | 6 | 4 | 75 | 47 | 0
+War Scythe | Exceptional | 34 | 15 | 36 | -10 | 6 | 4 | 80 | 80 | 0
+Lochaber Axe | Exceptional | 33 | 6 | 58 | 10 | 3 | 2 | 80 | 0 | 21
+Bill | Normal | Exceptional | 14 | 53 | 0 | 4 | 2 | 95 | 0 | 25
+Battle Scythe | Exceptional | 40 | 18 | 45 | -10 | 5 | 1 | 82 | 82 | 25
+Partizan | Exceptional | 35 | 34 | 75 | 10 | 5 | 3 | 113 | 67 | 23
+Bec-De-Corbin | Exceptional | 51 | 13 | 85 | 0 | 6 | 4 | 133 | 91 | 25
+Grim Scythe | Exceptional | 55 | 30 | 70 | -10 | 6 | 4 | 140 | 140 | 25
+Ogre Axe | Elite | 60 | 28 | 145 | 0 | 3 | 2 | 195 | 75 | 45
+Colossus Voulge| Elite | 64 | 17 | 165 | 10 | 4 | 2 | 210 | 55 | 48
+Thresher | Elite | 71 | 12 | 141 | -10 | 5 | 1 | 152 | 118 | 53
+Cryptic Axe | Elite | 79 | 33 | 150 | 10 | 5 | 3 | 165 | 103 | 59
+Great Poleaxe | Elite | 84 | 46 | 127 | 0 | 6 | 4 | 179 | 99 | 63
+Giant Thresher | Elite | 85 | 40 | 114 | -10 | 6 | 4 | 188 | 140 | 66
