@@ -3,7 +3,7 @@
  * @returns {Promise<Array>}
  */
 export async function loadRunes() {
-    const response = await fetch('/assets/Runes/RuneInfo.txt');
+    const response = await fetch('../assets/Runes/RuneInfo.txt');
     const text = await response.text();
     const lines = text.split('\n');
 
