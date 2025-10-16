@@ -160,6 +160,8 @@ body::before {
 
   /* Force text and icons onto separate lines */
   .site-footer {
+    font-size: 0.8em;
+    line-height: 1.3em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -169,9 +171,8 @@ body::before {
     margin-bottom: 5px;
   }
 
+  /* Hide the CC icons on mobile */
   .site-footer .cc-icon {
-    max-width: 20px;
-    max-height: 20px;
-    margin: 2px 2px;
+    display: none;
   }
 }
