@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buttonsData = [
         { text: "Runes", href: "html/runes.html", effect: "fast", className: "StandardBTN" },
-        { text: "MF Calculator", href: "html/mfInfo.html", effect: "fast", className: "StandardBTN" }
+        { text: "MF Calculator", href: "html/mfInfo.html", effect: "fast", className: "StandardBTN" },
+        { text: "Weapon Stats", href: "html/weaponStats.html", effect: "fast", className: "StandardBTN" }
     ];
 
     buttonsData.forEach(btnData => {

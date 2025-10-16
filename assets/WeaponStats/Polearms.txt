@@ -6,7 +6,7 @@ Poleaxe | Normal | 21 | 18 | 39 | 10 | 5 | 3 | 62 | 0 | 0
 Halberd | Normal | 29 | 12 | 45 | 0 | 6 | 4 | 75 | 47 | 0
 War Scythe | Exceptional | 34 | 15 | 36 | -10 | 6 | 4 | 80 | 80 | 0
 Lochaber Axe | Exceptional | 33 | 6 | 58 | 10 | 3 | 2 | 80 | 0 | 21
-Bill | Normal | Exceptional | 14 | 53 | 0 | 4 | 2 | 95 | 0 | 25
+Bill | Exceptional | 37 | 14 | 53 | 0 | 4 | 2 | 95 | 0 | 25
 Battle Scythe | Exceptional | 40 | 18 | 45 | -10 | 5 | 1 | 82 | 82 | 25
 Partizan | Exceptional | 35 | 34 | 75 | 10 | 5 | 3 | 113 | 67 | 23
 Bec-De-Corbin | Exceptional | 51 | 13 | 85 | 0 | 6 | 4 | 133 | 91 | 25

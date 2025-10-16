@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deckard Cain Tools | Runes</title>
+    <link rel="stylesheet" href="../styles/homepage.css" />
+    <link rel="stylesheet" href="../styles/weaponStats.css" />
+    <link rel="stylesheet" href="../styles/effects.css" />
+</head>
+<body>
+    <div id="background"></div>
+
+    <header class="site-header">
+        <div class="logo">Deckard Cain Tools</div>
+        <a href="../index.html" class="home-link">D2R Tools Home</a>
+    </header>
+
+    <main class="home-container">
+        <h1>Weapon Stats</h1>
+
+        <div class="weapon-search">
+            <label for="categorySelect">Category:</label>
+            <select id="categorySelect">
+            <option value="">Select a category...</option>
+            </select>
+
+            <input type="text" id="weaponFilter" placeholder="Search weapon name..." />
+        </div>
+
+        <div id="weaponTableContainer"></div>
+        <div id="mobileWeaponContainer" class="weapon-list"></div>
+
+        <!-- Modal -->
+        <div id="weaponModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="weaponDetails"></div>
+        </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        D2RStaticTools © 2025 by Tyler D. Palm is licensed under 
+        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" class="cc-icon">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" class="cc-icon">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" class="cc-icon">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" class="cc-icon">
+    </footer>
+
+
+    <script type="module" src="../js/weaponStats.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+.weapon-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.weapon-search select,
+.weapon-search input {
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: rgba(50, 50, 50, 0.8);
+  color: #eee;
+}
+
+.weapon-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: rgba(30, 30, 30, 0.9);
+  color: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.weapon-table th,
+.weapon-table td {
+  border: 1px solid #444;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.weapon-table th {
+  background: rgba(60, 60, 60, 0.9);
+  font-weight: bold;
+}
+
+/* Zebra stripes */
+.weapon-table tr:nth-child(odd) {
+  background-color: rgba(50, 50, 50, 0.6);
+}
+
+.weapon-table tr:nth-child(even) {
+  background-color: rgba(40, 40, 40, 0.6);
+}
+
+/* Optional: highlight row on hover */
+.weapon-table tr:hover {
+  animation: flameGlow 1s infinite;
+  border-color: rgba(255,140,0,0.9);
+}
+
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #222;
+  color: #eee;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.close-button {
+  float: right;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .weapon-table {
+    display: none; /* Hide the table on small screens */
+  }
+
+  .weapon-list {
+    display: block;
+  }
+}
