@@ -111,6 +111,20 @@ body::before {
   width: 100%;
 }
 
+/* Make links readable */
+.site-footer a {
+  color: #ccc;
+  text-decoration: underline;
+}
+
+/* Common styles for CC icons */
+.cc-icon {
+  max-width: 24px;  /* shrink for mobile friendliness */
+  max-height: 24px;
+  margin: 0 3px;
+  vertical-align: middle;
+}
+
 /* =======================
    RESPONSIVE STYLES
 ========================= */
@@ -139,4 +153,25 @@ body::before {
         align-items: flex-start;
         padding: 10px 20px;
     }
+  .site-footer {
+    font-size: 0.8em;
+    line-height: 1.3em;
+  }
+
+  /* Force text and icons onto separate lines */
+  .site-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .site-footer a {
+    margin-bottom: 5px;
+  }
+
+  .site-footer .cc-icon {
+    max-width: 20px;
+    max-height: 20px;
+    margin: 2px 2px;
+  }
 }
