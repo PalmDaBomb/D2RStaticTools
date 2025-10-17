@@ -117,6 +117,42 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* ==========================
+   WEAPON MODAL STYLE (MOBILE)
+========================== */
+
+.weapon-modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(40, 40, 40, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+/* Label styling */
+.weapon-modal-label {
+  flex: 0 0 45%;             
+  font-weight: 600;
+  color: #ffb84d;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Value styling */
+.weapon-modal-value {
+  flex: 1;
+  text-align: right;
+  color: #f2f2f2;
+  overflow-wrap: anywhere;
+}
+
+strong {
+  color: #ffb84d;
+}
+
 @media screen and (max-width: 768px) {
   .weapon-table {
     display: none; /* Hide the table on small screens */
