@@ -9,6 +9,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   const modalContent = document.getElementById('weaponDetails');
   const closeButton = document.querySelector('.close-button');
 
+  // Shared key map (used by desktop headers + mobile modal)
+  const keyMap = {
+    'Name': 'Name',
+    'Tier': 'Tier',
+    'QLvl': 'QualityLevel',
+    'Min DMG (Eth)': 'MinDamage',
+    'Max DMG (Eth)': 'MaxDamage',
+    'Avg DMG (Eth)': 'AverageDamage',
+    'Speed': 'BaseSpeed',
+    'Sockets': 'MaxSockets',
+    'Range': 'Range',
+    'Str (Eth)': 'StrengthReq',
+    'Dex (Eth)': 'DexterityReq',
+    'Lvl': 'LevelReq'
+  };
+
+  // Reverse map for mobile (dataKey → displayName)
+  const reverseKeyMap = Object.fromEntries(
+    Object.entries(keyMap).map(([displayName, dataKey]) => [dataKey, displayName])
+  );
+
   // Load weapon data
   const weaponCategories = await loadWeaponStats();
   console.log('[weaponStats.js] Loaded weaponCategories:', weaponCategories);
@@ -27,8 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   closeButton.addEventListener('click', () => {
     modal.style.display = 'none';
   });
-
-  // Handle clicks outside modal to close
   window.addEventListener('click', (e) => {
     if (e.target === modal) modal.style.display = 'none';
   });
@@ -42,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!selectedCategory) return;
 
-    // Detect mobile
+    // Detect mobile and switch display styles:
     if (window.innerWidth <= 768) {
       tableContainer.style.display = 'none';
       mobileContainer.style.display = 'block';
@@ -63,13 +82,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const table = document.createElement('table');
     table.classList.add('weapon-table');
 
-    // Headers (update names as needed)
+    // Header row
     const headerRow = document.createElement('tr');
-    const headers = [
-      'Name', 'Tier', 'QLvl', 'Min DMG (Eth)',
-      'Max DMG (Eth)', 'Avg DMG (Eth)', 'Speed', 
-      'Sockets', 'Range', 'Str (Eth)', 'Dex (Eth)', 'Lvl'
-    ];
+    const headers = Object.keys(keyMap);
     headers.forEach(h => {
       const th = document.createElement('th');
       th.textContent = h;
@@ -83,24 +98,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (filter && !name.toLowerCase().includes(filter)) continue;
       const row = document.createElement('tr');
       row.classList.add(rowIndex % 2 === 0 ? 'even-row' : 'odd-row');
-      headers.forEach(key => {
+      headers.forEach(header => {
+        const dataKey = keyMap[header];
         const td = document.createElement('td');
-        // Map header to weaponData key
-        const keyMap = {
-          'Name': 'Name',
-          'Tier': 'Tier',
-          'QLvl': 'QualityLevel',
-          'Min DMG (Eth)': 'MinDamage',
-          'Max DMG (Eth)': 'MaxDamage',
-          'Avg DMG (Eth)': 'AverageDamage',
-          'Speed': 'BaseSpeed',
-          'Sockets': 'MaxSockets',
-          'Range': 'Range',
-          'Str (Eth)': 'StrengthReq',
-          'Dex (Eth)': 'DexterityReq',
-          'Lvl': 'LevelReq'
-        };
-        td.textContent = data[keyMap[key]] ?? '';
+        td.textContent = data[dataKey] ?? '';
         row.appendChild(td);
       });
       table.appendChild(row);
@@ -126,11 +127,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  // --- Modal Rendering (Mobile) ---
   function showModal(data) {
     modalContent.innerHTML = '';
-    for (const key in data) {
+    for (const [dataKey, value] of Object.entries(data)) {
+      const displayName = reverseKeyMap[dataKey] || dataKey;
       const row = document.createElement('div');
-      row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+      row.innerHTML = `<strong>${displayName}:</strong> ${value}`;
       row.style.marginBottom = '6px';
       modalContent.appendChild(row);
     }

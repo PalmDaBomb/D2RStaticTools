@@ -82,6 +82,41 @@
   cursor: pointer;
 }
 
+#mobileWeaponContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;      /* Align list items to the left */
+  justify-content: flex-start;
+  padding: 10px 16px;
+  gap: 3px;                     /* Space between items */
+}
+
+/* Each weapon entry */
+.mobile-weapon-item {
+  width: 100%;
+  text-align: left;
+  background-color: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #f4f4f4;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+/* Hover effect */
+.mobile-weapon-item:hover {
+  background-color: rgba(255, 140, 0, 0.2);
+  transform: scale(1.02);
+}
+
+/* Optional: add subtle divider line between items */
+.mobile-weapon-item + .mobile-weapon-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 @media screen and (max-width: 768px) {
   .weapon-table {
     display: none; /* Hide the table on small screens */
