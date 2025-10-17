@@ -1,0 +1,46 @@
+Name | Tier | Q-Lvl | MinDef | MaxDef | MaxSockets | StrengthReq | LvlReq | SpeedPenalty
+Quilted Armor | Normal | 1 | 8 | 11 | 2 | 12 | 0 | 0
+Leather Armor | Normal | 3 | 14 | 17 | 2 | 15 | 0 | 0
+Hard Leather Armor | Normal | 5 | 21 | 24 | 2 | 20 | 0
+Studded Leather | Normal | 8 | 32 | 35 | 2 | 27 | 0 | 0
+Ring Mail | Normal | 11 | 45 | 48 | 3 | 36 | 0 | 5
+Scale Mail | Normal | 13 | 57 | 60 | 2 | 44 | 0 | 10
+Chain Mail | Normal | 15 | 72 | 75 | 2 | 48 | 0 | 5
+Breast Plate | Normal | 18 | 65 | 68 | 3 | 30 | 0 | 0
+Splint Mail | Normal | 20 | 90 | 95 | 2 | 51 | 0 | 5
+Plate Mail | Normal | 24 | 108 | 116 | 2 | 65 | 0 | 10
+Field Plate | Normal | 28 | 101 | 105 | 2 | 55 | 0 | 5
+Gothic Plate | Normal | 32 | 128 | 135 | 3 | 70 | 0 | 5
+Light Plate | Normal | 35 | 90 | 107 | 3 | 41 | 0 | 0
+Full Plate Mail | Normal | 37 | 150 | 161 | 4 | 80 | 0 | 10
+Ancient Armor | Normal | 40 | 218 | 233 | 4 | 100 | 0 | 5
+Ghost Armor | Exceptional | 34 | 102 | 117 | 2 | 38 | 22 | 0
+Serpentskin Armor | Exceptional | 36 | 111 | 126 | 2 | 43 | 24 | 0
+Demonhide Armor | Exceptional | 37 | 122 | 136 | 2 | 50 | 25 | 0
+Trellised Armor | Exceptional | 40 | 138 | 153 | 2 | 61 | 25 | 0
+Linked Mail | Exceptional | 42 | 158 | 172 | 3 | 74 | 25 | 5
+Tigulated Mail | Exceptional | 43 | 176 | 190 | 3 | 86 | 25 | 10
+Mesh Armor | Exceptional | 45 | 198 | 213 | 3 | 92 | 25 | 5
+Cuirass | Exceptional | 47 | 188 | 202 | 3 | 65 | 25 | 0
+Russet Armor | Exceptional | 49 | 225 | 243 | 3 | 97 | 25 | 5
+Templar Coat | Exceptional | 52 | 252 | 274 | 3 | 118 | 25 | 10
+Sharktooth Armor | Exceptional | 55 | 242 | 258 | 3 | 103 | 25 | 5
+Embossed Plate | Exceptional | 58 | 282 | 303 | 4 | 125 | 25 | 5
+Mage Plate | Exceptional | 60 | 225 | 261 | 3 | 55 | 25 | 0
+Chaos Armor | Exceptional | 61 | 315 | 342 | 4 | 140 | 25 | 10
+Ornate Plate | Exceptional | 64 | 417 | 450 | 4 | 170 | 25 | 5
+Dusk Shroud | Elite | 65 | 361 | 467 | 4 | 77 | 49 | 0
+Wyrmhide | Elite | 67 | 364 | 470 | 4 | 84 | 50 | 0
+Scarab Husk | Elite | 68 | 369 | 474 | 4 | 95 | 51 | 0
+Wire Fleece | Elite | 70 | 375 | 481 | 4 | 111 | 53 | 0
+Diamond Mail | Elite | 72 | 383 | 489 | 4 | 131 | 54 | 5
+Loricated Mail | Elite | 73 | 390 | 496 | 4 | 149 | 55 | 10
+Boneweave | Elite | 62 | 399 | 505 | 4 | 158 | 47 | 5
+Great Hauberk | Elite | 75 | 395 | 501 | 4 | 118 | 56 | 0
+Balrog Skin | Elite | 76 | 410 | 517 | 4 | 165 | 57 | 5
+Hellforge Plate | Elite | 78 | 421 | 530 | 4 | 196 | 59 | 10
+Kraken Shell | Elite | 81 | 417 | 523 | 4 | 174 | 61 | 5
+Lacquered Plate | Elite | 82 | 433 | 541 | 4 | 208 | 62 | 5
+Archon Plate | Elite | 84 | 410 | 524 | 4 | 103 | 63 | 0
+Shadow Plate | Elite | 83 | 446 | 557 | 4 | 230 | 64 | 10
+Sacred Armor | Elite | 85 | 487 | 600 | 4 | 232 | 66 | 5

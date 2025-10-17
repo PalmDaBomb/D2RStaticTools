@@ -1,0 +1,205 @@
+/* ==========================
+   ITEM SEARCH (FILTER + CATEGORY)
+========================== */
+.item-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-search select,
+.item-search input {
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: rgba(50, 50, 50, 0.8);
+  color: #eee;
+}
+
+/* ==========================
+   TABLE STYLE
+========================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: rgba(30, 30, 30, 0.9);
+  color: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #444;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.data-table th {
+  background: rgba(60, 60, 60, 0.9);
+  font-weight: bold;
+}
+
+/* Zebra stripes */
+.data-table tr:nth-child(odd) {
+  background-color: rgba(50, 50, 50, 0.6);
+}
+
+.data-table tr:nth-child(even) {
+  background-color: rgba(40, 40, 40, 0.6);
+}
+
+/* Optional: highlight row on hover */
+.data-table tr:hover {
+  animation: flameGlow 1s infinite;
+  border-color: rgba(255,140,0,0.9);
+}
+
+/* ==========================
+   LIST STYLE (MOBILE / SMALL SCREENS)
+========================== */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px 16px;
+  gap: 3px;
+}
+
+.list-item {
+  width: 100%;
+  text-align: left;
+  background-color: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #f4f4f4;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+.list-item:hover {
+  background-color: rgba(255, 140, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.list-item + .list-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================
+   MODAL STYLE
+========================== */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #222;
+  color: #eee;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.close-button {
+  float: right;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* ==========================
+   GENERIC MODAL
+========================== */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #222;
+  color: #eee;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.close-button {
+  float: right;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* Mobile / List modal items */
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(40, 40, 40, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+/* Label styling */
+.modal-label {
+  flex: 0 0 45%;             
+  font-weight: 600;
+  color: #ffb84d;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Value styling */
+.modal-value {
+  flex: 1;
+  text-align: right;
+  color: #f2f2f2;
+  overflow-wrap: anywhere;
+}
+
+/* Optional: hover highlight for row */
+.modal-row:hover {
+  background-color: rgba(255, 140, 0, 0.1);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media screen and (max-width: 768px) {
+  .data-table {
+    display: none;
+  }
+
+  .item-list {
+    display: block;
+  }
+}
