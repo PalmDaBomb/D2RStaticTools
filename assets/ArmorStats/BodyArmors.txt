@@ -1,7 +1,7 @@
 Name | Tier | Q-Lvl | MinDef | MaxDef | MaxSockets | StrengthReq | LvlReq | SpeedPenalty
 Quilted Armor | Normal | 1 | 8 | 11 | 2 | 12 | 0 | 0
 Leather Armor | Normal | 3 | 14 | 17 | 2 | 15 | 0 | 0
-Hard Leather Armor | Normal | 5 | 21 | 24 | 2 | 20 | 0
+Hard Leather Armor | Normal | 5 | 21 | 24 | 2 | 20 | 0 | 0
 Studded Leather | Normal | 8 | 32 | 35 | 2 | 27 | 0 | 0
 Ring Mail | Normal | 11 | 45 | 48 | 3 | 36 | 0 | 5
 Scale Mail | Normal | 13 | 57 | 60 | 2 | 44 | 0 | 10

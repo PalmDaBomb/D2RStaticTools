@@ -1,8 +1,8 @@
 RuneNumber | RuneName | Creation Formula | CombinesInto Formula | Weapon Effect | Armor Effect | Shield Effect | Drop Chance (%) | Expected Drop
 1 | El | NA | 3 El = Eld | +50 Attack Rating | +15 Defense; +1 Light Radius | +15 Defense; +1 Light Radius | 2.30568 | 43.37
-2 | Eld | 3 El = Eld | 3 Eld = Tir | +2 Mana per Kill | +2 Mana per Kill | +2 Mana per Kill | 1.53712 | 65.06
-3 | Tir | 3 Eld = Tir | 3 Tir = Nef | Knockback | +30 Defense (Missiles) | +30 Defense (Missiles) | 5.76419 | 17.35
-4 | Nef | 3 Tir = Nef | 3 Nef = Eth | +30 Defense vs. Missile | +30 Defense vs. Missile | +30 Defense vs. Missile | 3.84279 | 26.02
+2 | Eld | 3 El = Eld | 3 Eld = Tir | +75% Damage to Undead; +50 Attack Rating To Undead | 15% Slower Stamina Drain | +7% Increased Block Chance | 1.53712 | 65.06
+3 | Tir | 3 Eld = Tir | 3 Tir = Nef | +2 Mana per Kill | +2 Mana per Kill | +2 Mana per Kill | 5.76419 | 17.35
+4 | Nef | 3 Tir = Nef | 3 Nef = Eth | Knockback | +30 Defense vs. Missile | +30 Defense vs. Missile | 3.84279 | 26.02
 5 | Eth | 3 Nef = Eth | 3 Eth = Ith | -25% Target Defense | +15% Mana Regen | +15% Mana Regen | 8.06987 | 12.39
 6 | Ith | 3 Eth = Ith | 3 Ith = Tal | +9 Max Damage | 15% Damage Taken Recovers Mana | 15% Damage Taken Recovers Mana | 5.37991 | 18.59
 7 | Tal | 3 Ith = Tal | 3 Tal = Ral | +75 Poison Damage (5 sec) | +30% Poison Resist | +35% Poison Resist | 11.52838 | 8.67
