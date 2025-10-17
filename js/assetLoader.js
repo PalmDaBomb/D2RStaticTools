@@ -114,6 +114,7 @@ export async function loadArmorStats() {
     // List of category files
     const files = [
       'BodyArmors.txt',
+      'Boots.txt',
     ];
 
   for (const file of files) {

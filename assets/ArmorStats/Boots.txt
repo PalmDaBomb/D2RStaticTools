@@ -1,0 +1,16 @@
+Name | Tier | Q-Lvl | MinDef | MaxDef | MaxSockets | StrengthReq | LvlReq | SpeedPenalty | MinBootDmg | MaxBootDmg
+Boots | Normal | 3 | 2 | 3 | 0 | 0 | 0 | 0 | 3 | 8
+Heavy Boots | Normal | 7 | 5 | 6 | 0 | 18 | 0 | 0 | 4 | 10
+Chain Boots | Normal | 12 | 8 | 9 | 0 | 30 | 0 | 0 | 6 | 12
+Light Plate Boots | Normal | 20 | 9 | 11 | 0 | 50 | 0 | 0 | 8 | 16
+Greaves | Normal | 27 | 12 | 15 | 0 | 70 | 0 | 0 | 10 | 20
+Demonhide Boots | Exceptional | 36 | 28 | 35 | 0 | 20 | 24 | 0 | 26 | 46
+Sharkskin Boots | Exceptional | 39 | 33 | 39 | 0 | 47 | 25 | 0 | 28 | 50
+Mesh Boots | Exceptional | 43 | 37 | 34 | 0 | 65 | 25 | 0 | 23 | 52
+Battle Boots | Exceptional | 49 | 39 | 47 | 0 | 95 | 25 | 0 | 37 | 64
+War Boots | Exceptional | 54 | 43 | 53 | 0 | 125 | 25 | 0 | 39 | 80
+Wyrmhide Boots | Elite | 60 | 54 | 62 | 0 | 50 | 45 | 0 | 65 | 100
+Scarabshell Boots | Elite | 66 | 56 | 65 | 0 | 91 | 49 | 0 | 60 | 110
+Boneweave Boots | Elite | 72 | 59 | 67 | 0 | 118 | 54 | 0 | 69 | 118
+Mirrored Boots | Elite | 81 | 59 | 68 | 0 | 163 | 60 | 0 | 50 | 145
+Myrmidon Greaves | Elite | 85 | 62 | 71 | 0 | 208 | 65 | 0 | 83 | 149
