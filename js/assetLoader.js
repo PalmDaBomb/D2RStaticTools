@@ -173,3 +173,69 @@ export async function loadArmorStats() {
 
     return armorCategories;
 }
+
+export async function loadCraftingRecipes() {
+  const craftingRoot = '../assets/Crafting';
+  const craftingCategories = new Map();
+
+  const files = [
+    'BloodRecipes.txt',
+  ];
+
+  for (const file of files) {
+    const categoryName = file.replace('.txt', '');
+    const response = await fetch(`${craftingRoot}/${file}`);
+    const text = await response.text();
+
+    const entries = text.split(/\n\s*\n/);
+    const innerMap = new Map();
+
+    for (const entry of entries) {
+      const lines = entry.trim().split('\n');
+      if (lines.length === 0) continue;
+
+      let name = '';
+      const ingredients = [];
+      const presetMods = new Map();
+      const maxPossible = new Map();
+
+      for (const line of lines) {
+        if (line.startsWith('Name:')) {
+          name = line.split(':')[1].trim();
+        } 
+        else if (line.startsWith('Ingredients:')) {
+          ingredients.push(...line.split(':')[1].split('|').map(v => v.trim()));
+        } 
+        else if (line.startsWith('PresetMod:')) {
+          const [, key, value] = line.match(/PresetMod:\s*(.*?)\s*\|\s*(.*)/) || [];
+          if (key && value) presetMods.set(key.trim(), value.trim());
+        } 
+        else if (line.startsWith('MaxPossible:')) {
+          const [, key, value] = line.match(/MaxPossible:\s*(.*?)\s*\|\s*(.*)/) || [];
+          if (key && value) maxPossible.set(key.trim(), value.trim());
+        }
+      }
+
+      // Base info
+      const recipeData = {
+        Name: name,
+        Category: categoryName,
+        Item: ingredients[0] || '',
+        Rune: ingredients[2] || '',
+        Misc: `${ingredients[1] || ''} + ${ingredients[3] || ''}`,
+      };
+
+      // Dynamically merge in preset mod + max values
+      for (const [modName, range] of presetMods.entries()) {
+        const max = maxPossible.get(modName) || '';
+        recipeData[modName] = max ? `${range} (Max ${max})` : range;
+      }
+
+      innerMap.set(name, recipeData);
+    }
+
+    craftingCategories.set(categoryName, innerMap);
+  }
+
+  return craftingCategories;
+}

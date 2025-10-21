@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Deckard Cain Tools | Armor</title>
+    <title>Deckard Cain Tools | Crafting</title>
     <link rel="stylesheet" href="../styles/homepage.css" />
     <link rel="stylesheet" href="../styles/tables.css" />
     <link rel="stylesheet" href="../styles/effects.css" />
@@ -25,17 +25,17 @@
             <option value="">Select a category...</option>
             </select>
 
-            <input type="text" id="armorFilter" placeholder="Search weapon name..." />
+            <input type="text" id="craftingFilter" placeholder="Search Crafting Recipe..." />
         </div>
 
-        <div id="armorTableContainer"></div>
-        <div id="mobilearmorContainer" class="armor-list"></div>
+        <div id="craftingTableContainer"></div>
+        <div id="mobileCraftingContainer" class="armor-list"></div>
 
         <!-- Modal -->
-        <div id="armorModal" class="modal">
+        <div id="craftingModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <div id="armorDetails"></div>
+            <div id="craftingDetails"></div>
         </div>
         </div>
     </main>
@@ -50,6 +50,6 @@
     </footer>
 
 
-    <script type="module" src="../js/armorStats.js"></script>
+    <script type="module" src="../js/craftingRecipes.js"></script>
 </body>
 </html>

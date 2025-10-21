@@ -1,6 +1,6 @@
 import { ModalManager } from './modalManager.js';
 import { renderTable, renderList, createUpdateView } from './itemTableManager.js';
-import { loadWeaponStats } from './assetLoader.js';
+import { loadCraftingRecipes, loadWeaponStats } from './assetLoader.js';
 
 const modalManager = new ModalManager(
   document.getElementById('weaponModal'),
