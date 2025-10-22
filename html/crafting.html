@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Deckard Cain Tools | Crafting</title>
     <link rel="stylesheet" href="../styles/homepage.css" />
+    <link rel="stylesheet" href="../styles/expandableSection.css" />
     <link rel="stylesheet" href="../styles/tables.css" />
     <link rel="stylesheet" href="../styles/effects.css" />
 </head>
@@ -18,9 +19,47 @@
 
     <main class="home-container">
         <h1>Crafting Recipes</h1>
+        <ul>
+            <li>Crafted items will <strong>NEVER</strong> be Ethereal, even if using an Ethereal item in the Recipe</li>
+            <li>Preset Affixes <strong>STACK</strong> with any of the same Affixes rolled. The Max possible value is in brackets for each Affix</li>
+            <li>If a Crafted Item has a final i-lvl <strong>> 70</strong>, it will always roll an additional <strong>4 Affixes</strong></li>
+            <li>Amulets must have a Final <strong>Affix lvl</strong> of at least <strong>90</strong> in order to roll <strong>+2 Class Skills</strong></li>
+            <li>Amulets & Rings have a Q-lvl of <strong>1</strong>.</li>
+        </ul>
+
+        <!-- 🔥 Expandable iLvl Calculator Section -->
+        <section class="expandable-section">
+            <div class="expandable-header">
+                <span class="expand-icon">+</span>
+                <span class="expand-title">Possible Item/Affix Level Calculator</span>
+            </div>
+            <div class="expandable-content">
+                <div id="ilvlCalculator" class="ilvl-calculator">
+                    <h2>Crafted Item i-lvl Calculator:</h2>
+                    <div class="input-column">
+                        <input type="number" id="input1" min="1" max="99" placeholder="Character lvl (c-lvl)" />
+                        <input type="number" id="input2" min="1" max="99" placeholder="Monster/Area lvl (Where Item Dropped)" />
+                    </div>
+                    <div class="output-row">
+                        <input type="text" id="resultBox" readonly placeholder="Crafted Item i-lvl" />
+                        <button id="calcButton">Calculate</button>
+                    </div>
+                </div>
+                <div id="affixlvlCalculator" class="ilvl-calculator">
+                    <h2>Crafted Item Affix-lvl Calculator:</h2>
+                    <div class="input-column">
+                        <input type="number" id="craftedILvl" min="1" max="99" placeholder="Final Crafted Item i-lvl" />
+                        <input type="number" id="itemQLvl" min="1" max="99" placeholder="Item Q-Lvl" />
+                    </div>
+                    <div class="output-row">
+                        <input type="text" id="AffixResultBox" readonly placeholder="Affix Lvl" />
+                        <button id="calcButton2">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="item-search">
-            <label for="categorySelect">Category:</label>
             <select id="categorySelect">
             <option value="">Select a category...</option>
             </select>
@@ -49,7 +88,7 @@
         <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" class="cc-icon">
     </footer>
 
-
+    <script src="../js/expandableSection.js"></script>
     <script type="module" src="../js/craftingRecipes.js"></script>
 </body>
 </html>

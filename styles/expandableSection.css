@@ -1,0 +1,160 @@
+/* 🔥 Expandable Panel Styling */
+.expandable-section {
+  background: rgba(25, 25, 25, 0.7);
+  border: 2px solid #b88a3d;
+  border-radius: 12px;
+  margin: 20px 0;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(255, 180, 80, 0.4);
+}
+
+.expandable-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  font-family: "Exocet", serif;
+  font-size: 1.2em;
+  color: #f5d489;
+  text-shadow: 0 0 8px rgba(255, 160, 60, 0.6);
+  background: linear-gradient(180deg, rgba(45, 30, 10, 0.8), rgba(10, 5, 0, 0.9));
+  border-bottom: 1px solid rgba(184, 138, 61, 0.3);
+  transition: all 0.25s ease-in-out;
+}
+
+.expandable-header:hover {
+  text-shadow: 0 0 12px rgba(255, 200, 80, 0.9);
+}
+
+.expand-icon {
+  font-weight: bold;
+  color: #ffb347;
+  font-size: 1.4em;
+  width: 20px;
+  text-align: center;
+  transition: transform 0.25s ease-in-out;
+}
+
+.expandable-content {
+  display: none;
+  padding: 15px 20px;
+  background: rgba(15, 10, 5, 0.85);
+  color: #ddd;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.expandable-section.active .expandable-content {
+  display: block;
+}
+
+.expandable-section.active .expand-icon {
+  transform: rotate(45deg);
+}
+
+/* smooth fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Calculator container */
+.ilvl-calculator {
+    display: flex;
+    flex-direction: column; /* stack everything vertically */
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Crafted Item i-lvl Calculator header */
+.ilvl-calculator h2 {
+    font-family: 'Exocet', serif; 
+    font-size: 1.4em; 
+    color: #C4B200; /* warm gold */
+    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7),
+                 0 0 12px rgba(255, 140, 0, 0.6);
+    margin: 0 0 10px 0; 
+    text-align: center;
+    line-height: 1.2em;
+}
+
+/* Vertical input stack */
+.input-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Output + button row */
+.output-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Make output box take remaining space, button on the right */
+#resultBox {
+    flex: 1;
+    text-align: center;
+}
+
+/* Inputs and result box */
+.ilvl-calculator input {
+    font-family: 'Merriweather', serif;
+    font-size: 1rem;
+    padding: 8px 10px;
+    border: 1px solid #C4B200;
+    border-radius: 5px;
+    background: #111;
+    color: #f4e8c1;
+    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
+    box-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Input focus effect */
+.ilvl-calculator input:focus {
+    outline: none;
+    transform: scale(1.03);
+    box-shadow: 0 0 14px rgba(255, 180, 0, 0.8);
+}
+
+/* Button styling */
+.ilvl-calculator button {
+    font-family: 'Merriweather', serif;
+    font-size: 1rem;
+    padding: 8px 12px;
+    background: #111;
+    color: #f4e8c1;
+    border: 1px solid #C4B200;
+    border-radius: 5px;
+    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
+    box-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ilvl-calculator button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
+}
+
+/* Responsive: stack output + button vertically on small screens */
+@media screen and (max-width: 480px) {
+    .output-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .output-row button {
+        width: 100%;
+    }
+}

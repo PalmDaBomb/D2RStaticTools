@@ -1,6 +1,6 @@
 import { ModalManager } from './modalManager.js';
 import { renderTable, renderList, createUpdateView } from './itemTableManager.js';
-import { loadCraftingRecipes } from './assetLoader.js';
+import { loadCraftingRecipes, loadAllItemsForDropdown } from './assetLoader.js';
 
 const modalManager = new ModalManager(
   document.getElementById('craftingModal'),

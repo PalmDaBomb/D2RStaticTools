@@ -1,4 +1,4 @@
-Name | Tier | Q-Lvl | MinDef | MaxDef | MaxSockets | StrengthReq | LvlReq | SpeedPenalty | MinBootDmg | MaxBootDmg
+Name | Tier | Q-Lvl | MinDef | MaxDef | MaxSockets | StrengthReq | LvlReq | SpeedPenalty | MinDmg | MaxDmg
 Boots | Normal | 3 | 2 | 3 | 0 | 0 | 0 | 0 | 3 | 8
 Heavy Boots | Normal | 7 | 5 | 6 | 0 | 18 | 0 | 0 | 4 | 10
 Chain Boots | Normal | 12 | 8 | 9 | 0 | 30 | 0 | 0 | 6 | 12

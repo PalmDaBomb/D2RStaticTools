@@ -108,70 +108,83 @@ export async function loadWeaponStats() {
 }
 
 export async function loadArmorStats() {
-    const armorsRoot = '../assets/ArmorStats';
-    const armorCategories = new Map();
+  const armorsRoot = '../assets/ArmorStats';
+  const armorCategories = new Map();
 
-    // List of category files
-    const files = [
-      'BodyArmors.txt',
-      'Boots.txt',
-    ];
+  // List of category files
+  const files = [
+    'BodyArmors.txt',
+    'Boots.txt',
+  ];
 
   for (const file of files) {
-      const categoryName = file.replace('.txt', '');
-      const response = await fetch(`${armorsRoot}/${file}`);
-      const text = await response.text();
+    const categoryName = file.replace('.txt', '');
+    const response = await fetch(`${armorsRoot}/${file}`);
+    const text = await response.text();
 
-      const lines = text.split('\n').map(line => line.trim()).filter(line => line);
-      const innerMap = new Map();
+    const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+    if (lines.length < 2) continue;
 
-      // Determine if this category supports ethereal
-      const isEtherealCapable = !categoryName.toLowerCase().includes('bow');
+    const innerMap = new Map();
+    const headers = lines[0].split('|').map(h => h.trim());
+    const isEtherealCapable = !categoryName.toLowerCase().includes('bow');
 
-      // Skip header line
-      for (let i = 1; i < lines.length; i++) {
-        const parts = lines[i].split('|').map(p => p.trim());
-        if (parts.length < 2) continue;
+    // Parse each armor line
+    for (let i = 1; i < lines.length; i++) {
+      const parts = lines[i].split('|').map(p => p.trim());
+      if (parts.length !== headers.length) continue;
 
-        const minDef = parseFloat(parts[3]);
-        const maxDef = parseFloat(parts[4]);
-        const avgDef = ((minDef + maxDef) / 2).toFixed(2);
+      const armorData = {};
 
-        let minDefEth, maxDefEth, avgDefEth;
-        let strEth;
-
-        if (isEtherealCapable) {
-          minDefEth = Math.floor(minDef * 1.5);
-          maxDefEth = Math.floor(maxDef * 1.5);
-          avgDefEth = (avgDef * 1.5).toFixed(2);
-
-          const str = parseInt(parts[6], 10);
-          strEth = Math.max(str - 10, 0);
-        } else {
-          minDefEth = maxDefEth = avgDefEth = 'N/A';
-          strEth = 'N/A';
-        }
-
-        const armorData = {
-          Name: parts[0],
-          Tier: parts[1],
-          QualityLevel: parts[2],
-          MinDefense: `${minDef} (${minDefEth})`,
-          MaxDefense: `${maxDef} (${maxDefEth})`,
-          AverageDefense: `${avgDef} (${avgDefEth})`,
-          MaxSockets: parts[5],
-          StrengthReq: `${parts[6]} (${strEth})`,
-          LevelReq: parts[7],
-          SpeedPenalty: parts[8],
-        };
-
-        innerMap.set(parts[0], armorData);
+      // Build base object from headers
+      for (let j = 0; j < headers.length; j++) {
+        armorData[headers[j]] = parts[j];
       }
 
-      armorCategories.set(categoryName, innerMap);
+      // --- Defense calculations ---
+      const minDef = parseFloat(armorData['MinDef']) || 0;
+      const maxDef = parseFloat(armorData['MaxDef']) || 0;
+      const avgDef = ((minDef + maxDef) / 2).toFixed(2);
+
+      let minDefEth = 'N/A', maxDefEth = 'N/A', avgDefEth = 'N/A';
+      let strEth = 'N/A';
+
+      if (isEtherealCapable && minDef && maxDef) {
+        minDefEth = Math.floor(minDef * 1.5);
+        maxDefEth = Math.floor(maxDef * 1.5);
+        avgDefEth = (avgDef * 1.5).toFixed(2);
+
+        const str = parseInt(armorData['StrengthReq'], 10);
+        if (!isNaN(str)) {
+          strEth = Math.max(str - 10, 0);
+        }
+      }
+
+      // --- Damage calculations (for boots, etc.) ---
+      const minDmg = parseFloat(armorData['MinDmg']) || 0;
+      const maxDmg = parseFloat(armorData['MaxDmg']) || 0;
+
+      if (minDmg && maxDmg) {
+        const avgDmg = ((minDmg + maxDmg) / 2).toFixed(2);
+        armorData['AvgDmg'] = `${avgDmg}`;
+      }
+
+      // Apply final display-friendly values
+      armorData['Min DEF (Eth)'] = `${minDef} (${minDefEth})`;
+      armorData['Max DEF (Eth)'] = `${maxDef} (${maxDefEth})`;
+      armorData['Avg DEF (Eth)'] = `${avgDef} (${avgDefEth})`;
+
+      if (armorData['StrengthReq'])
+        armorData['Str (Eth)'] = `${armorData['StrengthReq']} (${strEth})`;
+
+      // Add to innerMap
+      innerMap.set(armorData['Name'], armorData);
     }
 
-    return armorCategories;
+    armorCategories.set(categoryName, innerMap);
+  }
+
+  return armorCategories;
 }
 
 export async function loadCraftingRecipes() {
@@ -238,4 +251,32 @@ export async function loadCraftingRecipes() {
   }
 
   return craftingCategories;
+}
+
+export async function loadAllItemsForDropdown() {
+  const armorCategories = await loadArmorStats();
+  const weaponCategories = await loadWeaponStats();
+
+  const items = [];
+
+  function extractItems(categoryMap, type) {
+    for (const [categoryName, catMap] of categoryMap.entries()) {
+      for (const [itemName, itemData] of catMap.entries()) {
+        items.push({
+          name: itemName,
+          qLvl: itemData['Q-Lvl'] || itemData['QualityLevel'] || '',
+          type,
+          category: categoryName // optional
+        });
+      }
+    }
+  }
+
+  extractItems(armorCategories, 'Armor');
+  extractItems(weaponCategories, 'Weapon');
+
+  // Sort alphabetically by name
+  items.sort((a, b) => a.name.localeCompare(b.name));
+
+  return items;
 }

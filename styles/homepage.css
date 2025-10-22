@@ -126,6 +126,43 @@ body::before {
 }
 
 /* =======================
+   LIST STYLES
+========================= */
+ul, ol {
+  list-style: disc; 
+  padding-left: 40px; 
+  text-align: left; 
+  max-width: 600px; 
+  margin: 20px auto; 
+  line-height: 1.6em;
+  font-size: 1.1em;
+  color: #f4e8c1;
+}
+
+/* Slight glowing bullets for Diablo-esque feel */
+ul li::marker {
+  color: #C4B200;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.7);
+}
+
+/* Add subtle hover highlight for list items */
+ul li:hover {
+  color: #fff1c1;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+li strong {
+  color: #ffb347; /* warm gold-orange flame tone */
+  text-shadow: 
+    0 0 6px rgba(255, 120, 0, 0.7),
+    0 0 12px rgba(255, 60, 0, 0.6),
+    0 0 18px rgba(255, 0, 0, 0.5);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* =======================
    RESPONSIVE STYLES
 ========================= */
 @media screen and (max-width: 600px) {

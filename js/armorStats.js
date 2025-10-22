@@ -11,14 +11,17 @@ const modalManager = new ModalManager(
 const keyMap = {
   'Name': 'Name',
   'Tier': 'Tier',
-  'QLvl': 'QualityLevel',
-  'Min DEF (Eth)': 'MinDefense',
-  'Max DEF (Eth)': 'MaxDefense',
-  'Avg DEF (Eth)': 'AverageDefense',
+  'Q-Lvl': 'Q-Lvl',
+  'Min DEF (Eth)': 'Min DEF (Eth)',
+  'Max DEF (Eth)': 'Max DEF (Eth)',
+  'Avg DEF (Eth)': 'Avg DEF (Eth)',
   'Sockets': 'MaxSockets',
-  'Str (Eth)': 'StrengthReq',
-  'Lvl': 'LevelReq',
-  'Speed Penalty' : 'SpeedPenalty'
+  'Str (Eth)': 'Str (Eth)',
+  'Lvl': 'LvlReq',
+  'Speed Penalty': 'SpeedPenalty',
+  'Min DMG': 'MinDmg',
+  'Max DMG': 'MaxDmg',
+  'Avg DMG': 'AvgDmg'
 };
 const armorCategories = await loadArmorStats();
 
