@@ -19,7 +19,8 @@ export class ModalManager {
     );
 
     for (const [dataKey, value] of Object.entries(data)) {
-      const displayName = reverseKeyMap[dataKey] || dataKey;
+      const displayName = reverseKeyMap[dataKey];
+      if (!displayName) continue; // ✅ skip any dataKey not in keyMap
 
       const row = document.createElement('div');
       row.classList.add('modal-row');

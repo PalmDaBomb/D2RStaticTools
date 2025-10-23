@@ -3,7 +3,7 @@
   background: rgba(25, 25, 25, 0.7);
   border: 2px solid #b88a3d;
   border-radius: 12px;
-  margin: 20px 0;
+  margin: 8px 0;
   overflow: hidden;
   box-shadow: 0 0 12px rgba(255, 180, 80, 0.4);
 }
@@ -39,7 +39,7 @@
 
 .expandable-content {
   display: none;
-  padding: 15px 20px;
+  padding: 5px 5px;
   background: rgba(15, 10, 5, 0.85);
   color: #ddd;
   animation: fadeIn 0.3s ease-in-out;
@@ -131,12 +131,12 @@
     font-family: 'Merriweather', serif;
     font-size: 1rem;
     padding: 8px 12px;
-    background: #111;
+    background: #300;
     color: #f4e8c1;
-    border: 1px solid #C4B200;
+    border-color: #a22;
     border-radius: 5px;
     text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
-    box-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
+    box-shadow: 0 0 14px rgba(255, 80, 80, 0.9);
     cursor: pointer;
     font-weight: bold;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -147,14 +147,35 @@
     box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
 }
 
-/* Responsive: stack output + button vertically on small screens */
+/* Mobile optimization */
 @media screen and (max-width: 480px) {
-    .output-row {
-        flex-direction: column;
-        gap: 8px;
-    }
+  .ilvl-calculator {
+    width: 100%;
+    align-items: flex-start; /* Align everything to the left */
+  }
 
-    .output-row button {
-        width: 100%;
-    }
+  .input-column input,
+  .output-row input {
+    width: 100%; /* full width inputs */
+  }
+
+  /* Move buttons below input rows and make them sit side by side */
+  .output-row {
+    flex-direction: row; /* side by side on mobile */
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .output-row button {
+    flex: 1; /* equal button widths */
+    min-width: 48%;
+    text-align: center;
+  }
+
+  /* Slightly reduce glow for tighter screens */
+  .ilvl-calculator button {
+    box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
+  }
 }
