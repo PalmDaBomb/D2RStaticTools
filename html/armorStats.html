@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Deckard Cain Tools | Armor</title>
     <link rel="stylesheet" href="../styles/homepage.css" />
+    <link rel="stylesheet" href="../styles/expandableSection.css" />
     <link rel="stylesheet" href="../styles/tables.css" />
     <link rel="stylesheet" href="../styles/effects.css" />
 </head>
@@ -18,10 +19,50 @@
 
     <main class="home-container">
         <h1>Armor Stats</h1>
-        <ul>
-            <li>Max Sockets are only possible for items with <strong>i-lvl > 40</strong></li>
-            <li>Damage Values for Boots/Shields are <strong>NOT</strong> improved when Ethereal</li>
-        </ul>
+        <section class="expandable-section">
+            <div class="expandable-header">
+                <span class="expand-icon">+</span>
+                <span class="expand-title">Important Information</span>
+            </div>
+            <div class="expandable-content">
+                <h2>Necromancer Shields:</h2>
+                <ul>
+                    <li>Necro Shields will roll up to <u>THREE</u> <strong>+1-3 Skill Bonuses</strong></li>
+                    <li>Non Unique/Set Necro Heads will always have <strong> Added Poison Damage</strong></li>
+                </ul>
+                <h2>Paladin Shields:</h2>
+                <ul>
+                    <li>Paladin Shields will roll <strong>+All Resist</strong> <u>OR</u> <strong>+Attack Rating & Enhanced Damage</strong></li>
+                    <li>Max Possible All Resist (Affix Lvl 50+):<strong> 45 </strong></li>
+                    <li>Max Possible +Attack Rating (Affix Lvl 50+):<strong> 121 </strong></li>
+                    <li>Max Possible Enhanced Damage (Affix Lvl 50+):<strong> 65% </strong></li>
+                </ul>
+                <h2>Misc:</h2>
+                <ul>
+                    <li>Max Sockets are only possible for items with <strong>i-lvl > 40</strong></li>
+                    <li>Damage Values for Boots/Shields are <strong>NOT</strong> improved when Ethereal</li>
+                </ul>
+            </div>
+        </section>
+        <section class="expandable-section">
+            <div class="expandable-header">
+                <span class="expand-icon">+</span>
+                <span class="expand-title">Affix Lvl Calculator</span>
+            </div>
+            <div class="expandable-content">
+                <div id="affixlvlCalculator" class="ilvl-calculator">
+                    <h2>Crafted Item Affix-lvl Calculator:</h2>
+                    <div class="input-column">
+                        <input type="number" id="craftedILvl" min="1" max="99" placeholder="Item i-lvl" />
+                        <input type="number" id="itemQLvl" min="1" max="99" placeholder="Item Q-Lvl" />
+                    </div>
+                    <div class="output-row">
+                        <input type="text" id="AffixResultBox" readonly placeholder="Affix Lvl" />
+                        <button id="calcButton2">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="item-search">
             <select id="categorySelect">
@@ -52,7 +93,8 @@
         <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" class="cc-icon">
     </footer>
 
-
+    <script src="../js/expandableSection.js"></script>
+    <script src="../js/craftingCalculator.js"></script>
     <script type="module" src="../js/armorStats.js"></script>
 </body>
 </html>

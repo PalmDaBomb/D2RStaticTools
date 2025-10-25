@@ -115,6 +115,8 @@ export async function loadArmorStats() {
   const files = [
     'BodyArmors.txt',
     'Boots.txt',
+    'Necro Shields.txt',
+    'Paladin Shields.txt'
   ];
 
   for (const file of files) {

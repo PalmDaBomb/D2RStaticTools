@@ -1,0 +1,18 @@
+Name | Tier | Q-Lvl | MinDef | MaxDef | MaxSockets | StrengthReq | LvlReq | BlockChance | SpeedPenalty 
+Preserved Head | Normal | 4 | 2 | 5 | 2 | 12 | 3 | 23% | 0
+Zombie Head | Normal | 8 | 4 | 8 | 2 | 14 | 6 | 25% | 0
+Unraveller Head | Normal | 16 | 6 | 10 | 2 | 18 | 12 | 28% | 0
+Gargoyle Head | Normal | 20 | 10 | 16 | 2 | 20 | 15 | 30% | 0
+Demon Head | Normal | 24 | 15 | 20 | 2 | 25 | 18 | 32% | 0
+
+Mummified Trophy | Exceptional | 33 | 38 | 48 | 2 | 38 | 24 | 23% | 0
+Fetish Trophy | Exceptional | 39 | 41 | 52 | 2 | 41 | 29 | 25% | 0
+Sexton Trophy | Exceptional | 45 | 44 | 55 | 2 | 47 | 33 | 28% | 0
+Cantor Trophy | Exceptional | 49 | 50 | 64 | 2 | 50 | 36 | 30% | 0
+Heirophant Trophy | Exceptional | 54 | 58 | 70 | 2 | 58 | 40 | 32% | 0
+
+Minion Skull | Elite | 59 | 95 | 139 | 2 | 77 | 44 | 23% | 0
+Hellspawn Skull | Elite | 66 | 96 | 141 | 2 | 82 | 49 | 28% | 0
+Overseer Skull | Elite | 67 | 89 | 142 | 2 | 91 | 50 | 25% | 0
+Succubus Skull | Elite | 81 | 100 | 146 | 2 | 95 | 60 | 30% | 0
+Bloodlord Skull | Elite | 85 | 103 | 148 | 2 | 106 | 65 | 32% | 0

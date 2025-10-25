@@ -19,6 +19,7 @@ const keyMap = {
   'Str (Eth)': 'Str (Eth)',
   'Lvl': 'LvlReq',
   'Speed Penalty': 'SpeedPenalty',
+  'Block Chance': 'BlockChance',
   'Min DMG': 'MinDmg',
   'Max DMG': 'MaxDmg',
   'Avg DMG': 'AvgDmg'
