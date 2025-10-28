@@ -1,0 +1,80 @@
+Name: Caster Weapon
+Ingredients: Scepter, Staff, Wand | Jewel(any) | Tir Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: ManaSteal% | 1-5 
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 110
+MaxPossible: ManaSteal% | 14
+
+Name: Caster Headwear
+Ingredients: Mask, Death Mask, Demon Head | Jewel(any) | Nef Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: ManaSteal% | 1-4
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 25
+MaxPossible: ManaSteal% | 4
+
+Name: Caster Body Armor
+Ingredients: Light Plate, Mage Plate, Acheron Plate | Jewel(any) | Tal Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-12
+PresetMod: Mana+ | 10-20
+PresetMod: ManaPerKill | 1-3
+MaxPossible: RegenMana% | 12
+MaxPossible: Mana+ | 60
+MaxPossible: ManaPerKill | 3
+
+Name: Caster Gloves
+Ingredients: Leather Gloves, Demonhide Gloves, Bramble Mitts | Jewel(any) | Ort Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: ManaPerKill | 1-3
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 60
+MaxPossible: ManaPerKill | 3
+
+Name: Blood Belt
+Ingredients: Light Belt, Sharkskin Belt, Vampire Fang Belt | Jewel(any) | Ith Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: FasterCastRate% | 5-10
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 50
+MaxPossible: FasterCastRate% | 10
+
+Name: Caster Boots
+Ingredients: Leather Boots, Demonhide Boots, Wyrmhide Boots | Jewel(any) | Thul Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: MaxManaIncrease% | 2-5
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 60
+MaxPossible: MaxManaIncrease% | 5
+
+Name: Caster Shield
+Ingredients: Small Shield, Round Shield, Luna Barrier | Jewel(any) | Eth Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: BlockChanceIncrease% | 5-10
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 40
+MaxPossible: BlockChanceIncrease% | 30
+
+Name: Caster Amulet
+Ingredients: Amulet | Jewel(any) | Ral Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: FasterCastRate% | 5-10
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 110
+MaxPossible: FasterCastRate% | 20
+
+Name: Caster Ring
+Ingredients: Ring | Jewel(any) | Amn Rune | Perfect Amethyst
+PresetMod: RegenMana% | 4-10
+PresetMod: Mana+ | 10-20
+PresetMod: Energy+ | 1-5
+MaxPossible: RegenMana% | 10
+MaxPossible: Mana+ | 110
+MaxPossible: Energy+ | 20

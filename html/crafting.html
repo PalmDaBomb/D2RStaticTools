@@ -53,17 +53,7 @@
                         <button id="calcButton">Calculate</button>
                     </div>
                 </div>
-                <div id="affixlvlCalculator" class="ilvl-calculator">
-                    <h2>Crafted Item Affix-lvl Calculator:</h2>
-                    <div class="input-column">
-                        <input type="number" id="craftedILvl" min="1" max="99" placeholder="Final Crafted Item i-lvl" />
-                        <input type="number" id="itemQLvl" min="1" max="99" placeholder="Item Q-Lvl" />
-                    </div>
-                    <div class="output-row">
-                        <input type="text" id="AffixResultBox" readonly placeholder="Affix Lvl" />
-                        <button id="calcButton2">Calculate</button>
-                    </div>
-                </div>
+                <div id="affixlvlCalculator" class="ilvl-calculator"></div>
             </div>
         </section>
 
@@ -97,7 +87,8 @@
     </footer>
 
     <script src="../js/expandableSection.js"></script>
-    <script src="../js/craftingCalculator.js"></script>
+    <script type="module" src="../js/craftingCalculator.js"></script>
+    <script type="module" src="../js/AffixCalculatorAddon.js"></script>
     <script type="module" src="../js/craftingRecipes.js"></script>
 </body>
 </html>

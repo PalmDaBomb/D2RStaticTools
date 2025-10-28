@@ -77,4 +77,4 @@ PresetMod: Life+ | 10-20
 PresetMod: Strength+ | 1-5
 MaxPossible: LifeSteal% | 11
 MaxPossible: Life+ | 60
-MaxPossible: Strength+ | 7
+MaxPossible: Strength+ | 25

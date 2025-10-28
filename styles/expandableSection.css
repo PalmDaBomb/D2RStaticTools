@@ -78,7 +78,7 @@
     color: #C4B200; /* warm gold */
     text-shadow: 0 0 6px rgba(255, 180, 0, 0.7),
                  0 0 12px rgba(255, 140, 0, 0.6);
-    margin: 0 0 10px 0; 
+    margin: 0 0 0 0; 
     text-align: center;
     line-height: 1.2em;
 }
@@ -145,6 +145,20 @@
 .ilvl-calculator button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
+}
+
+#itemDropdownContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+
+#itemSearch {
+  width: 240px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #999;
 }
 
 /* Mobile optimization */

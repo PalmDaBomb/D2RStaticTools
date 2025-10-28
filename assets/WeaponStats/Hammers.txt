@@ -1,0 +1,4 @@
+Name(0) | Tier(1) | Quality Level(2) | Min Damage(3) | Max Damage(4) | Base Speed | Max Sockets(5) | Range(6) | Str(7) | Dex(8) | Level(9)
+War Hammer | Normal | 25 | 19 | 29 | 20 | 4 | 0 | 53 | 0 | 25
+Battle Hammer | Exceptional | 48 | 35 | 58 | 20 | 4 | 0 | 100 | 0 | 25
+Legendary Mallet | Elite | 82 | 50 | 61 | 20 | 4 | 1 | 189 | 0 | 61

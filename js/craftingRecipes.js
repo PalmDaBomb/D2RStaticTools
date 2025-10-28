@@ -2,6 +2,51 @@ import { ModalManager } from './modalManager.js';
 import { renderTable, renderList, createUpdateView } from './itemTableManager.js';
 import { loadCraftingRecipes, loadAllItemsForDropdown } from './assetLoader.js';
 
+// This is for the drop down list in the Affix calculator:
+document.addEventListener('DOMContentLoaded', async () => {
+  const datalist = document.getElementById('itemDropdown');
+  const itemInput = document.getElementById('itemSearch');
+  const qlvlInput = document.getElementById('itemQLvl');
+
+  if (datalist && itemInput && qlvlInput) {
+    try {
+      const items = await loadAllItemsForDropdown();
+
+      // Clear previous (if reloaded)
+      datalist.innerHTML = '';
+
+      // Create a lookup map for fast q-lvl access later
+      const itemMap = new Map();
+
+      // Populate datalist and map
+      for (const item of items) {
+        const option = document.createElement('option');
+        option.value = item.name;
+        datalist.appendChild(option);
+
+        // Use your qLvl field name
+        itemMap.set(item.name.toLowerCase(), item.qLvl || 0);
+      }
+
+      console.log(`✅ Loaded ${items.length} items into dropdown.`);
+
+      // Listen for selection / typing changes
+      itemInput.addEventListener('input', () => {
+        const selectedName = itemInput.value.toLowerCase();
+        if (itemMap.has(selectedName)) {
+          const qlvl = itemMap.get(selectedName);
+          qlvlInput.value = qlvl;
+        } else {
+          qlvlInput.value = ''; // clear if invalid
+        }
+      });
+
+    } catch (err) {
+      console.error('Error populating item dropdown:', err);
+    }
+  }
+});
+
 const modalManager = new ModalManager(
   document.getElementById('craftingModal'),
   document.getElementById('craftingDetails'),
@@ -15,16 +60,26 @@ const keyMap = {
   'Rune Used': 'Rune',
   'Misc Components': 'Misc',
   'Life Steal %': 'LifeSteal%',
+  'Mana Steal': 'ManaSteal%',
   'Life +': 'Life+',
+  'Increased Mana':'Mana+',
   'Enhanced Damage %': 'EnhancedDMG%',
   'Crushing Blow %': 'CrushingBlow%',
   'Deadly Strike %': 'DeadlyStrike%',
   'Open Wounds %': 'OpenWounds%',
   'Faster Walk/Run %': 'FasterWalk/Run%',
-  'Strength +': 'Strength+',
+  'Increased Strength': 'Strength+',
+  'Increased Energy': 'Energy+',
+  'Increased Dexterity': 'Dex+',
+  'Increased Vitality': 'Vitality+',
   'Life Regen +': 'LifeRegen+',
   'Demon Kill On Heal +': 'DemonKillOnHeal+',
-  'Attacker Takes Damage +': 'AttackerTakesDamage+'
+  'Attacker Takes Damage +': 'AttackerTakesDamage+',
+  'Faster Cast Rate (%)' : 'FasterCastRate%',
+  'Increased Block Chance (%)': 'BlockChanceIncrease%',
+  'Mana Regeneration': 'RegenMana%',
+  'Increased Maximum Mana' : 'MaxManaIncrease%',
+  'Mana Per Kill' : 'ManaPerKill',
 };
 
 const craftingCategories = await loadCraftingRecipes();

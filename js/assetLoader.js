@@ -41,7 +41,8 @@ export async function loadWeaponStats() {
       'Swords.txt',
       '2HSwords.txt',
       'Maces.txt',
-      '2HMaces.txt',
+      'Hammers.txt',
+      '2HHammers.txt',
       '2HSpears.txt',
       'Bows.txt',
     ];
@@ -195,6 +196,7 @@ export async function loadCraftingRecipes() {
 
   const files = [
     'BloodRecipes.txt',
+    'CasterRecipes.txt'
   ];
 
   for (const file of files) {
@@ -256,29 +258,52 @@ export async function loadCraftingRecipes() {
 }
 
 export async function loadAllItemsForDropdown() {
-  const armorCategories = await loadArmorStats();
-  const weaponCategories = await loadWeaponStats();
+  try {
+    const [armorCategories, weaponCategories] = await Promise.all([
+      loadArmorStats(),
+      loadWeaponStats()
+    ]);
 
-  const items = [];
+    const items = [];
 
-  function extractItems(categoryMap, type) {
-    for (const [categoryName, catMap] of categoryMap.entries()) {
-      for (const [itemName, itemData] of catMap.entries()) {
-        items.push({
-          name: itemName,
-          qLvl: itemData['Q-Lvl'] || itemData['QualityLevel'] || '',
-          type,
-          category: categoryName // optional
-        });
+    // Internal Function to get the item name and the quality, and the type/category since I'll probs need
+    // them later:
+    function extractItems(categoryMap, type) {
+      if (!categoryMap || !(categoryMap instanceof Map)) return;
+      for (const [categoryName, catMap] of categoryMap.entries()) {
+        if (!(catMap instanceof Map)) continue;
+        for (const [itemName, itemData] of catMap.entries()) {
+          items.push({
+            name: itemName,
+            qLvl: itemData['Q-Lvl'] || itemData['QualityLevel'] || '',
+            type,
+            category: categoryName || 'Unknown'
+          });
+        }
       }
     }
+
+    extractItems(armorCategories, 'Armor');
+    extractItems(weaponCategories, 'Weapon');
+    items.push({
+      name: 'Ring',
+      qLvl: 1,
+      type: 'Jewelry',   // explicitly set
+      category: 'Jewelry'
+    });
+    items.push({
+      name: 'Amulet',
+      qLvl: 1,
+      type: 'Jewelry',   // explicitly set
+      category: 'Jewelry'
+    });
+
+    // Sort alphabetically by name
+    items.sort((a, b) => a.name.localeCompare(b.name));
+
+    return items;
+  } catch (error) {
+    console.error('Error loading item data for dropdown:', error);
+    return [];
   }
-
-  extractItems(armorCategories, 'Armor');
-  extractItems(weaponCategories, 'Weapon');
-
-  // Sort alphabetically by name
-  items.sort((a, b) => a.name.localeCompare(b.name));
-
-  return items;
 }

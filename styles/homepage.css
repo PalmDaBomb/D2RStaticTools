@@ -90,9 +90,9 @@ body::before {
 .home-buttons {
   display: flex;
   flex-direction: column; /* vertically stacked */
-  gap: 20px; /* space between buttons */
+  gap: 10px; /* space between buttons */
   width: 100%;
-  max-width: 300px; /* limits button container width */
+  max-width: 300px; 
   align-items: center;
 }
 
