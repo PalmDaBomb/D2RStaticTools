@@ -55,7 +55,6 @@ const modalManager = new ModalManager(
 
 const keyMap = {
   'Name': 'Name',
-  'Category': 'Category',
   'Base Item': 'Item',
   'Rune Used': 'Rune',
   'Misc Components': 'Misc',
@@ -80,6 +79,16 @@ const keyMap = {
   'Mana Regeneration': 'RegenMana%',
   'Increased Maximum Mana' : 'MaxManaIncrease%',
   'Mana Per Kill' : 'ManaPerKill',
+  'Damage Reduced By' : 'ReducedDMG',
+  'Magic Damage Reduced By' : 'ReducedMagicDMG',
+  'Increased Block Chance' : 'IncreasedBlockChance%',
+  'Fire Resist' : 'FireResist%',
+  'Cold Resist' : 'ColdResist%',
+  'Lightning Resist' : 'LightningResist%',
+  'Poison Resist' : 'PoisonResist%',
+  'Magic Resist' : 'MagicResist%',
+  'Enhanced Defence' : 'EnhancedDef%',
+  'Half Freeze Duration' : 'HalfFreezeDuration',
 };
 
 const craftingCategories = await loadCraftingRecipes();

@@ -3,30 +3,53 @@ export function renderTable(container, dataMap, headers, keyMap, filter = '') {
   const table = document.createElement('table');
   table.classList.add('data-table');
 
-  // Header
+  // Step 1: Filter dataset based on search
+  const filteredEntries = Array.from(dataMap.entries()).filter(([name]) =>
+    !filter || name.toLowerCase().includes(filter)
+  );
+
+  if (filteredEntries.length === 0) {
+    container.textContent = 'No results found.';
+    return;
+  }
+
+  // Step 2: Determine which headers have at least one non-empty value
+  const activeHeaders = headers.filter(header => {
+    const key = keyMap[header];
+    return filteredEntries.some(([_, data]) => {
+      const val = data[key];
+      return val !== undefined && val !== null && val !== '';
+    });
+  });
+
+  // Step 3: Create header row with only active columns
   const headerRow = document.createElement('tr');
-  headers.forEach(h => {
+  activeHeaders.forEach(h => {
     const th = document.createElement('th');
     th.textContent = h;
     headerRow.appendChild(th);
   });
   table.appendChild(headerRow);
 
-  // Rows
+  // Step 4: Populate rows
   let rowIndex = 0;
-  for (const [name, data] of dataMap.entries()) {
-    if (filter && !name.toLowerCase().includes(filter)) continue;
+  for (const [name, data] of filteredEntries) {
     const row = document.createElement('tr');
     row.classList.add(rowIndex % 2 === 0 ? 'even-row' : 'odd-row');
-    headers.forEach(header => {
+
+    activeHeaders.forEach(header => {
+      const key = keyMap[header];
+      const value = data[key];
       const td = document.createElement('td');
-      td.textContent = data[keyMap[header]] ?? '';
+      td.textContent = value ?? ''; // empty string fallback
       row.appendChild(td);
     });
+
     table.appendChild(row);
     rowIndex++;
   }
 
+  // Step 5: Render
   container.appendChild(table);
 }
 
@@ -65,5 +88,5 @@ export function createUpdateView({categorySelect, filterInput, tableContainer, m
   categorySelect.addEventListener('change', update);
   filterInput.addEventListener('input', update);
 
-  return update; // returns the function if you want to call it manually
+  return update;
 }

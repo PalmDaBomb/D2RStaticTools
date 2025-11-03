@@ -196,7 +196,8 @@ export async function loadCraftingRecipes() {
 
   const files = [
     'BloodRecipes.txt',
-    'CasterRecipes.txt'
+    'CasterRecipes.txt',
+    'SafetyRecipes.txt'
   ];
 
   for (const file of files) {

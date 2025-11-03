@@ -1,0 +1,92 @@
+Name: Safety Weapon
+Ingredients: Magical Spear(any) | Jewel(any) | Sol Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: EnhancedDef% | 5-10
+MaxPossible: ReducedDMG | 4
+MaxPossible: ReducedMagicDMG | 2
+MaxPossible: EnhancedDef% | 10
+
+Name: Safety Headwear
+Ingredients: Crown, Grand Crown, Corona | Jewel(any) | Ith Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: EnhancedDef% | 10-30
+PresetMod: LightningResist% | 5-10
+MaxPossible: ReducedDMG | 4
+MaxPossible: ReducedMagicDMG | 2
+MaxPossible: EnhancedDef% | 230
+MaxPossible: LightningResist% | 40
+
+Name: Safety Body Armor
+Ingredients: Breast Plate, Curiass, Great Hauberk | Jewel(any) | Eth Rune | Perfect Emerald
+PresetMod: ReducedDMG | 3-9
+PresetMod: ReducedMagicDMG | 2-5
+PresetMod: HalfFreezeDuration | --
+PresetMod: EnhancedDef% | 10-30
+MaxPossible: ReducedDMG | 16
+MaxPossible: ReducedMagicDMG | 5
+MaxPossible: EnhancedDef% | 230
+MaxPossible: HalfFreezeDuration | --
+
+Name: Safety Gloves
+Ingredients: Gauntlets, War Gauntlets, Ogre Gauntlets | Jewel(any) | Ral Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: EnhancedDef% | 10-33
+PresetMod: ColdResist% | 5-10
+MaxPossible: ReducedDMG | 4
+MaxPossible: ReducedMagicDMG | 2
+MaxPossible: EnhancedDef% | 233
+MaxPossible: ColdResist% | 40
+
+Name: Safety Belt
+Ingredients: Sash, Demonhide Sash, Spiderweb Sash | Jewel(any) | Tal Rune | Perfect Emerald
+PresetMod: ReducedDMG | 3-9
+PresetMod: ReducedMagicDMG | 2-5
+PresetMod: EnhancedDef% | 10-30
+PresetMod: PoisonResist% | 5-10
+MaxPossible: ReducedDMG | 9
+MaxPossible: ReducedMagicDMG | 5
+MaxPossible: EnhancedDef% | 233
+MaxPossible: PoisonResist% | 40
+
+Name: Safety Boots
+Ingredients: Greaves, War Boots, Myrmidon Boots | Jewel(any) | Ort Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: EnhancedDef% | 10-30
+PresetMod: FireResist% | 5-10
+MaxPossible: ReducedDMG | 4
+MaxPossible: ReducedMagicDMG | 2
+MaxPossible: EnhancedDef% | 233
+MaxPossible: FireResist% | 50
+
+Name: Safe Shield
+Ingredients: Kite Shield, Dragon Shield, Monarch | Jewel(any) | Nef Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: EnhancedDef% | 10-30
+PresetMod: MagicResist% | 5-10
+MaxPossible: ReducedDMG | 11
+MaxPossible: ReducedMagicDMG | 5
+MaxPossible: EnhancedDef% | 233
+MaxPossible: MagicResist% | 10
+
+Name: Safety Amulet
+Ingredients: Amulet | Jewel(any) | Thul Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: IncreasedBlockChance% | 1-10
+MaxPossible: ReducedDMG | 8
+MaxPossible: ReducedMagicDMG | 5
+MaxPossible: IncreasedBlockChance% | 10
+
+Name: Safety Ring
+Ingredients: Ring | Jewel(any) | Amn Rune | Perfect Emerald
+PresetMod: ReducedDMG | 1-4
+PresetMod: ReducedMagicDMG | 1-2
+PresetMod: Vitality+ | 1-5
+MaxPossible: ReducedDMG | 6
+MaxPossible: ReducedMagicDMG | 4
+MaxPossible: Vitality+ | 5
