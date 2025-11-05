@@ -1,0 +1,5 @@
+Name     | Q-Lvl  | LvlReq  | StrengthReq  | MinDef  | MaxDef  | MaxSockets  | MagicLvl  
+Circlet  | 24     | 16      |    0         | 20      | 30      | 2           | 3         
+Coronet  | 52     | 39      |    0         | 30      | 40      | 2           | 8         
+Tiara    | 70     | 52      |    0         | 40      | 50      | 3           | 13        
+Diadem   | 85     | 64      |    0         | 50      | 60      | 3           | 18        

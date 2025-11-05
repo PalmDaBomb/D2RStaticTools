@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D2R Static Tools | Necro Summons</title>
+    <link rel="stylesheet" href="../styles/homepage.css" />
+    <link rel="stylesheet" href="../styles/expandableSection.css" />
+    <link rel="stylesheet" href="../styles/effects.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2S4YH2V4S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T2S4YH2V4S');
+    </script>
+</head>
+<body>
+    <div id="background"></div>
+
+    <header class="site-header">
+        <div class="logo">Deckard Cain Tools</div>
+        <a href="../index.html" class="home-link">D2R Tools Home</a>
+    </header>
+
+    <main class="home-container">
+        <h1>Necromancer Summons Calculations</h1>
+        <section class="expandable-section">
+            <div class="expandable-header">
+                <span class="expand-icon">+</span>
+                <span class="expand-title">Important Information</span>
+            </div>
+            <div class="expandable-content">
+                <h2>Damage Increase Auras & Summons</h2>
+                <ul>
+                    <li>
+                        Summons such as <strong>Skeletons</strong>, <strong>Revived</strong>, & <strong>Blood Golem</strong> have Enhanced Damage (%) calculated into their tooltip Damage. 
+                        This Enhanced Damage (%) value is <strong>Additive</strong> with Aura Damage Increases and needs to be considered when calculating 
+                        Summon Damage.
+                    </li>
+                    <li>The Enhanced Damage % of The Raise Skeleton & Revive Skill can be seen on the skill tooltip</li>
+                    <li>Blood Golem <strong><u>DOES NOT</u></strong> gain increases in base damage when increasing the skill. Instead, Blood Golem gets 
+                        Enhanced Damage % increases with each skill point. This means that the effects of Damage Increase Auras 
+                        and the Fire Golem Synergy have little effect on Blood Golem's Damage (due to its low base Damage).
+                    </li>
+                    <li>The Enhanced Damage % increase from the Fire Golem Synergy is <strong>Additive</strong> with Damage Aura Increases</li>
+            
+                </ul>
+                <h2>Curses & Summons</h2>
+                <ul>
+                    <li>Curses such as <strong>Amplify Damage</strong> & <strong>Decripify</strong> reduce Enemy Physical Resistance. This means that 
+                    their effects are <strong>Multiplicative</strong> with other damage sources.
+                    </li>
+
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        D2RStaticTools © 2025 by Tyler D. Palm is licensed under 
+        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" class="cc-icon">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" class="cc-icon">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" class="cc-icon">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" class="cc-icon">
+    </footer>
+
+    <script src="../js/expandableSection.js"></script>
+    <script src="../js/craftingCalculator.js"></script>
+    <script type="module" src="../js/armorStats.js"></script>
+</body>
+</html>

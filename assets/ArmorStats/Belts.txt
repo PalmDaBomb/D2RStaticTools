@@ -1,0 +1,16 @@
+Name              | Tier         | Q-Lvl  | LvlReq  | StrengthReq  | MinDef  | MaxDef  | PotionSlots  
+Sash              | Normal       | 3      |         |              | 2       | 2       | 2            
+Light Belt        | Normal       | 7      |         |              | 3       | 3       | 2            
+Belt              | Normal       | 12     |         | 25           | 5       | 5       | 3            
+Heavy Belt        | Normal       | 20     |         | 45           | 6       | 6       | 3            
+Plated Belt       | Normal       | 27     |         | 60           | 8       | 11      | 4            
+Demonhide Sash    | Exceptional  | 36     | 24      | 20           | 29      | 34      | 4            
+Sharkskin Belt    | Exceptional  | 39     | 25      | 20           | 31      | 36      | 4            
+Mesh Belt         | Exceptional  | 43     | 25      | 58           | 35      | 40      | 4            
+Battle Belt       | Exceptional  | 49     | 25      | 88           | 37      | 42      | 4            
+War Belt          | Exceptional  | 54     | 25      | 110          | 41      | 52      | 4      
+Spiderweb Sash    | Elite        | 61     | 46      | 50           | 55      | 62      | 4            
+Vampirefang Belt  | Elite        | 68     | 51      | 50           | 56      | 63      | 4            
+Mithril Coil      | Elite        | 75     | 56      | 106          | 58      | 65      | 4            
+Troll Belt        | Elite        | 82     | 62      | 151          | 59      | 66      | 4            
+Colossus Girdle   | Elite        | 85     | 67      | 185          | 61      | 71      | 4                

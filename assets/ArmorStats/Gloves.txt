@@ -1,0 +1,16 @@
+Name                | Tier         | Q-Lvl  | LvlReq  | StrengthReq  | MinDef  | MaxDef  
+Leather Gloves      | Normal       | 3      |         |              | 2       | 3       
+Heavy Gloves        | Normal       | 7      |         |              | 5       | 6       
+Chain Gloves        | Normal       | 12     |         | 25           | 8       | 9       
+Light Gauntlets     | Normal       | 20     |         | 45           | 9       | 11      
+Gauntlets           | Normal       | 27     |         | 60           | 12      | 15      
+Demonhide Gloves    | Exceptional  | 33     | 21      | 20           | 28      | 35      
+Sharkskin Gloves    | Exceptional  | 39     | 25      | 20           | 33      | 39      
+Heavy Bracers       | Exceptional  | 43     | 25      | 58           | 37      | 44      
+Battle Gauntlets    | Exceptional  | 49     | 25      | 88           | 39      | 47      
+War Gauntlets       | Exceptional  | 54     | 25      | 110          | 43      | 53      
+Bramble Mitts       | Elite        | 57     | 42      | 50           | 54      | 62      
+Vampirebone Gloves  | Elite        | 63     | 47      | 50           | 56      | 65      
+Vambraces           | Elite        | 69     | 51      | 106          | 59      | 67      
+Crusader Gauntlets  | Elite        | 76     | 57      | 151          | 59      | 68     
+Ogre Gauntlets      | Elite        | 85     | 64      | 185          | 62      | 71      

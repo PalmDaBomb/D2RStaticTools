@@ -1,0 +1,16 @@
+Name             | Tier         | Q-Lvl  | LvlReq  | StrengthReq  | MinDef  | MaxDef  | MaxSockets  
+Jawbone Cap      | Normal       | 4      | 3       | 25           | 10      | 15      | 3           
+Fanged Helm      | Normal       | 8      | 6       | 35           | 15      | 20      | 3           
+Horned Helm      | Normal       | 16     | 12      | 45           | 25      | 30      | 3           
+Assault Helmet   | Normal       | 20     | 15      | 55           | 30      | 35      | 3           
+Avenger Guard    | Normal       | 24     | 18      | 65           | 35      | 50      | 3           
+Jawbone Visor    | Exceptional  | 33     | 25      | 58           | 55      | 68      | 3           
+Lion Helm        | Exceptional  | 38     | 29      | 73           | 63      | 75      | 3           
+Rage Mask        | Exceptional  | 44     | 29      | 88           | 78      | 90      | 3           
+Savage Helmet    | Exceptional  | 49     | 32      | 103          | 85      | 98      | 3           
+Slayer Guard     | Exceptional  | 54     | 40      | 118          | 93      | 120     | 3           
+Carnage Helm     | Elite        | 60     | 45      | 106          | 102     | 147     | 3           
+Fury Visor       | Elite        | 66     | 49      | 129          | 105     | 150     | 3           
+Destroyer Helm   | Elite        | 73     | 54      | 151          | 111     | 156     | 3           
+Conqueror Crown  | Elite        | 80     | 60      | 174          | 114     | 159     | 3           
+Guardian Crown   | Elite        | 85     | 65      | 196          | 117     | 168     | 3           

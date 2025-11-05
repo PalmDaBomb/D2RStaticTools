@@ -162,6 +162,13 @@ li strong {
   letter-spacing: 0.5px;
 }
 
+#About-content p {
+  max-width: 600px;
+  text-align: left;
+  line-height: 1.5;
+  color: #f8e803;
+}
+
 /* =======================
    RESPONSIVE STYLES
 ========================= */

@@ -117,7 +117,14 @@ export async function loadArmorStats() {
     'BodyArmors.txt',
     'Boots.txt',
     'Necro Shields.txt',
-    'Paladin Shields.txt'
+    'Paladin Shields.txt',
+    'Shields.txt',
+    'Gloves.txt',
+    'BarbarianHelms.txt',
+    'Belts.txt',
+    'Circlets.txt',
+    'DruidHelms.txt',
+    'Helms.txt'
   ];
 
   for (const file of files) {

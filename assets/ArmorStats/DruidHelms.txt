@@ -1,0 +1,16 @@
+Name               | Tier         | Q-Lvl  | LvlReq  | StrengthReq  | MinDef  | MaxDef  | MaxSockets  
+Wolf Head          | Normal       | 4      | 3       | 16           | 8       | 11      | 3           
+Hawk Helm          | Normal       | 8      | 6       | 20           | 4       | 15      | 3           
+Antlers            | Normal       | 16     | 12      | 24           | 18      | 24      | 3           
+Falcon Mask        | Normal       | 20     | 15      | 28           | 12      | 28      | 3           
+Spirit Mask        | Normal       | 24     | 18      | 30           | 22      | 35      | 3           
+Alpha Helm         | Exceptional  | 35     | 26      | 44           | 52      | 62      | 3           
+Griffon Headdress  | Exceptional  | 40     | 30      | 50           | 46      | 68      | 3           
+Hunter's Guise     | Exceptional  | 46     | 29      | 56           | 67      | 81      | 3           
+Sacred Feathers    | Exceptional  | 50     | 32      | 62           | 58      | 87      | 3           
+Totemic Mask       | Exceptional  | 55     | 41      | 65           | 73      | 98      | 3           
+Blood Spirit       | Elite        | 62     | 46      | 86           | 101     | 145     | 3           
+Sun Spirit         | Elite        | 69     | 51      | 95           | 98      | 147     | 3           
+Earth Spirit       | Elite        | 76     | 57      | 104          | 107     | 152     | 3           
+Sky Spirit         | Elite        | 83     | 62      | 113          | 103     | 155     | 3           
+Dream Spirit       | Elite        | 85     | 66      | 118          | 109     | 159     | 3           
