@@ -315,3 +315,40 @@ export async function loadAllItemsForDropdown() {
     return [];
   }
 }
+
+let cachedMonStats = null;
+
+export async function loadMonStats() {
+  if (cachedMonStats) return cachedMonStats;
+
+  const monStatsFile= '../assets/MonStats/MonStats.txt';
+  const response = await fetch(monStatsFile);
+  const text = await response.text();
+
+  const monStatsMap = new Map();
+
+  const lines = text.trim().split(/\r?\n/);
+  // Skip header line if present
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Split by tabs or multiple spaces
+    const parts = line.split(/\s+/);
+    if (parts.length < 4) continue;
+
+    const level = parseInt(parts[0], 10);
+    const normal = parseInt(parts[1], 10);
+    const nightmare = parseInt(parts[2], 10);
+    const hell = parseInt(parts[3], 10);
+
+    monStatsMap.set(level, {
+      Normal: normal,
+      Nightmare: nightmare,
+      Hell: hell
+    });
+  }
+
+  cachedMonStats = monStatsMap;
+  return monStatsMap;
+}

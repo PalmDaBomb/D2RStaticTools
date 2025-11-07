@@ -1,69 +1,93 @@
-function calculateRaiseSkeleton(skillLvl, mSkillLvl, damageAuraTotal, lifeAuraTotal) {
-    // Maximum Number of Skeletons Raised, %Life, and %Damage:
-    var maximumSkeles;
-    var multiplierLife;
-    var multiplierDamage;
+// ==============================
+// necroSummons.js
+// ==============================
+import { createInputSection } from "./formFactory.js";
+import { calculateRaiseSkeleton } from "./formulas.js";
+import { ModalManager } from "./modalManager.js";
 
-    if (skillLvl < 4) {
-        maximumSkeles = skillLvl;
-        //Convert the damage values to multipliers (instead of hundreds of percents)
-        //PercentLife and Percent damage values are just 0, so reflect the Aura values instead:
-        multiplierLife = 1 + (lifeAuraTotal/100);
-        multiplierDamage = 1 + (damageAuraTotal/100);
-    } else {
-        maximumSkeles = (2 + (skillLvl/3));
-        // PercentLife is multiplicative with lifeAura Values:
-        multiplierLife = ((50 * skillLvl - 150)/100) * (1 + (lifeAuraTotal/100));
-        // PercentDamage is additive with aura values:
-        multiplierDamage = 1 + (((7 * skillLvl - 21)/100) + (damageAuraTotal/100));
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    const modalEl = document.getElementById("resultModal");
+    const modalContentEl = document.getElementById("modalContent");
+    const closeBtn = document.getElementById("modalClose");
+    const modalManager = new ModalManager(modalEl, modalContentEl, closeBtn);
 
-    // =============================================================[DAMAGE CALCULATION]
-    var critChance = 0.05
-    var critMultiplier = 2;
-    var avgCritDamageIncrease = 1 + (critChance * critMultiplier);
+    // Build the input form section
+    createInputSection(".summon-container", {
+        title: "Raise Skeleton Calculator",
+        inputs: [
+            { label: "Skill Lvl", id: "skillLevel", type: "number", placeholder: "e.g. 25" },
+            { label: "Skeleton Mastery Lvl", id: "skeletonMastery", type: "number", placeholder: "e.g. 25" },
+            // Damage/Attack Rating Auras:
+            { label: "Fanaticism Aura Lvl", id: "fanaticism", type: "number", placeholder: "e.g. 5" },
+            { label: "Concentration Aura Lvl", id: "concentration", type: "number", placeholder: "e.g. 10" },
+            { label: "Might Aura Lvl", id: "might", type: "number", placeholder: "e.g. 8" },
+            { label: "Heart of Wolverine", id: "hWolverine", type: "number", placeholder: "e.g 10" },
+            // Life Auras:
+            { label: "Heart of OakSage", id: "hOakSage", type: "number", placeholder: "e.g. 5" },
+            { label: "Battle Orders", id: "battleOrders", type: "number", placeholder: "e.g. 10" },
+            // Defense Auras:
+            { label: "Defiance", id: "defiance", type: "number", placeholder: "e.g. 5" },
+            { label: "Shout", id: "shout", type: "number", placeholder: "e.g. 10" },
+        ],
+        buttons: [
+            {
+                text: "Calculate",
+                className: "StandardBTN",
+                onClick: async () => {
+                    const { skillLevel, masteryLevel, damageAuras, lifeAuras, defAuras } = collectSummonInputs();
 
-    var minBaseDamage = 0;
-    var maxBaseDamage = 0;
-    var totalMinDamage;
-    var totalMaxDamage;
-    var totalAvgDamage;
+                    const { data, keyMap } = await calculateRaiseSkeleton(
+                        null,
+                        skillLevel,
+                        masteryLevel,
+                        damageAuras,
+                        lifeAuras,
+                        defAuras
+                    );
 
-    if (skillLvl <= 8 && skillLvl >= 1) {
-        minBaseDamage = 1 + (2 * mSkillLvl);
-        maxBaseDamage = 2 + (2 * mSkillLvl);
-    } else if (skillLvl <= 16 && skillLvl >= 9) {
-        minBaseDamage = (skillLvl - 7) + (2 * mSkillLvl);
-        maxBaseDamage = (skillLvl - 6) + (2 * mSkillLvl);
-    } else if (skillLvl <= 22 && skillLvl >= 17) {
-        minBaseDamage = (skillLvl * 2 - 23) + (2 * mSkillLvl);
-        maxBaseDamage = (skillLvl * 2 - 22) + (2 * mSkillLvl);
-    } else if (skillLvl <= 28 && skillLvl >= 23) {
-        minBaseDamage = (skillLvl * 3 - 45) + (2 * mSkillLvl);
-        maxBaseDamage = (skillLvl * 3 - 44) + (2 * mSkillLvl);
-    } else if (skillLvl <= 99 && skillLvl >= 28) {
-        minBaseDamage = (skillLvl * 4 - 73) + (2 * mSkillLvl);
-        maxBaseDamage = (skillLvl * 4 - 72) + (2 * mSkillLvl);
-    }
+                    modalManager.show(data, keyMap);
+                }
+            },
+            {
+                text: "Clear",
+                className: "StandardBTN",
+                onClick: () => clearInputs([
+                    "skillLevel", "skeletonMastery", "fanaticism", "concentration",
+                    "might", "hWolverine", "hOakSage", "battleOrders", "defiance", "shout"
+                ])
+            }
+        ]
+    });
+});
 
-    totalMinDamage = minBaseDamage * multiplierDamage * avgCritDamageIncrease;
-    totalMaxDamage = maxBaseDamage * multiplierDamage * avgCritDamageIncrease;
-    totalAvgDamage = (totalMinDamage + totalMaxDamage) / 2;
-
-    // =============================================================[LIFE CALCULATION]
-    var normalLife = (21 + (8 * mSkillLvl)) * multiplierLife;
-    var nightmareLife = (30 + (8 * mSkillLvl)) * multiplierLife;
-    var hellLife = (42 + (8 * mSkillLvl)) * multiplierLife;
+// Collects all user inputs into structured aura maps
+function collectSummonInputs() {
+    const getVal = id => parseFloat(document.getElementById(id)?.value) || 0;
 
     return {
-        maximumSkeles,
-        multiplierLife,
-        multiplierDamage,
-        totalMinDamage,
-        totalMaxDamage,
-        totalAvgDamage,
-        normalLife,
-        nightmareLife,
-        hellLife
+        skillLevel: getVal("skillLevel"),
+        masteryLevel: getVal("skeletonMastery"),
+        damageAuras: {
+            "Might": getVal("might"),
+            "Concentration": getVal("concentration"),
+            "Fanaticism": getVal("fanaticism"),
+            "Wolverine": getVal("hWolverine")
+        },
+        lifeAuras: {
+            "BattleOrders": getVal("battleOrders"),
+            "OakSage": getVal("hOakSage")
+        },
+        defAuras: {
+            "Defiance": getVal("defiance"),
+            "Shout": getVal("shout")
+        }
     };
+}
+
+// Clears all input fields
+function clearInputs(ids) {
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
 }

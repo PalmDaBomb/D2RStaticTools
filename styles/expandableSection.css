@@ -161,8 +161,120 @@
   border: 1px solid #999;
 }
 
+/* ==============================
+   Necro Summon Container Styling
+   ============================== */
+.summon-container {
+    display: flex;
+    flex-direction: column; /* stack inputs vertically */
+    gap: 15px;
+    margin-top: 20px;
+    max-width: 400px;
+    width: 100%;
+    padding: 15px;
+    background: rgba(25, 25, 25, 0.7);
+    border: 2px solid #b88a3d;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(255, 180, 80, 0.4);
+}
+
+/* Header / Title */
+.summon-container h2 {
+    font-family: 'Exocet', serif;
+    font-size: 1.4em;
+    color: #C4B200; /* warm gold */
+    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7),
+                 0 0 12px rgba(255, 140, 0, 0.6);
+    margin: 0 0 10px 0;
+    text-align: left; /* align header left */
+}
+
+/* Vertical input stack */
+.summon-container .input-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: flex-start; /* align inputs to left */
+}
+
+/* Input boxes */
+.summon-container input {
+    font-family: 'Merriweather', serif;
+    font-size: 1rem;
+    padding: 8px 10px;
+    border: 1px solid #C4B200;
+    border-radius: 5px;
+    background: #111;
+    color: #f4e8c1;
+    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
+    box-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    width: 100%;
+    box-sizing: border-box; /* ✅ ensures padding/border don't overflow */
+}
+
+/* Input focus effect */
+.summon-container input:focus {
+    outline: none;
+    transform: scale(1.03);
+    box-shadow: 0 0 14px rgba(255, 180, 0, 0.8);
+}
+
+/* Button row */
+.summon-container .output-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start; /* align buttons to left */
+}
+
+/* Buttons */
+.summon-container button {
+    font-family: 'Merriweather', serif;
+    font-size: 1rem;
+    padding: 8px 12px;
+    background: #300;
+    color: #f4e8c1;
+    border-color: #a22;
+    border-radius: 5px;
+    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
+    box-shadow: 0 0 14px rgba(255, 80, 80, 0.9);
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.summon-container button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
+}
+
 /* Mobile optimization */
 @media screen and (max-width: 480px) {
+  .summon-container {
+        width: 100%;
+        align-items: flex-start; /* stack left-aligned */
+    }
+
+    .summon-container input {
+        width: 100%; /* full width */
+    }
+
+    .summon-container .output-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .summon-container .output-row button {
+        flex: 1;
+        min-width: 48%;
+    }
+
+    .summon-container button {
+        box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
+    }
   .ilvl-calculator {
     width: 100%;
     align-items: flex-start; /* Align everything to the left */

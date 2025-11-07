@@ -27,6 +27,8 @@ const keyMap = {
 const armorCategories = await loadArmorStats();
 
 // Populate category dropdown
+const categorySelect = document.getElementById('categorySelect');
+
 for (const category of armorCategories.keys()) {
   const option = document.createElement('option');
   option.value = category;
