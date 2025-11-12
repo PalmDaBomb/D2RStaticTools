@@ -36,6 +36,7 @@ export function createInputSection(containerSelector, sectionConfig) {
         const field = document.createElement("input");
         field.type = input.type || "number";
         field.id = input.id;
+        field.dataset.inputId = input.id;
         field.placeholder = input.placeholder || "";
 
         row.appendChild(label);
@@ -43,20 +44,22 @@ export function createInputSection(containerSelector, sectionConfig) {
         content.appendChild(row);
     });
 
-    // Add buttons (Calculate / Clear)
-    if (sectionConfig.buttons && sectionConfig.buttons.length > 0) {
+    // Buttons
+    if (sectionConfig.buttons?.length) {
         const buttonContainer = document.createElement("div");
         buttonContainer.classList.add("button-container");
 
-        sectionConfig.buttons.forEach(btn => {
-            const button = document.createElement("button");
-            button.textContent = btn.text;
-            button.className = btn.className || "StandardBTN";
+        sectionConfig.buttons.forEach(btnConfig => {
+            const btn = document.createElement("button");
+            btn.textContent = btnConfig.text;
+            btn.className = btnConfig.className || "";
 
-            if (btn.onClick) {
-                button.addEventListener("click", btn.onClick);
-            }
-            buttonContainer.appendChild(button);
+            btn.addEventListener("click", () => {
+                // give handler access to this section
+                btnConfig.onClick?.(content);
+            });
+
+            buttonContainer.appendChild(btn);
         });
 
         content.appendChild(buttonContainer);
@@ -65,4 +68,5 @@ export function createInputSection(containerSelector, sectionConfig) {
     section.appendChild(title);
     section.appendChild(content);
     container.appendChild(section);
+    return section;
 }

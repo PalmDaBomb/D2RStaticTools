@@ -377,6 +377,7 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, d
   const totalHellLife = hellLife * auraLifeMultiplier;
 
   //Managing Return values for modal display:
+  const note = "Total Damages Include Average Critical Hit Damage Output (~10% Damage Increase)"
 
   const data = {
     maximumSkeles,
@@ -396,7 +397,8 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, d
     totalDamageMultiplier,
     critChance,
     totalAttackRatingMultiplier,
-    defenseMultiplier
+    defenseMultiplier,
+    note
   };
 
   const keyMap = {
@@ -417,9 +419,134 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, d
     "Total Damage Multiplier": "totalDamageMultiplier",
     "Critical Chance": "critChance",
     "Total Attack Rating Multiplier": "totalAttackRatingMultiplier",
-    "Defense Multiplier": "defenseMultiplier"
+    "Defense Multiplier": "defenseMultiplier",
+    "Notes" : "note"
   };
 
   return { data, keyMap };
+}
+
+/**
+ * Calculates Necromancer's Blood stats based on skill levels, mastery, boosts
+ * and active aura bonuses.
+ * @param {Map} monStatsMap - (optional) Cached MonStats map from loadMonStats().
+ * @param {number} skillLvl - Blood Golem skill level.
+ * @param {number} gmSkillLvl - Golem Mastery skill level.
+ * @param {[string],number} boostsMap - Total Levels of Boost Skills.
+ * @param {[string],number} damageAuraMap - Total Damage Aura Levels (might, fanat, con, wolverine).
+ * @param {[string],number} lifeAuraMap - Total Life Aura Levels (battle orders, oaksage).
+ * @param {[string],number} defAuraMap - Total def Aura Levels (defiance, shout).
+ * @returns {Promise<object>} - Promise resolving to computed skeleton stats.
+ */
+export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, boostsMap, damageAuraMap, lifeAuraMap, defAuraMap) {
+  if (!monStatsMap) {
+      monStatsMap = await loadMonStats();
+    }
+
+    const monStat = monStatsMap.get(skillLvl);
+    if (!monStat) {
+      console.warn(`No MonStats entry found for level ${skillLvl}`);
+      return null;
+    }
+  
+  // ===============[ATTACK RATING & DAMAGE]===================
+  // Damage does not incease with skillLevel, Just difficulty:
+  var normalMinDmg = 6;
+  var normalMaxDmg = 16;
+  var nightmareMinDmg = 9;
+  var nightmareMaxDmg = 23;
+  var hellMinDmg = 10;
+  var hellMaxDmg = 27;
+
+  var normalARBase = (60 + monStat.Normal) + (gmSkillLvl * 25) + (boostsMap["ClayGolem"] * 20);
+  var nightmareARBase = (104 + monStat.Nightmare) + (gmSkillLvl * 25)+ (boostsMap["ClayGolem"] * 20);
+  var hellARBase = (148 + monStat.Hell) + (gmSkillLvl * 25)+ (boostsMap["ClayGolem"] * 20);
+
+  // Percent Damage increases with skill increase and points in Fire Golem. This is additive with 
+  // the damage Auras. No Percent increases to Attack Rating from Skills. 
+  const percentDamageSkills = ((35 * skillLvl) - 35) + (6 * boostsMap["FireGolem"]);
+  const percentAttackRating = 0;
+  const damageAndArMultipliers = totalAuraArAndDamageCalculation(
+                                 damageAuraMap["Might"], 
+                                 damageAuraMap["Concentration"],
+                                 damageAuraMap["Fanaticism"], 
+                                 damageAuraMap["Wolverine"],
+                                 [percentDamageSkills,percentAttackRating]);
+
+  var damageMultiplier = damageAndArMultipliers[0];
+  var arMultiplier = damageAndArMultipliers[1];
+
+  // Normal Damage:
+  var totalNormalMinDmg = Math.floor(normalMinDmg * damageMultiplier);
+  var totalNormalMaxDmg = Math.floor(normalMaxDmg * damageMultiplier);
+  var normalAvgDmg = Math.round((totalNormalMinDmg + totalNormalMaxDmg) / 2 * 100) / 100;
+
+  // Nightmare Damage:
+  var totalNightmareMinDmg = Math.floor(nightmareMinDmg * damageMultiplier);
+  var totalNightmareMaxDmg = Math.floor(nightmareMaxDmg * damageMultiplier);
+  var nightmareAvgDmg = Math.round((totalNightmareMinDmg + totalNightmareMaxDmg) / 2 * 100) / 100;
+
+  // Hell Damage:
+  var totalHellMinDmg = Math.floor(hellMinDmg * damageMultiplier);
+  var totalHellMaxDmg = Math.floor(hellMaxDmg * damageMultiplier);
+  var hellAvgDmg = Math.round((totalHellMinDmg + totalHellMaxDmg) / 2 * 100) / 100;
+
+  // Interpolated strings for Return
+  const normalDamage = `${totalNormalMinDmg} - ${totalNormalMaxDmg} (${normalAvgDmg})`;
+  const nightmareDamage = `${totalNightmareMinDmg} - ${totalNightmareMaxDmg} (${nightmareAvgDmg})`;
+  const hellDamage = `${totalHellMinDmg} - ${totalHellMaxDmg} (${hellAvgDmg})`;
+  const normalAR = Math.floor(normalARBase * arMultiplier);
+  const nightmareAR = Math.floor(nightmareARBase * arMultiplier);
+  const hellAR = Math.floor(hellARBase * arMultiplier);
+
+  //Life Steal:
+  const lifeStolenPercentage = (Math.min(75 + (75 * ((110 * skillLvl) / (skillLvl + 6)) / 100),150)) / 100;
+  const nightmareLifeStolenPercentage = (lifeStolenPercentage / 2);
+  const hellLifeStolenPercentage = (lifeStolenPercentage / 2);
+  // Max Life steal will occur if the golem is fully healed and does maximum damage. Otherwise, the min life stolen
+  // is 30% (if the golem is weaked he takes up to 70% of the life stolen). So the min life stolen would occur 
+  // if a weakened golem does his min damage and only transfers 30% life to the caster:
+
+  var normalMaxLS = Math.floor(lifeStolenPercentage * totalNormalMaxDmg); 
+  var normalMinLS = Math.floor((lifeStolenPercentage * 0.30) * totalNormalMinDmg);
+  var normalAvgLS = Math.round((normalMaxLS + normalMinLS) / 2 * 100) / 100;
+  var nightmareMaxLS = Math.floor(nightmareLifeStolenPercentage * totalNightmareMaxDmg); 
+  var nightmareMinLS = Math.floor((nightmareLifeStolenPercentage * 0.30) * totalNightmareMinDmg);
+  var nightmareAvgLS = Math.round((nightmareMaxLS + nightmareMinLS) / 2 * 100) / 100;
+  var hellMaxLS = Math.floor(hellLifeStolenPercentage * totalHellMaxDmg); 
+  var hellMinLS = Math.floor((hellLifeStolenPercentage * 0.30) * totalHellMinDmg);
+  var hellAvgLS = Math.round((hellMaxLS + hellMinLS) / 2 * 100) / 100;
+
+  // Interpolated strings for Return:
+  const normalLifeReturned = `${normalMinLS} - ${normalMaxLS} (${normalAvgLS})`;
+  const nightmareLifeReturned = `${nightmareMinLS} - ${nightmareMaxLS} (${nightmareAvgLS})`;
+  const hellLifeReturned = `${hellMinLS} - ${hellMaxLS} (${hellAvgLS})`;
+
+  const data = {
+    normalDamage,
+    nightmareDamage,
+    hellDamage,
+    normalAR,
+    nightmareAR,
+    hellAR,
+    normalLifeReturned,
+    nightmareLifeReturned,
+    hellLifeReturned,
+  };
+
+  const keyMap = {
+    "Damage (Normal)": "normalDamage",
+    "Damage (Nightmare)": "nightmareDamage",
+    "Damage (Hell)": "hellDamage",
+    "Attack Rating (Normal)": "normalAR",
+    "Attack Rating (Nightmare)": "nightmareAR",
+    "Attack Rating (Hell)": "hellAR",
+    "Caster Life Returned (Normal)": "normalLifeReturned",
+    "Caster Life Returned (Nightmare)": "nightmareLifeReturned",
+    "Caster Life Returned (Hell)": "hellLifeReturned",
+  };
+
+  return { data, keyMap };
+
 }
 

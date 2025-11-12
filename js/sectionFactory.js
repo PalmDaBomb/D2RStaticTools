@@ -40,7 +40,12 @@ export function createExpandableSection(title, containerId, containerClasses = [
     section.appendChild(contentDiv);
 
     // Click toggle logic
-    header.addEventListener('click', () => section.classList.toggle('active'));
+    section.style.cursor = 'pointer';
+    section.addEventListener('click', (event) => {
+        if (event.target.closest('.expandable-header')) {
+            section.classList.toggle('active');
+        }
+    });
 
     return section;
 }
