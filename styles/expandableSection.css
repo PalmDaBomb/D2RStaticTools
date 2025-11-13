@@ -261,38 +261,48 @@
 /* Mobile optimization */
 @media screen and (max-width: 480px) {
   .summon-container {
-        width: 100%;
-        align-items: center; /* stack left-aligned */
-    }
+    width: 100%;
+    align-items: center;
+    padding: 10px 8px;
+  }
 
-    .summon-container .input-row {
-        flex-direction: column; /* stack label and input */
-        align-items: stretch;
-    }
+  .summon-container .input-row {
+    flex-direction: row; /* keep label and input side-by-side */
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
 
-    .summon-container label {
-        text-align: center;
-        font-size: 1em;
-    }
+  .summon-container label {
+    text-align: right;
+    font-size: 0.9em;
+    flex: 1 1 auto;
+  }
 
-    .summon-container input {
-        width: 100%;
-        max-width: none;
-    }
+  .summon-container input {
+    width: 60px; /* small fixed width for 2–3 digit numbers */
+    height: 28px; /* shorter */
+    font-size: 0.9em;
+    padding: 3px;
+    text-align: center;
+    border-radius: 6px;
+  }
 
-    .summon-container .output-row {
-        flex-wrap: wrap;
-        gap: 8px;
-    }
+  .summon-container .output-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 
-    .summon-container .output-row button {
-        flex: 1;
-        min-width: 48%;
-    }
+  .summon-container .output-row button {
+    flex: 1;
+    min-width: 48%;
+  }
 
-    .summon-container button {
-        box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
-    }
+  .summon-container button {
+    box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
+  }
+
   .ilvl-calculator {
     width: 100%;
     align-items: flex-start; /* Align everything to the left */

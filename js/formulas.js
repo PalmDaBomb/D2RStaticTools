@@ -499,7 +499,7 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, boo
   const nightmareAR = Math.floor(nightmareARBase * arMultiplier);
   const hellAR = Math.floor(hellARBase * arMultiplier);
 
-  //Life Steal:
+  // ===============[LIFE STEAL]===================
   const lifeStolenPercentage = (Math.min(75 + (75 * ((110 * skillLvl) / (skillLvl + 6)) / 100),150)) / 100;
   const nightmareLifeStolenPercentage = (lifeStolenPercentage / 2);
   const hellLifeStolenPercentage = (lifeStolenPercentage / 2);
@@ -522,6 +522,17 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, boo
   const nightmareLifeReturned = `${nightmareMinLS} - ${nightmareMaxLS} (${nightmareAvgLS})`;
   const hellLifeReturned = `${hellMinLS} - ${hellMaxLS} (${hellAvgLS})`;
 
+  // ===============[DEFENSE]===================
+  var normalBaseDef = 120 + monStat.Normal + (35 * boostsMap["IronGolem"]);
+  var nightmareBaseDef = 120 + monStat.Nightmare + (35 * boostsMap["IronGolem"]);
+  var hellBaseDef = 120 + monStat.Hell + (35 * boostsMap["IronGolem"]);
+  const percentageDef = 0; // No percent defense increases granted from skill
+
+  const defenseMultiplier = totalDefCalculation(defAuraMap["Defiance"], defAuraMap["Shout"], percentageDef);
+  const totalNormalDef = Math.floor(normalBaseDef * defenseMultiplier);
+  const totalNightmareDef = Math.floor(nightmareBaseDef * defenseMultiplier);
+  const totalHellDef = Math.floor(hellBaseDef * defenseMultiplier);
+
   const data = {
     normalDamage,
     nightmareDamage,
@@ -532,6 +543,9 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, boo
     normalLifeReturned,
     nightmareLifeReturned,
     hellLifeReturned,
+    totalNormalDef,
+    totalNightmareDef,
+    totalHellDef
   };
 
   const keyMap = {
@@ -544,6 +558,9 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, boo
     "Caster Life Returned (Normal)": "normalLifeReturned",
     "Caster Life Returned (Nightmare)": "nightmareLifeReturned",
     "Caster Life Returned (Hell)": "hellLifeReturned",
+    "Defense (Normal)" : "totalNormalDef",
+    "Defense (Nightmare)" : "totalNightmareDef",
+    "Defense (Hell)" : "totalHellDef",
   };
 
   return { data, keyMap };
