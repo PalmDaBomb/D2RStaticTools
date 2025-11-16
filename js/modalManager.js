@@ -27,11 +27,11 @@ export class ModalManager {
 
       const label = document.createElement('span');
       label.classList.add('modal-label');
-      label.textContent = `${displayName}:`;
+      label.innerHTML = `${displayName}:`;
 
       const val = document.createElement('span');
       val.classList.add('modal-value');
-      val.textContent = value;
+      val.innerHTML = value;
 
       row.appendChild(label);
       row.appendChild(val);

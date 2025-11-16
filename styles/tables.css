@@ -127,6 +127,56 @@
   cursor: pointer;
 }
 
+/* Modal Colours for Display of labels and difficulty: */
+.modal-value .nrm { color: rgb(61, 78, 230); }
+.modal-value .nmt { color: gold; }
+.modal-value .hell { color: red; }
+.modal-label .fire {
+    color: #ff6b4a;
+    font-weight: bold;
+}
+.modal-label .cold {
+    color: #6CCBFF;
+    font-weight: bold;
+}
+.modal-label .lightning {
+    color: #04fad9;
+    font-weight: bold;
+}
+.modal-label .poison {
+    color: #8AFF6C;
+    font-weight: bold;
+}
+.modal-label .magic {
+    color: #C48BFF;
+    font-weight: bold;
+}
+/* Colour the values the same way as labels */
+.modal-value .fire {
+    color: #ff6b4a;
+    font-weight: bold;
+}
+
+.modal-value .cold {
+    color: #6CCBFF;
+    font-weight: bold;
+}
+
+.modal-value .lightning {
+    color: #04fad9;
+    font-weight: bold;
+}
+
+.modal-value .poison {
+    color: #8AFF6C;
+    font-weight: bold;
+}
+
+.modal-value .magic {
+    color: #C48BFF;
+    font-weight: bold;
+}
+
 /* ==========================
    GENERIC MODAL
 ========================== */
