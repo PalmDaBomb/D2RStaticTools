@@ -130,7 +130,7 @@
 /* Modal Colours for Display of labels and difficulty: */
 .modal-value .nrm { color: rgb(61, 78, 230); }
 .modal-value .nmt { color: gold; }
-.modal-value .hell { color: red; }
+.modal-value .hell { color:#04fad9; }
 .modal-label .fire {
     color: #ff6b4a;
     font-weight: bold;
