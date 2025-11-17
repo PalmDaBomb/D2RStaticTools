@@ -152,6 +152,15 @@
     font-weight: bold;
 }
 /* Colour the values the same way as labels */
+.modal-value strong {
+  color: #ffb347;
+  text-shadow:
+    0 0 4px rgba(255, 120, 0, 0.6),
+    0 0 8px rgba(255, 60, 0, 0.45),
+    0 0 12px rgba(255, 0, 0, 0.35);
+  font-weight: 600; /* lighter than 700 */
+  letter-spacing: 0.2px; /* subtle */
+}
 .modal-value .fire {
     color: #ff6b4a;
     font-weight: bold;

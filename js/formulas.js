@@ -304,7 +304,7 @@ import { loadMonStats } from './assetLoader.js';
  * @param {[string],number} defAuraMap - Total def Aura Levels (defiance, shout).
  * @returns {Promise<object>} - Promise resolving to computed skeleton stats.
  */
-export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, summonResistLvl, damageAuraMap, lifeAuraMap, defAuraMap) {
+export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, summonResistLvl, damageAuraMap, lifeAuraMap, defAuraMap, cLvl) {
   if (!monStatsMap) {
     monStatsMap = await loadMonStats();
   }
@@ -320,11 +320,23 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
 
 
   // ===============[ATTACK RATING & DAMAGE]===================
-  
+  let cLvlBonusNormal = 0;
+  let cLvlBonusNightmare = 0;
+  let cLvlBonusHell = 0;
+
+  if (cLvl > 0) {
+    cLvlBonusNightmare = (((cLvl -1) * 18) + 108);
+    cLvlBonusHell = (((cLvl -1) * 38) + 216);
+  }
+
+  if (cLvl > 6) {
+    cLvlBonusNormal = (((cLvl -1) * 11) + 45);
+  }
+  //3940 + 716 + 1176
   //Base Attack Rating:
-  const normalAr = 5 + (15 * (skillLvl + mSkillLvl)) + monStat.Normal;
-  const nightmareAr = 4 + (15 * (skillLvl + mSkillLvl)) + monStat.Nightmare;
-  const hellAr = 6 + (15 * (skillLvl + mSkillLvl)) + monStat.Hell;
+  const normalAr = (5 + (15 * (skillLvl + mSkillLvl))) + monStat.Normal + cLvlBonusNormal;
+  const nightmareAr = (4 + (15 * (skillLvl + mSkillLvl))) + monStat.Nightmare + cLvlBonusNightmare;
+  const hellAr = (6 + (15 * (skillLvl + mSkillLvl))) + monStat.Hell + cLvlBonusHell;
 
   //Percent Attacking Rating Increase from Skill:
   const percentageAttackRating = 0; // No Percentage Attack rating Increase from skill
@@ -426,7 +438,7 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
     percentageLife = 0;
   } else {
     maximumSkeles = Math.floor(2 + (skillLvl / 3));
-    percentageLife = 1 + (((50 * skillLvl) - 150)/100);
+    percentageLife = 1 + ((50 * (skillLvl-3)) / 100);
   }
 
   //Base Life (Including Skill Multipliers):
@@ -445,7 +457,8 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
    <span class="hell">${totalHellLife}</span>`;
 
   //Managing Return values for modal display:
-  const note = "Total Damages Include Average Critical Hit Damage Output (~10% Damage Increase)"
+  const critChanceNote = `Total Damages Include Average Critical Hit Damage Output <strong>(~10% Damage Increase)</strong>`;
+  const ARNote = `Sources are inconsistent with the Attack Rating formula. The above values consider <strong>Character Level Bonuses</strong> & <strong>Monstat Increases</strong>`;
 
   const data = {
     maximumSkeles,
@@ -458,7 +471,8 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
     totalColdResist,
     totalPoisonResist,
     totalMagicResist,
-    note
+    critChanceNote,
+    ARNote
   };
 
   const keyMap = {
@@ -472,7 +486,8 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
     "<span class='lightning'>Lightning Resist</span>" : "totalLightningResist",
     "<span class='poison'>Poison Resist</span>" : "totalPoisonResist",
     "<span class='magic'>Magic Resist</span>" : "totalMagicResist",
-    "Notes" : "note"
+    "Crit Chance" : "critChanceNote",
+    "AttackRating Note" : "ARNote"
   };
 
   return { data, keyMap };
@@ -592,7 +607,7 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
 
   var lifeModifier = 0;
   if (skillLvl > 3) {
-    lifeModifier = 1 + (((10 * skillLvl) - 21) / 100);
+    lifeModifier = 1 + ((50 * (skillLvl-3)) / 100);
   }
 
   const otherLifeModifers = totalLifeCalculation(lifeAuraMap["BattleOrders"], lifeAuraMap["OakSage"]);
@@ -601,6 +616,11 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
   const totalHellLife = Math.floor(hellBaseLife * lifeModifier * otherLifeModifers);
 
   const displayLife = displayDifficultyValues(totalNormalLife, totalNightmareLife, totalHellLife);
+  const lifeNote = `There are inconsistencies with %Life Increase values. The formula in <strong>skills.txt</strong> reads:
+  <strong> 50 x (skillLvl - 3)</strong> but other sources use <strong>(10 x skillLvl) - 21</strong>. The calculation above 
+  uses the formula in skills.txt`;
+  const resistNote = `A few sources state that NecroMages have higher resistance, particularly to the element that they fight with.
+  This is not supported in any of the data files and may be a misinterpretation of the general characteristics of enemy mages.`
 
   const data = {
     necroMageNum,
@@ -616,6 +636,8 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
     totalPoisonResist: resistances["Poison"],
     totalMagicResist: resistances["Magic"],
     totalPhysicalResist: resistances["Physical"],
+    lifeNote,
+    resistNote
   };
 
   const keyMap = {
@@ -631,6 +653,8 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
     "<span class='lightning'>Lightning Resist</span>" : "totalLightningResist",
     "<span class='poison'>Poison Resist</span>" : "totalPoisonResist",
     "<span class='magic'>Magic Resist</span>" : "totalMagicResist",
+    "%Life Note" : "lifeNote",
+    "ResistNote" : "resistNote"
   };
 
   return { data, keyMap };

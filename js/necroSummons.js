@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     createInputSection(".summon-container", {
         title: "Raise Skeleton Calculator",
         inputs: [
+            { label: "Character Lvl", id: "cLvl", type: "number", placeholder: "1-99" },
             { label: "Raise Skeleton Skill-Lvl", id: "skillLevel", type: "number", placeholder: "1-99" },
             { label: "Skeleton Mastery Skill-Lvl", id: "skeletonMastery", type: "number", placeholder: "1-99" },
             { label: "Summon Resist Skill-Lvl", id: "summonResist", type: "number", placeholder: "1-99" },
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 text: "Calculate",
                 className: "StandardBTN",
                 onClick: async (sectionContent) => {
-                    const { skillLevel, masteryLevel, summonResistLevel, damageAuras, lifeAuras, defAuras } = collectRaiseSkeletonInputs(sectionContent);
+                    const { skillLevel, masteryLevel, summonResistLevel, damageAuras, lifeAuras, defAuras, cLvl } = collectRaiseSkeletonInputs(sectionContent);
 
                     const { data, keyMap } = await calculateRaiseSkeleton(
                         null,
@@ -41,7 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         summonResistLevel,
                         damageAuras,
                         lifeAuras,
-                        defAuras
+                        defAuras,
+                        cLvl
                     );
 
                     modalManager.show(data, keyMap);
@@ -152,6 +154,7 @@ function collectRaiseSkeletonInputs(sectionContent) {
         skillLevel: getVal("skillLevel"),
         masteryLevel: getVal("skeletonMastery"),
         summonResistLevel: getVal("summonResist"),
+        cLvl: getVal("cLvl"),
         damageAuras: {
             "Might": getVal("might"),
             "Concentration": getVal("concentration"),
