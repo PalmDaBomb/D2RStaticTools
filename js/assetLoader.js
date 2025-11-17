@@ -352,3 +352,56 @@ export async function loadMonStats() {
   cachedMonStats = monStatsMap;
   return monStatsMap;
 }
+
+/**
+ * Loads all weapons from the assets folder into a Map in the browser.
+ * Key: weapon name
+ * Value: array of stats (with category as last element)
+ */
+export async function loadAllWeapons() {
+    const weaponMap = new Map();
+
+    const files = [
+        'Axes.txt',
+        '2HAxes.txt',
+        'Polearms.txt',
+        'Swords.txt',
+        '2HSwords.txt',
+        'Maces.txt',
+        'Hammers.txt',
+        '2HHammers.txt',
+        '2HSpears.txt',
+        'Bows.txt',
+    ];
+
+    for (const file of files) {
+        const category = file.replace('.txt', '');
+        const filePath = `/assets/WeaponStats/${file}`; // relative path served by your web server
+
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                console.warn(`Weapon file not found: ${filePath}`);
+                continue;
+            }
+
+            const content = await response.text();
+            const lines = content.split(/\r?\n/);
+
+            for (const line of lines) {
+                if (!line.trim()) continue;
+                const cols = line.split("|").map(c => c.trim());
+                cols.push(category);
+                const weaponName = cols[0];
+                weaponMap.set(weaponName, cols);
+            }
+        } catch (err) {
+            console.error(`Error loading ${filePath}:`, err);
+        }
+    }
+
+    // Sorted list of weapon names for dropdown
+    const weaponNames = Array.from(weaponMap.keys()).sort((a, b) => a.localeCompare(b));
+
+    return { weaponMap, weaponNames };
+}

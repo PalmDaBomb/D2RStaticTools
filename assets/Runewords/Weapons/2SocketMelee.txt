@@ -1,0 +1,31 @@
+Entry: Steel
+ImageURL: 
+RuneOrder: Tir|El
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Maces|2HMaces
+AddedBaseDMG: 0-0
+AddedMinDMG: 3-3
+AddedMaxDMG: 3-3
+AddedEnhancedDMG: 20-20
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 25-25
+Stat: AttackRating | 50
+Stat: OpenWounds% | 50
+Stat: ManaAfterEachKill | 2
+Stat: LightRadius | 1
+
+Entry: Strength
+ImageURL: 
+RuneOrder: Amn|Tir
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Maces|Hammers|2HHammers|Polearms|2HSpears
+AddedBaseDMG: 0-0
+AddedMinDMG: 0-0
+AddedMaxDMG: 0-0
+AddedEnhancedDMG: 35-35
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 0-0
+Stat: CrushingBlow | 25
+Stat: Strength| 20
+Stat: Vitality | 10
+Stat: ManaAfterEachKill | 2

@@ -546,6 +546,17 @@ function computeSkeletalMageDamage(skelMageLvl, skelMasteryLvl) {
   return result;
 }
 
+/**
+ * Calculates Necromancer's Raise SkeletalMage stats based on skill levels, mastery,
+ * and active aura bonuses.
+ * @param {Map} monStatsMap - (optional) Cached MonStats map from loadMonStats().
+ * @param {number} skillLvl - Raise Skeleton skill level.
+ * @param {number} mSkillLvl - Skeleton Mastery skill level.
+ * @param {number} summonResistLvl - Skill level of Summon Resist.
+ * @param {[string],number} lifeAuraMap - Total Life Aura Levels (battle orders, oaksage).
+ * @param {[string],number} defAuraMap - Total def Aura Levels (defiance, shout).
+ * @returns {Promise<object>} - Promise resolving to computed skeleton stats.
+ */
 export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLvl, summonResistLvl, lifeAuraMap, defAuraMap) {
   if (!monStatsMap) {
       monStatsMap = await loadMonStats();

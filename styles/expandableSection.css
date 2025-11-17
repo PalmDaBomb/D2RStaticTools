@@ -177,6 +177,63 @@
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(255, 180, 80, 0.4);
 }
+/* Override for checkboxes in summon-container */
+.summon-container input[type="checkbox"] {
+    background: transparent;       
+    border: 2px solid #C4B200;    
+    padding: 10px;                    
+    max-width: 20px;
+    min-height: 20px;
+    box-shadow: none;              
+    appearance: none;              
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+/* Optional: add custom checkmark */
+.summon-container input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 10px;
+    border: solid #C4B200;
+    border-width: 0px 2px 2px 0px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    opacity: 1;
+}
+
+.summon-container select {
+    flex: 0 0 120px; /* adjust width to match inputs */
+    font-family: 'Merriweather', serif;
+    font-size: 0.9rem;
+    padding: 5px 6px;
+    border: 1px solid #C4B200;
+    border-radius: 4px;
+    background: #111;
+    color: #f4e8c1;
+    text-align: center;
+    text-shadow: 0 0 4px rgba(255, 180, 0, 0.6);
+    box-shadow: 0 0 6px rgba(255, 180, 0, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    appearance: none; /* removes default arrow styling in some browsers */
+    cursor: pointer;
+}
+
+/* Hover/focus effect */
+.summon-container select:hover,
+.summon-container select:focus {
+    outline: none;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 200, 100, 0.8);
+}
+
+/* Optional: arrow indicator styling */
+.summon-container select::-ms-expand {
+    display: none; /* remove default arrow in IE/Edge */
+}
 
 .summon-container:hover {
     cursor: pointer;
@@ -236,6 +293,25 @@
     width: 100%;
     justify-content: flex-start; /* align buttons to left */
 }
+/* Input section header (inside expandable sections) */
+.input-header {
+    font-family: "Exocet", serif;
+    font-size: 1.05em;
+    color: #f5d489; /* same warm gold as section title */
+    text-shadow: 0 0 6px rgba(255, 180, 80, 0.6);
+    
+    margin: 12px 0 6px 0;
+    padding-bottom: 3px;
+
+    border-bottom: 1px solid rgba(184, 138, 61, 0.35); /* light gold line */
+    background: linear-gradient(
+        90deg,
+        rgba(45, 30, 10, 0.25),
+        rgba(10, 5, 0, 0)
+    );
+
+    letter-spacing: 0.5px;
+}
 
 /* Buttons */
 .summon-container button {
@@ -256,6 +332,13 @@
 .summon-container button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Mobile optimization */
@@ -331,5 +414,11 @@
   /* Slightly reduce glow for tighter screens */
   .ilvl-calculator button {
     box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
+  }
+  
+  .input-header {
+    font-size: 1em;        /* slightly smaller on mobile */
+    margin: 10px 0 4px;    /* tighter spacing */
+    padding: 6px 0;        /* more compact bowl */
   }
 }

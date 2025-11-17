@@ -1,0 +1,91 @@
+Entry: Malice
+ImageURL: 
+RuneOrder: Ith|El|Eth
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Maces|Hammers|2HHammers|Polearms|2HSpears|Clubs|Scepters|Claws
+AddedBaseDMG: 0-0
+AddedMinDMG: 0-0
+AddedMaxDMG: 9-9
+AddedEnhancedDMG: 33-33
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 0-0
+Stat: OpenWounds% | 100
+Stat: PreventMonsterHeal | 100
+Stat: MinusDefenseOnHit | 100
+Stat: DrainLife | -5
+
+Entry: King's Grace
+ImageURL: 
+RuneOrder: Amn|Ral|Thul
+CompatibleItems: Swords|2HSwords|Scepters
+AddedBaseDMG: 0-0
+AddedMinDMG: 0-0
+AddedMaxDMG: 9-9
+AddedEnhancedDMG: 100-100
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 0-0
+Stat: AttackRating | 150
+Stat: DamageToDemons% | 100
+Stat: AttackRatingToDemons | 100
+Stat: DamageToUndead% | 50
+Stat: AttackRatingToUndead | 100
+Stat: AddedFireDamage | 5-30
+Stat: AddedColdDamage | 3-14
+Stat: LifeSteal% | 7
+
+Entry: Black
+ImageURL: 
+RuneOrder: Thul|Io|Nef
+CompatibleItems: Hammers|2HHammers|Maces|Clubs
+AddedBaseDMG: 0-0
+AddedMinDMG: 0-0
+AddedMaxDMG: 0-0
+AddedEnhancedDMG: 120-120
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 15-15
+Stat: AttackRating | 200
+Stat: CrushingBlow% | 40
+Stat: KnockBack | 100
+Stat: Vitality | 10
+Stat: MagicDamageReducedBy | 2
+Stat: Charges | 4-CorpseExplosion | 12
+
+Entry: Hustle
+ImageURL: 
+RuneOrder: Shael|Ko|Eld
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Maces|Hammers|2HHammers|Polearms|2HSpears|Clubs|Scepters|Claws|Bows
+AddedBaseDMG: 0-0
+AddedMinDMG: 0-0
+AddedMaxDMG: 0-0
+AddedEnhancedDMG: 180-200
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 30-30
+Stat: DamageToUndead% | 75
+Stat: AttackRatingToUndead | 50
+Stat: Dexterity | 10
+Stat: ChanceToCast | 1-BurstOfSpeed | Attack
+Stat: Aura | 1-Fanaticism
+
+Entry: Pattern
+ImageURL: 
+RuneOrder: Tal|Ort|Thul
+CompatibleItems: Claws
+AddedBaseDMG: 0-0
+AddedMinDMG: 0-0
+AddedMaxDMG: 0-0
+AddedEnhancedDMG: 40-80
+AddedBaseDef: 0-0
+AddedEnhancedDef: 0-0
+IncreasedAttackSpeed: 30-30
+Stat: FasterBlockRate% | 30
+Stat: AttackRating% | 10
+Stat: AddedFireDamage | 17-62
+Stat: AddedLightningDamage | 1-50
+Stat: AddedColdDamage | 3-14
+Stat: AddedPoisonDamage | 75 | 5
+Stat: Strength | 6
+Stat: Dexterity | 6
+Stat: AllResist | 15
