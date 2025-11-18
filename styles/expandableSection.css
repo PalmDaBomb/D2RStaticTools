@@ -1,4 +1,6 @@
-/* 🔥 Expandable Panel Styling */
+/* =========================================================
+   EXPANDABLE PANEL
+   ========================================================= */
 .expandable-section {
   background: rgba(25, 25, 25, 0.7);
   border: 2px solid #b88a3d;
@@ -9,18 +11,20 @@
 }
 
 .expandable-header {
-  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 10px;
   padding: 10px 16px;
+  cursor: pointer;
+
   font-family: "Exocet", serif;
   font-size: 1.2em;
   color: #f5d489;
   text-shadow: 0 0 8px rgba(255, 160, 60, 0.6);
+
   background: linear-gradient(180deg, rgba(45, 30, 10, 0.8), rgba(10, 5, 0, 0.9));
   border-bottom: 1px solid rgba(184, 138, 61, 0.3);
+
   transition: all 0.25s ease-in-out;
 }
 
@@ -29,17 +33,19 @@
 }
 
 .expand-icon {
-  font-weight: bold;
-  color: #ffb347;
-  font-size: 1.4em;
   width: 20px;
   text-align: center;
+
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #ffb347;
+
   transition: transform 0.25s ease-in-out;
 }
 
 .expandable-content {
   display: none;
-  padding: 5px 5px;
+  padding: 5px;
   background: rgba(15, 10, 5, 0.85);
   color: #ddd;
   animation: fadeIn 0.3s ease-in-out;
@@ -53,100 +59,124 @@
   transform: rotate(45deg);
 }
 
-/* smooth fade in */
+/* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Calculator container */
+/* =========================================================
+   ILVL CALCULATOR
+   ========================================================= */
 .ilvl-calculator {
-    display: flex;
-    flex-direction: column; /* stack everything vertically */
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    max-width: 400px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+
+  margin-top: 20px;
+  max-width: 400px;
+  width: 100%;
 }
 
-/* Crafted Item i-lvl Calculator header */
 .ilvl-calculator h2 {
-    font-family: 'Exocet', serif; 
-    font-size: 1.4em; 
-    color: #C4B200; /* warm gold */
-    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7),
-                 0 0 12px rgba(255, 140, 0, 0.6);
-    margin: 0 0 0 0; 
-    text-align: center;
-    line-height: 1.2em;
+  margin: 0;
+  text-align: center;
+  line-height: 1.2em;
+
+  font-family: 'Exocet', serif;
+  font-size: 1.4em;
+  color: #C4B200;
+
+  text-shadow:
+    0 0 6px rgba(255, 180, 0, 0.7),
+    0 0 12px rgba(255, 140, 0, 0.6);
 }
 
-/* Vertical input stack */
+/* Input stacking */
 .input-column {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
-/* Output + button row */
+/* Output row */
 .output-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
 }
 
-/* Make output box take remaining space, button on the right */
+/* Result box */
 #resultBox {
-    flex: 1;
-    text-align: center;
+  flex: 1;
+  text-align: center;
 }
 
-/* Inputs and result box */
-.ilvl-calculator input {
-    font-family: 'Merriweather', serif;
-    font-size: 1rem;
-    padding: 8px 10px;
-    border: 1px solid #C4B200;
-    border-radius: 5px;
-    background: #111;
-    color: #f4e8c1;
-    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
-    box-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Text inputs (shared styles) */
+.ilvl-calculator input,
+.summon-container input,
+.summon-container select {
+  font-family: 'Merriweather', serif;
+  font-size: 0.9rem;
+  padding: 5px 6px;
+
+  border: 1px solid #C4B200;
+  border-radius: 4px;
+  background: #111;
+  color: #f4e8c1;
+
+  text-align: center;
+  text-shadow: 0 0 4px rgba(255, 180, 0, 0.6);
+
+  box-shadow: 0 0 6px rgba(255, 180, 0, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  box-sizing: border-box;
 }
 
-/* Input focus effect */
-.ilvl-calculator input:focus {
-    outline: none;
-    transform: scale(1.03);
-    box-shadow: 0 0 14px rgba(255, 180, 0, 0.8);
+/* Glow focus */
+.ilvl-calculator input:focus,
+.summon-container input:focus,
+.summon-container select:focus,
+.summon-container input:hover,
+.summon-container select:hover {
+  outline: none;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 200, 100, 0.8);
 }
 
-/* Button styling */
-.ilvl-calculator button {
-    font-family: 'Merriweather', serif;
-    font-size: 1rem;
-    padding: 8px 12px;
-    background: #300;
-    color: #f4e8c1;
-    border-color: #a22;
-    border-radius: 5px;
-    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
-    box-shadow: 0 0 14px rgba(255, 80, 80, 0.9);
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Calculator button */
+.ilvl-calculator button,
+.summon-container button {
+  padding: 8px 12px;
+  font-family: 'Merriweather', serif;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+
+  background: #300;
+  color: #f4e8c1;
+  border-color: #a22;
+  border-radius: 5px;
+
+  text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
+  box-shadow: 0 0 14px rgba(255, 80, 80, 0.9);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.ilvl-calculator button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
+.ilvl-calculator button:hover,
+.summon-container button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
 }
 
+/* =========================================================
+   WEAPON DROPDOWN + SEARCH
+   ========================================================= */
 #itemDropdownContainer {
   display: flex;
   flex-direction: column;
@@ -161,215 +191,126 @@
   border: 1px solid #999;
 }
 
-/* ==============================
-   Necro Summon Container Styling (Refined Compact)
-   ============================== */
+/* =========================================================
+   NECROMANCER SUMMON SECTION
+   ========================================================= */
 .summon-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-    max-width: 400px;
-    width: 100%;
-    padding: 15px;
-    background: rgba(25, 25, 25, 0.7);
-    border: 2px solid #b88a3d;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(255, 180, 80, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  margin-top: 20px;
+  max-width: 400px;
+  width: 100%;
+  padding: 15px;
+
+  background: rgba(25, 25, 25, 0.7);
+  border: 2px solid #b88a3d;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 180, 80, 0.4);
 }
-/* Override for checkboxes in summon-container */
+
+/* Checkbox override */
 .summon-container input[type="checkbox"] {
-    background: transparent;       
-    border: 2px solid #C4B200;    
-    padding: 10px;                    
-    max-width: 20px;
-    min-height: 20px;
-    box-shadow: none;              
-    appearance: none;              
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
+  background: transparent;
+  border: 2px solid #C4B200;
+  width: 20px;
+  height: 20px;
+
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
 }
 
-/* Optional: add custom checkmark */
 .summon-container input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 6px;
-    height: 10px;
-    border: solid #C4B200;
-    border-width: 0px 2px 2px 0px;
-    transform: translate(-50%, -50%) rotate(45deg);
-    opacity: 1;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 10px;
+
+  border: solid #C4B200;
+  border-width: 0 2px 2px 0;
+
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.summon-container select {
-    flex: 0 0 120px; /* adjust width to match inputs */
-    font-family: 'Merriweather', serif;
-    font-size: 0.9rem;
-    padding: 5px 6px;
-    border: 1px solid #C4B200;
-    border-radius: 4px;
-    background: #111;
-    color: #f4e8c1;
-    text-align: center;
-    text-shadow: 0 0 4px rgba(255, 180, 0, 0.6);
-    box-shadow: 0 0 6px rgba(255, 180, 0, 0.4);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    appearance: none; /* removes default arrow styling in some browsers */
-    cursor: pointer;
-}
-
-/* Hover/focus effect */
-.summon-container select:hover,
-.summon-container select:focus {
-    outline: none;
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 200, 100, 0.8);
-}
-
-/* Optional: arrow indicator styling */
-.summon-container select::-ms-expand {
-    display: none; /* remove default arrow in IE/Edge */
-}
-
-.summon-container:hover {
-    cursor: pointer;
-}
-
-/* Label + Input Row */
+/* Input row */
 .summon-container .input-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 2px;
 }
 
 /* Labels */
 .summon-container label {
-    flex: 1;
-    font-family: 'Exocet', serif;
-    font-size: 0.95em; /* ✅ slightly smaller for better balance */
-    color: #a6a6a6; /* soft rune gray */
-    text-shadow: 0 0 3px rgba(200, 200, 200, 0.3);
-    text-align: left;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+  flex: 1;
+  font-family: "Exocet", serif;
+  font-size: 0.95em;
+  color: #a6a6a6;
+  text-shadow: 0 0 3px rgba(200, 200, 200, 0.3);
+  white-space: nowrap;
 }
 
-/* Compact input boxes */
-.summon-container input {
-    flex: 0 0 60px; /* ✅ smaller width (≈25% smaller than before) */
-    font-family: 'Merriweather', serif;
-    font-size: 0.9rem;
-    padding: 5px 6px;
-    border: 1px solid #C4B200;
-    border-radius: 4px;
-    background: #111;
-    color: #f4e8c1;
-    text-align: center;
-    text-shadow: 0 0 4px rgba(255, 180, 0, 0.6);
-    box-shadow: 0 0 6px rgba(255, 180, 0, 0.4);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-sizing: border-box;
-}
-
-/* Hover/focus for compact inputs */
-.summon-container input:hover,
-.summon-container input:focus {
-    outline: none;
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 200, 100, 0.8);
-}
-
-/* Button row */
-.summon-container .output-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    width: 100%;
-    justify-content: flex-start; /* align buttons to left */
-}
-/* Input section header (inside expandable sections) */
+/* Input header */
 .input-header {
-    font-family: "Exocet", serif;
-    font-size: 1.05em;
-    color: #f5d489; /* same warm gold as section title */
-    text-shadow: 0 0 6px rgba(255, 180, 80, 0.6);
-    
-    margin: 12px 0 6px 0;
-    padding-bottom: 3px;
+  margin: 12px 0 6px;
+  padding-bottom: 3px;
 
-    border-bottom: 1px solid rgba(184, 138, 61, 0.35); /* light gold line */
-    background: linear-gradient(
-        90deg,
-        rgba(45, 30, 10, 0.25),
-        rgba(10, 5, 0, 0)
-    );
+  font-family: "Exocet", serif;
+  font-size: 1.05em;
+  color: #f5d489;
 
-    letter-spacing: 0.5px;
+  text-shadow: 0 0 6px rgba(255, 180, 80, 0.6);
+  border-bottom: 1px solid rgba(184, 138, 61, 0.35);
+
+  background: linear-gradient(90deg, rgba(45, 30, 10, 0.25), rgba(10, 5, 0, 0));
+  letter-spacing: 0.5px;
 }
 
-/* Buttons */
-.summon-container button {
-    font-family: 'Merriweather', serif;
-    font-size: 1rem;
-    padding: 8px 12px;
-    background: #300;
-    color: #f4e8c1;
-    border-color: #a22;
-    border-radius: 5px;
-    text-shadow: 0 0 6px rgba(255, 180, 0, 0.7);
-    box-shadow: 0 0 14px rgba(255, 80, 80, 0.9);
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Output row (buttons) */
+.summon-container .output-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 }
 
-.summon-container button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 16px rgba(255, 180, 0, 0.9);
-}
-
-/* Chrome, Safari, Edge, Opera */
+/* Remove spinners */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-/* Mobile optimization */
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
 @media screen and (max-width: 480px) {
+
   .summon-container {
     width: 100%;
-    align-items: center;
     padding: 10px 8px;
   }
 
   .summon-container .input-row {
-    flex-direction: row; /* keep label and input side-by-side */
-    justify-content: center;
-    align-items: center;
     gap: 8px;
-    margin-bottom: 6px;
   }
 
   .summon-container label {
-    text-align: right;
     font-size: 0.9em;
-    flex: 1 1 auto;
   }
 
   .summon-container input {
-    width: 60px; /* small fixed width for 2–3 digit numbers */
-    height: 28px; /* shorter */
+    width: 60px;
+    height: 28px;
     font-size: 0.9em;
-    padding: 3px;
-    text-align: center;
-    border-radius: 6px;
   }
 
   .summon-container .output-row {
@@ -382,43 +323,28 @@ input[type=number]::-webkit-outer-spin-button {
     min-width: 48%;
   }
 
-  .summon-container button {
-    box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
-  }
-
   .ilvl-calculator {
     width: 100%;
-    align-items: flex-start; /* Align everything to the left */
+    align-items: flex-start;
   }
 
-  .input-column input,
-  .output-row input {
-    width: 100%; /* full width inputs */
-  }
-
-  /* Move buttons below input rows and make them sit side by side */
   .output-row {
-    flex-direction: row; /* side by side on mobile */
-    justify-content: space-between;
     flex-wrap: wrap;
     gap: 8px;
-    width: 100%;
   }
 
   .output-row button {
-    flex: 1; /* equal button widths */
+    flex: 1;
     min-width: 48%;
-    text-align: center;
   }
 
-  /* Slightly reduce glow for tighter screens */
   .ilvl-calculator button {
     box-shadow: 0 0 10px rgba(255, 100, 60, 0.7);
   }
-  
+
   .input-header {
-    font-size: 1em;        /* slightly smaller on mobile */
-    margin: 10px 0 4px;    /* tighter spacing */
-    padding: 6px 0;        /* more compact bowl */
+    font-size: 1em;
+    margin: 10px 0 4px;
+    padding: 6px 0;
   }
 }

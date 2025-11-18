@@ -358,7 +358,7 @@ export async function loadMonStats() {
  * Key: weapon name
  * Value: array of stats (with category as last element)
  */
-export async function loadAllWeapons() {
+export async function loadIGCompatibleWeapons() {
     const weaponMap = new Map();
 
     const files = [
@@ -371,37 +371,52 @@ export async function loadAllWeapons() {
         'Hammers.txt',
         '2HHammers.txt',
         '2HSpears.txt',
-        'Bows.txt',
     ];
 
-    for (const file of files) {
+    // Create all fetch promises up front (parallel)
+    const fetchJobs = files.map(file => {
         const category = file.replace('.txt', '');
-        const filePath = `../assets/WeaponStats/${file}`; // relative path served by your web server
+        const filePath = `../assets/WeaponStats/${file}`;
 
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) {
-                console.warn(`Weapon file not found: ${filePath}`);
-                continue;
-            }
+        return fetch(filePath)
+            .then(resp => {
+                if (!resp.ok) {
+                    console.warn(`Weapon file not found: ${filePath}`);
+                    return null;
+                }
+                return resp.text().then(content => ({ content, category }));
+            })
+            .catch(err => {
+                console.error(`Error loading ${filePath}:`, err);
+                return null;
+            });
+    });
 
-            const content = await response.text();
-            const lines = content.split(/\r?\n/);
+    // Wait for ALL files to finish fetching (parallel)
+    const results = await Promise.all(fetchJobs);
 
-            for (const line of lines) {
-                if (!line.trim()) continue;
-                const cols = line.split("|").map(c => c.trim());
-                cols.push(category);
-                const weaponName = cols[0];
-                weaponMap.set(weaponName, cols);
-            }
-        } catch (err) {
-            console.error(`Error loading ${filePath}:`, err);
+    for (const result of results) {
+        if (!result) continue;
+        const { content, category } = result;
+
+        const lines = content.split(/\r?\n/);
+
+        for (const line of lines) {
+            if (!line.trim()) continue;
+            const cols = line.split("|").map(c => c.trim());
+            if (cols[0] == "Crystal Sword" || cols[0] == "Dimensional Blade" || cols[0] == "Phase Blade"
+              || cols[0] == "Club" || cols[0] == "Cudgel" || cols[0] == "Tyrant Club"
+            ) continue;
+            cols.push(category);
+            const weaponName = cols[0];
+            weaponMap.set(weaponName, cols);
         }
     }
 
-    // Sorted list of weapon names for dropdown
-    const weaponNames = Array.from(weaponMap.keys()).sort((a, b) => a.localeCompare(b));
+    const weaponNames = [
+        "---",
+        ...Array.from(weaponMap.keys()).sort((a, b) => a.localeCompare(b))
+    ];
 
     return { weaponMap, weaponNames };
 }

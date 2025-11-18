@@ -4,7 +4,7 @@
 import { createInputSection } from "./formFactory.js";
 import { calculateRaiseSkeleton, calculateRaiseSkeletonMage, calculateBloodGolem } from "./formulas.js";
 import { ModalManager } from "./modalManager.js";
-import { loadAllWeapons } from "./assetLoader.js";
+import { loadIGCompatibleWeapons } from "./assetLoader.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const modalEl = document.getElementById("resultModal");
@@ -12,7 +12,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     const closeBtn = document.getElementById("modalClose");
     const modalManager = new ModalManager(modalEl, modalContentEl, closeBtn);
 
-    const { weaponMap, weaponNames } = await loadAllWeapons(); 
+    const { weaponMap, weaponNames } = await loadIGCompatibleWeapons(); 
+    // Dummy runewords for testing
+    const dummyRunewords = [
+        // 2 socket Melee Runewords:
+        { name: "Steel", allowed: ["Swords", "2HSwords", "Axes", "2HAxes", "Maces"], sockets: 2 },
+        { name: "Strength", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 2 },
+        { name: "Wind", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 2 },
+        // 3 Socket Melee Runewords:
+        { name: "Malice", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
+        { name: "Pattern", allowed: ["Claws"], sockets: 3 },
+        { name: "King's Grace", allowed: ["Swords", "2HSwords"], sockets: 3 },
+        { name: "Hustle", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
+        { name: "Lawbringer", allowed: ["Swords","2HSwords","Hammers","2HHammers"], sockets: 3 },
+        { name: "Crescent Moon", allowed: ["Swords", "2HSwords", "Axes", "2HAxes","Polearms"], sockets: 3 },
+        { name: "Venom", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
+        { name: "Mosaic", allowed: ["Claws"], sockets: 3 },
+        { name: "Chaos", allowed: ["Claws"], sockets: 3 },
+        { name: "Fury", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
+        { name: "Plague", allowed: ["Swords","2HSwords","Claws"], sockets: 3 },
+        // 4 Socket Melee Runewords:
+        { name: "Spirit", allowed: ["Swords", "2HSwords"], sockets: 4 },
+        { name: "Insight", allowed: ["Polearms"], sockets: 4 },
+        { name: "Passion", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
+        { name: "Voice of Reason", allowed: ["Swords", "2HSwords", "Maces"], sockets: 4 },
+        { name: "Oath", allowed: ["Swords", "2HSwords", "Axes", "2HAxes", "Maces"], sockets: 4 },
+        { name: "KingSlayer", allowed: ["Swords", "2HSwords", "Axes", "2HAxes"], sockets: 4 },
+        { name: "Rift", allowed: ["Polearms"], sockets: 4 },
+        { name: "Heart of the Oak", allowed: ["Maces"], sockets: 4 },
+        { name: "Fortitude", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
+        { name: "Infinity", allowed: ["Polearms","2HSpears"], sockets: 4 },
+        { name: "Famine", allowed: ["Axes","2HAxes","Hammers","2HHammers"], sockets: 4 },
+        { name: "Phoenix", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
+        { name: "Hand of Justice", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
+        { name: "Pride", allowed: ["Polearms","2HSpears"], sockets: 4 },
+        // 5 Socket Melee Runewords
+        { name: "Honor", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
+        { name: "Obedience", allowed: ["Polearms","2HSpears"], sockets: 5 },
+        { name: "Death", allowed: ["Swords", "2HSwords", "Axes", "2HAxes"], sockets: 5 },
+        { name: "Call to Arms", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
+        { name: "Grief", allowed: ["Swords", "2HSwords", "Axes", "2HAxes"], sockets: 5 },
+        { name: "Beast", allowed: ["Hammers", "2HHammers", "Axes", "2HAxes"], sockets: 5 },
+         { name: "Eternity", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
+         { name: "Destruction", allowed: ["Polearms","Swords","2HSwords"], sockets: 5 },
+         { name: "Doom", allowed: ["Axes","2HAxes","Hammers","2HHammers","Polearms"], sockets: 5 },
+         // 6 socket Melee Runewords
+         { name: "Unbending Will", allowed: ["Swords", "2HSwords"], sockets: 6 },
+         { name: "Silence", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 6 },
+         { name: "Last Wish", allowed: ["Swords","2HSwords","Axes","2HAxes","Hammers","2HHammers"], sockets: 6 },
+         { name: "Breath of the Dying", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
+    ];
+    dummyRunewords.sort((a, b) => a.name.localeCompare(b.name));
 
     // Build the input form section
     createInputSection(".summon-container", {
@@ -166,6 +216,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             { label: "Summon Resist Skill-Lvl", id: "summonResist", type: "number", placeholder: "1-99", min: 0, max: 99 },
             { header: "Weapon Stats:"},
             { label: "Weapon Base", id: "weaponBase", type: "itemList", options: weaponNames },
+            {
+                label: "Compatible Runewords",
+                id: "runeWordSelect",
+                type: "itemList",
+                options: dummyRunewords,
+                dependsOn: "weaponBase",
+                filter: (weaponName, runeWord) => {
+                    const weapon = weaponMap.get(weaponName); // use outer-scoped weaponMap
+                    if (!weapon) return false;
+
+                    const sockets = Number(weapon[6]);
+                    const category = weapon[weapon.length - 1];
+
+                    return (
+                        runeWord.allowed.includes(category) &&
+                        runeWord.sockets <= sockets
+                    );
+                }
+            },
             { label: "Is Ethereal", id: "isEthereal", type: "checkbox" },
             { header: "Relevant Boosts:"},
             { label: "Clay Golem Base-Lvl", id: "cGolemBase", type: "number", placeholder: "1-20", min: 0, max: 20 },

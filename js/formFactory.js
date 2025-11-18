@@ -7,11 +7,12 @@ export function createInputSection(containerSelector, sectionConfig) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
 
-    // Create expandable wrapper
     const section = document.createElement("div");
     section.classList.add("expandable-section");
 
-    // Header
+    // ==============================
+    // Header + Toggle
+    // ==============================
     const header = document.createElement("div");
     header.classList.add("expandable-header");
 
@@ -23,10 +24,8 @@ export function createInputSection(containerSelector, sectionConfig) {
     title.classList.add("expand-title");
     title.textContent = sectionConfig.title;
 
-    header.appendChild(icon);
-    header.appendChild(title);
+    header.append(icon, title);
 
-    // Expandable content container
     const content = document.createElement("div");
     content.classList.add("expandable-content");
     content.style.display = "none";
@@ -38,11 +37,32 @@ export function createInputSection(containerSelector, sectionConfig) {
         header.classList.toggle("open", !open);
     });
 
-    // -------------------------------------
-    // ⭐ Inputs + Headers
-    // -------------------------------------
+    // ==============================
+    // Helpers
+    // ==============================
+    const createLabel = (text, forId) => {
+        const label = document.createElement("label");
+        label.textContent = text;
+        label.htmlFor = forId;
+        return label;
+    };
+
+    const clampValue = (field, min, max) => {
+        field.addEventListener("input", () => {
+            if (!field.value) return;
+            let val = Number(field.value);
+            if (min !== undefined) val = Math.max(min, val);
+            if (max !== undefined) val = Math.min(max, val);
+            field.value = val;
+        });
+    };
+
+    // ==============================
+    // Inputs
+    // ==============================
     sectionConfig.inputs.forEach(item => {
-        // ✓ Header support
+
+        // Section header
         if (item.header) {
             const h = document.createElement("div");
             h.classList.add("input-header");
@@ -51,79 +71,111 @@ export function createInputSection(containerSelector, sectionConfig) {
             return;
         }
 
-        // ✓ Input row
         const row = document.createElement("div");
         row.classList.add("input-row");
 
-        const label = document.createElement("label");
-        label.textContent = item.label;
-        label.setAttribute("for", item.id);
+        const label = createLabel(item.label, item.id);
 
-        // -------------------------------
-        // ⭐ Item Lists
-        // -------------------------------
+        // ---- Item list (select) ----
         if (item.type === "itemList") {
             const select = document.createElement("select");
             select.id = item.id;
             select.dataset.inputId = item.id;
 
             item.options.forEach(opt => {
-                const optionEl = document.createElement("option");
-                optionEl.value = opt;
-                optionEl.textContent = opt;
-                select.appendChild(optionEl);
+                const op = document.createElement("option");
+                op.value = opt.name ?? opt;      // support simple strings or objects
+                op.textContent = opt.name ?? opt;
+                select.appendChild(op);
             });
 
-            row.appendChild(label);
-            row.appendChild(select);
+            row.append(label, select);
             content.appendChild(row);
+
+            // Register dependency (if any)
+            if (item.dependsOn) {
+                if (!content.dependencyMap) content.dependencyMap = new Map();
+
+                content.dependencyMap.set(item.id, {
+                    targetId: item.dependsOn,
+                    filterFn: item.filter,
+                    options: item.options
+                });
+            }
+
             return;
         }
 
-        // -------------------------------
-        // ⭐ Checkbox
-        // -------------------------------
+        // ---- Checkbox ----
         if (item.type === "checkbox") {
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = item.id;
             checkbox.dataset.inputId = item.id;
 
-            row.appendChild(label);
-            row.appendChild(checkbox);
+            row.append(label, checkbox);
             content.appendChild(row);
             return;
         }
 
-        // -------------------------------
-        // ⭐ Regular input (number/text/etc.)
-        // -------------------------------
+        // ---- Standard input ----
         const field = document.createElement("input");
         field.type = item.type || "number";
         field.id = item.id;
         field.dataset.inputId = item.id;
-        field.placeholder = item.placeholder || "";
+        field.placeholder = item.placeholder ?? "";
 
         if (item.min !== undefined) field.min = item.min;
         if (item.max !== undefined) field.max = item.max;
 
         if (item.min !== undefined || item.max !== undefined) {
-            field.addEventListener("input", () => {
-                if (field.value === "") return;
-
-                let val = Number(field.value);
-                if (item.min !== undefined && val < item.min) val = item.min;
-                if (item.max !== undefined && val > item.max) val = item.max;
-                field.value = val;
-            });
+            clampValue(field, item.min, item.max);
         }
 
-        row.appendChild(label);
-        row.appendChild(field);
+        row.append(label, field);
         content.appendChild(row);
-    });
 
+        // Standard input can also have dependency rules
+        if (item.dependsOn) {
+            if (!content.dependencyMap) content.dependencyMap = new Map();
+
+            content.dependencyMap.set(item.id, {
+                targetId: item.dependsOn,
+                filterFn: item.filter,
+                options: item.options,
+                context: item.context
+            });
+        }
+    });
+    // Activate dependency listeners
+    if (content.dependencyMap) {
+        content.dependencyMap.forEach((config, childId) => {
+            const targetElement = content.querySelector(`#${config.targetId}`);
+            const childElement = content.querySelector(`#${childId}`);
+
+            if (!targetElement || !childElement) return;
+
+            targetElement.addEventListener("change", () => {
+                const selectedValue = targetElement.value;
+
+                // Rebuild options for dependent select
+                childElement.innerHTML = "";
+
+                config.options.forEach(opt => {
+                    if (!config.filterFn || config.filterFn(selectedValue, opt, config.context)) {
+                        const op = document.createElement("option");
+                        op.value = opt.name ?? opt;   // support both objects and strings
+                        op.textContent = opt.name ?? opt;
+                        childElement.appendChild(op);
+                    }
+                });
+            });
+        });
+    }
+
+    // ==============================
     // Buttons
+    // ==============================
     if (sectionConfig.buttons?.length) {
         const buttonContainer = document.createElement("div");
         buttonContainer.classList.add("button-container");
@@ -131,7 +183,7 @@ export function createInputSection(containerSelector, sectionConfig) {
         sectionConfig.buttons.forEach(btnConfig => {
             const btn = document.createElement("button");
             btn.textContent = btnConfig.text;
-            btn.className = btnConfig.className || "";
+            if (btnConfig.className) btn.className = btnConfig.className;
 
             btn.addEventListener("click", () => {
                 btnConfig.onClick?.(content);
@@ -143,8 +195,8 @@ export function createInputSection(containerSelector, sectionConfig) {
         content.appendChild(buttonContainer);
     }
 
-    section.appendChild(header);
-    section.appendChild(content);
+    // Build final
+    section.append(header, content);
     container.appendChild(section);
 
     return section;
