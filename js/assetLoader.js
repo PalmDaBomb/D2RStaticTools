@@ -376,7 +376,7 @@ export async function loadAllWeapons() {
 
     for (const file of files) {
         const category = file.replace('.txt', '');
-        const filePath = `/assets/WeaponStats/${file}`; // relative path served by your web server
+        const filePath = `../assets/WeaponStats/${file}`; // relative path served by your web server
 
         try {
             const response = await fetch(filePath);
