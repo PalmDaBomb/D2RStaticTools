@@ -420,3 +420,310 @@ export async function loadIGCompatibleWeapons() {
 
     return { weaponMap, weaponNames };
 }
+
+export async function loadRuneWords() {
+    const files = [
+      '2SocketWeapon.txt',
+      '3SocketWeapon.txt'
+    ];
+
+    const rootPath = '../assets/Runewords/Weapons/';
+
+    const fetchJobs = files.map(async file => {
+      const category = file.replace('.txt', '');
+      const filePath = `${rootPath}${file}`;
+
+      try {
+        const resp = await fetch(filePath);
+        if (!resp.ok) {
+          console.warn(`File not found: ${filePath}`);
+          return null;
+        }
+
+        const content = await resp.text();
+        const runewords = parseRuneWords(content);
+
+        return { category, runewords };
+
+      } catch (err) {
+        console.error(`Error loading ${filePath}:`, err);
+        return null;
+      }
+    });
+
+    const results = await Promise.all(fetchJobs);
+
+    const runeWordMap = {};
+    const filterObject = [];
+
+    for (const r of results) {
+      if (!r) continue;
+      for (const rw of r.runewords) {
+        // Full map for stats & other usage
+        runeWordMap[rw.name] = rw;
+
+        // Simplified object for filtering
+        filterObject.push({
+          name: rw.name,
+          allowed: rw.compatibleItems,
+          sockets: rw.sockets
+        });
+      }
+    }
+
+    return { runeWordMap, filterObject };
+}
+
+function parseRuneWords(rawText) {
+  const entries = rawText
+    .split(/Entry:/g)
+    .map(e => e.trim())
+    .filter(e => e.length > 0);
+
+  return entries.map(parseSingleRuneWord);
+}
+
+function parseSingleRuneWord(block) {
+  const lines = block
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l.length > 0);
+
+  const name = lines[0];
+
+  const rw = {
+    name,
+    image: "",
+    runeOrder: [],
+    sockets: 0,
+    compatibleItems: [],
+    stats: []
+  };
+
+  for (const line of lines.slice(1)) {
+
+    if (line.startsWith("ImageURL:")) {
+      rw.image = line.replace("ImageURL:", "").trim();
+    }
+
+    else if (line.startsWith("RuneOrder:")) {
+      rw.runeOrder = line.replace("RuneOrder:", "")
+        .trim().split("|").map(x => x.trim());
+      
+      // Count sockets based on number of runes
+      rw.sockets = rw.runeOrder.length;
+    }
+
+    else if (line.startsWith("CompatibleItems:")) {
+      var tempCompatibleItems = line.replace("CompatibleItems:", "")
+        .trim().split("|").map(x => x.trim());
+      if (tempCompatibleItems.includes("All Weapons")) {
+        rw.compatibleItems = compatibleWeaponLists("All Weapons");
+      } else if (tempCompatibleItems.includes("Melee Weapons")) {
+        rw.compatibleItems = compatibleWeaponLists("Melee Weapons");
+      } else if (tempCompatibleItems.includes("Ranged Weapons")) {
+        rw.compatibleItems = compatibleWeaponLists("Ranged Weapons");
+      } else {
+        rw.compatibleItems = tempCompatibleItems;
+      }
+
+    }
+
+    else if (line.startsWith("Stat:")) {
+      rw.stats.push(parseStatLine(line.replace("Stat:", "").trim()));
+    }
+  }
+
+  return rw;
+}
+
+function parseStatLine(text) {
+  for (const parser of STAT_PARSERS) {
+    const result = parser(text);
+    if (result) return result;
+  }
+  return parseGenericStat(text);
+}
+
+function parseCtc(text) {
+  if (!text.startsWith("ChanceToCast")) return null;
+
+  const parts = text.split("|").map(p => p.trim());
+
+  return {
+    type: "ChanceToCast",
+    skill: parts[1],
+    level: Number(parts[2].replace("Level:", "").trim()),
+    chance: Number(parts[3].replace(/%Chance:?/i, "").trim()),
+    trigger: parts[4]
+  };
+}
+
+function parseAura(text) {
+  if (!text.startsWith("Aura")) return null;
+
+  const parts = text.split("|").map(p => p.trim());
+  parts[2] = parts[2].replace("Level:", "").trim();
+  const { min, max, avg } = parseRangeValue(parts[2]);
+
+  return {
+    type: "Aura",
+    aura: parts[1],
+    levelMin: min,
+    levelMax: max,
+    levelAvg: avg,
+  };
+}
+
+function parseSkill(text) {
+  if (!text.startsWith("Skill")) return null;
+
+  const parts = text.split("|").map(p => p.trim());
+  const { min, max, avg } = parseRangeValue(parts[2]);
+
+  return {
+    type: "Skill",
+    skill: parts[1],
+    levelMin: min,
+    levelMax: max,
+    levelAvg: avg,
+    class: parts[3] || "All"
+  };
+}
+
+function parseCharges(text) {
+  if (!text.startsWith("Charges")) return null;
+
+  const parts = text.split("|").map(p => p.trim());
+
+  const match = parts[1].match(/(.+)\((\d+)\)/);
+  const { min, max, avg } = parseRangeValue(match[2]);
+
+  return {
+    type: "Charges",
+    skill: match[1].trim(),
+    levelMin: min,
+    levelMax: max,
+    levelAvg: avg,
+    charges: Number(parts[2])
+  };
+}
+
+function parseAfterEachKill(text) {
+  if (!text.startsWith("AfterEachKill")) return null;
+
+  const parts = text.split("|").map(p => p.trim());
+  const { min, max, avg } = parseRangeValue(parts[3]);
+
+  return {
+    type: "AfterEachKill",
+    resource: parts[1],         // "Life"
+    target: parts[2],           // "Demon"
+    min: min,
+    max: max,
+    avg: avg    // 15
+  };
+}
+
+function parseAttackRating(text) {
+  if (!text.startsWith("AttackRating")) return null;
+
+  const parts = text.split("|").map(p => p.trim());
+  const { min, max, avg } = parseRangeValue(parts[3]);
+
+
+  return {
+    type: "AttackRating",
+    target: parts[1],         // "All, Demon, Undead"
+    subtype: parts[2],           // "Additive, Percent"
+    min: min,
+    max: max,
+    avg: avg
+  };
+}
+
+function parseGenericStat(text) {
+  const parts = text.split("|").map(p => p.trim());
+
+  const obj = { type: parts[0] };
+
+  if (parts.length >= 2) obj.subtype = parts[1];
+  if (parts.length >= 3) {
+    obj.value = parts[2];
+
+    const { min, max, avg } = parseRangeValue(obj.value);
+    obj.minPossible = min;
+    obj.maxPossible = max;
+    obj.avg = avg;
+  }
+
+  //Saftey Bit, in case of weird extra values:
+  if (parts.length > 3) {
+    obj.extra = parts.slice(3);
+  }
+
+  return obj;
+}
+
+function parseRangeValue(valueStr) {
+  if (!valueStr) return { min: 0, max: 0, avg: 0 };
+
+  let min, max;
+
+  if (valueStr.includes("-")) {
+    const [minStr, maxStr] = valueStr.split("-").map(s => s.trim());
+    min = Number(minStr);
+    max = Number(maxStr);
+  } else {
+    min = max = Number(valueStr.trim());
+  }
+
+  if (isNaN(min)) min = 0;
+  if (isNaN(max)) max = 0;
+
+  const avg = Math.floor((min + max) / 2);
+
+  return { min, max, avg };
+}
+
+function compatibleWeaponLists(list) {
+  const MELEE_WEAPONS = [
+    "Swords", "2HSwords",
+    "Axes", "2HAxes",
+    "Hammers", "2HHammers",
+    "Maces",
+    "Clubs",
+    "Daggers",
+    "Claws",
+    "Spears", "2HSpears",
+    "Wands",
+    "Scepters",
+    "Polearms"
+  ];
+
+  const RANGED_WEAPONS = [
+    "Bows",
+    "Crossbows"
+  ];
+
+  const ALL_WEAPONS = [...MELEE_WEAPONS, ...RANGED_WEAPONS];
+
+    if (list == "All Weapons") {
+      return ALL_WEAPONS;
+    } else if (list == "Melee Weapons") {
+      return MELEE_WEAPONS;
+    } else if (list == "Ranged Weapons") {
+      return RANGED_WEAPONS;
+    } else {
+      return "ERROR"
+    }
+}
+
+const STAT_PARSERS = [
+  parseCtc,
+  parseAura,
+  parseSkill,
+  parseCharges,
+  parseAfterEachKill,
+  parseAttackRating
+];

@@ -2,9 +2,9 @@
 // necroSummons.js
 // ==============================
 import { createInputSection } from "./formFactory.js";
-import { calculateRaiseSkeleton, calculateRaiseSkeletonMage, calculateBloodGolem } from "./formulas.js";
+import { calculateRaiseSkeleton, calculateRaiseSkeletonMage, calculateBloodGolem, calculateIronGolem} from "./formulas.js";
 import { ModalManager } from "./modalManager.js";
-import { loadIGCompatibleWeapons } from "./assetLoader.js";
+import { loadIGCompatibleWeapons, loadRuneWords } from "./assetLoader.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const modalEl = document.getElementById("resultModal");
@@ -13,56 +13,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const modalManager = new ModalManager(modalEl, modalContentEl, closeBtn);
 
     const { weaponMap, weaponNames } = await loadIGCompatibleWeapons(); 
-    // Dummy runewords for testing
-    const dummyRunewords = [
-        // 2 socket Melee Runewords:
-        { name: "Steel", allowed: ["Swords", "2HSwords", "Axes", "2HAxes", "Maces"], sockets: 2 },
-        { name: "Strength", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 2 },
-        { name: "Wind", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 2 },
-        // 3 Socket Melee Runewords:
-        { name: "Malice", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
-        { name: "Pattern", allowed: ["Claws"], sockets: 3 },
-        { name: "King's Grace", allowed: ["Swords", "2HSwords"], sockets: 3 },
-        { name: "Hustle", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
-        { name: "Lawbringer", allowed: ["Swords","2HSwords","Hammers","2HHammers"], sockets: 3 },
-        { name: "Crescent Moon", allowed: ["Swords", "2HSwords", "Axes", "2HAxes","Polearms"], sockets: 3 },
-        { name: "Venom", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
-        { name: "Mosaic", allowed: ["Claws"], sockets: 3 },
-        { name: "Chaos", allowed: ["Claws"], sockets: 3 },
-        { name: "Fury", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 3 },
-        { name: "Plague", allowed: ["Swords","2HSwords","Claws"], sockets: 3 },
-        // 4 Socket Melee Runewords:
-        { name: "Spirit", allowed: ["Swords", "2HSwords"], sockets: 4 },
-        { name: "Insight", allowed: ["Polearms"], sockets: 4 },
-        { name: "Passion", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
-        { name: "Voice of Reason", allowed: ["Swords", "2HSwords", "Maces"], sockets: 4 },
-        { name: "Oath", allowed: ["Swords", "2HSwords", "Axes", "2HAxes", "Maces"], sockets: 4 },
-        { name: "KingSlayer", allowed: ["Swords", "2HSwords", "Axes", "2HAxes"], sockets: 4 },
-        { name: "Rift", allowed: ["Polearms"], sockets: 4 },
-        { name: "Heart of the Oak", allowed: ["Maces"], sockets: 4 },
-        { name: "Fortitude", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
-        { name: "Infinity", allowed: ["Polearms","2HSpears"], sockets: 4 },
-        { name: "Famine", allowed: ["Axes","2HAxes","Hammers","2HHammers"], sockets: 4 },
-        { name: "Phoenix", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
-        { name: "Hand of Justice", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 4 },
-        { name: "Pride", allowed: ["Polearms","2HSpears"], sockets: 4 },
-        // 5 Socket Melee Runewords
-        { name: "Honor", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
-        { name: "Obedience", allowed: ["Polearms","2HSpears"], sockets: 5 },
-        { name: "Death", allowed: ["Swords", "2HSwords", "Axes", "2HAxes"], sockets: 5 },
-        { name: "Call to Arms", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
-        { name: "Grief", allowed: ["Swords", "2HSwords", "Axes", "2HAxes"], sockets: 5 },
-        { name: "Beast", allowed: ["Hammers", "2HHammers", "Axes", "2HAxes"], sockets: 5 },
-         { name: "Eternity", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
-         { name: "Destruction", allowed: ["Polearms","Swords","2HSwords"], sockets: 5 },
-         { name: "Doom", allowed: ["Axes","2HAxes","Hammers","2HHammers","Polearms"], sockets: 5 },
-         // 6 socket Melee Runewords
-         { name: "Unbending Will", allowed: ["Swords", "2HSwords"], sockets: 6 },
-         { name: "Silence", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 6 },
-         { name: "Last Wish", allowed: ["Swords","2HSwords","Axes","2HAxes","Hammers","2HHammers"], sockets: 6 },
-         { name: "Breath of the Dying", allowed: ["Swords","2HSwords","Axes","2HAxes","Maces","Hammers","2HHammers","Polearms","2HSpears"], sockets: 5 },
-    ];
-    dummyRunewords.sort((a, b) => a.name.localeCompare(b.name));
+    const { runeWordMap, filterObject: dummyRunewords } = await loadRuneWords();
+
+    // Log a single runeword from the map
+    console.log("Example full runeword object:", runeWordMap[Object.keys(runeWordMap)[0]]);
 
     // Build the input form section
     createInputSection(".summon-container", {
@@ -217,7 +171,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             { header: "Weapon Stats:"},
             { label: "Weapon Base", id: "weaponBase", type: "itemList", options: weaponNames },
             {
-                label: "Compatible Runewords",
+                label: "Runewords",
                 id: "runeWordSelect",
                 type: "itemList",
                 options: dummyRunewords,
@@ -258,8 +212,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 text: "Calculate",
                 className: "StandardBTN",
                 onClick: async (sectionContent) => {
-                    const { skillLevel, masteryLevel, summonResistLevel, weaponBase, boosts, damageAuras, lifeAuras, defAuras } =
-                        collectIGolemInputs(sectionContent);
+                    const { skillLevel, masteryLevel, summonResistLevel, weaponBase, runeWord, isEthereal, boosts, damageAuras, lifeAuras, defAuras } =
+                        collectIGolemInputs(sectionContent, weaponMap, runeWordMap);
 
                     const { data, keyMap } = await calculateIronGolem(
                         null,
@@ -267,7 +221,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                         masteryLevel,
                         summonResistLevel,
                         weaponBase,
-                        weaponMap,
+                        runeWord,
+                        isEthereal,
                         boosts,
                         damageAuras,
                         lifeAuras,
@@ -368,48 +323,77 @@ function collectBGolemInputs(sectionContent) {
         }
     };
 }
-function collectIGolemInputs(sectionContent) {
+
+function collectIGolemInputs(sectionContent, weaponMap, runeWordMap) {
+    // Helper to get the value of any input
     const getVal = id => {
         const field = sectionContent.querySelector(`[data-input-id="${id}"]`);
         if (!field) return null;
 
-        // ✅ If it's a checkbox, return checked state
-        if (field.type === "checkbox") return field.checked;
+        switch (field.type) {
+            case "checkbox": return field.checked;
+            case "number":   return Number(field.value) || 0;
+            default:         return field.value;
+        }
+    };
 
-        // otherwise return value (number or string)
-        return field.value;
+    // Map all inputs in one place
+    const skillLevel = getVal("skillLevel");
+    const masteryLevel = getVal("golemMastery");
+    const summonResistLevel = getVal("summonResist");
+    const weaponBase = weaponMap.get(getVal("weaponBase"));
+    const runeWord = runeWordMap[getVal("runeWordSelect")];
+    const isEthereal = getVal("isEthereal");
+    console.log(isEthereal);
+
+    // Boosts
+    const boosts = {
+        ClayGolem: getVal("cGolemBase"),
+        BloodGolem: getVal("bGolemBase"),
+        FireGolem: getVal("fGolemBase")
+    };
+
+    // Damage Auras
+    const damageAuras = {
+        Might: getVal("might"),
+        Concentration: getVal("concentration"),
+        FanaticismUser: getVal("fanaticismUser"),
+        FanaticismAlly: getVal("fanaticismAlly"),
+        Wolverine: getVal("hWolverine")
+    };
+
+    // Life Auras
+    const lifeAuras = {
+        BattleOrders: getVal("battleOrders"),
+        OakSage: getVal("hOakSage")
+    };
+
+    // Defense Auras
+    const defAuras = {
+        Defiance: getVal("defiance"),
+        Shout: getVal("shout")
     };
 
     return {
-        skillLevel: getVal("skillLevel"),
-        masteryLevel: getVal("golemMastery"),
-        summonResistLevel: getVal("summonResist"),
-        weaponBase: getVal ("weaponBase"),
-        isEthereal: getVal("isEthereal"),
-        boosts: {
-            "ClayGolem" : getVal("cGolemBase"),
-            "BloodGolem" : getVal("bGolemBase"),
-            "FireGolem" : getVal("fGolemBase")
-        },
-        damageAuras: {
-            "Might": getVal("might"),
-            "Concentration": getVal("concentration"),
-            "FanaticismUser": getVal("fanaticismUser"),
-            "FanaticismAlly": getVal("fanaticismAlly"),
-            "Wolverine": getVal("hWolverine")
-        },
-        lifeAuras: {
-            "BattleOrders": getVal("battleOrders"),
-            "OakSage": getVal("hOakSage")
-        },
-        defAuras: {
-            "Defiance": getVal("defiance"),
-            "Shout": getVal("shout")
-        }
+        skillLevel,
+        masteryLevel,
+        summonResistLevel,
+        weaponBase,
+        runeWord,
+        isEthereal,
+        boosts,
+        damageAuras,
+        lifeAuras,
+        defAuras
     };
 }
 
-// Clears all input fields
 function clearInputs(sectionContent) {
-    sectionContent.querySelectorAll("input").forEach(input => input.value = "");
+    sectionContent.querySelectorAll("input").forEach(input => {
+        if (input.type === "checkbox") {
+            input.checked = false; // reset checkbox properly
+        } else {
+            input.value = "";      // reset other inputs
+        }
+    });
 }

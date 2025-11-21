@@ -143,10 +143,18 @@ function concentrationCalculation(skillLvl) {
   return 45 + (15 * skillLvl);
 }
 
-function fanaticismCalculation(skillLvl) {
+// Fanaticism calculation with optional ally/user parameter
+export function fanaticismCalculation(skillLvl, isAlly = true) {
   if (!skillLvl) return [0, 0]; // [damage%, AR%]
-  const damage = (33 + (17 * skillLvl)) / 2;
+
+  let damage = (33 + (17 * skillLvl)); // base formula
   const attackRating = 35 + (5 * skillLvl);
+
+  // Halve the damage if it's an ally
+  if (isAlly) {
+    damage /= 2;
+  }
+
   return [damage, attackRating];
 }
 
@@ -175,8 +183,15 @@ function hWolverineCalculation(skillLvl) {
  *   - [0] = total damage MULTIPLIER (float)
  *   - [1] = total attack rating MULTIPLIER (float)
  */
-export function totalAuraArAndDamageCalculation(mSkillLvl, cSkillLvl, fSkillLvl, wSkillLvl, skillValues) {
-  const [fanatDamage, fanatAR] = fanaticismCalculation(fSkillLvl);
+export function totalAuraArAndDamageCalculation(
+  mSkillLvl,
+  cSkillLvl,
+  fSkillLvl,
+  wSkillLvl,
+  skillValues,
+  fanaticismAlly = true
+) {
+  const [fanatDamage, fanatAR] = fanaticismCalculation(fSkillLvl, fanaticismAlly);
   const [wolfDamage, wolfAR] = hWolverineCalculation(wSkillLvl);
   const skillValueDamage = skillValues[0];
   const skillValueAttackRating = skillValues[1];
@@ -684,6 +699,7 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
  * @returns {Promise<object>} - Promise resolving to computed skeleton stats.
  */
 export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, summonResistLvl, boostsMap, damageAuraMap, lifeAuraMap, defAuraMap) {
+  console.log(typeof skillLvl, skillLvl);
   if (!monStatsMap) {
       monStatsMap = await loadMonStats();
     }
@@ -821,5 +837,553 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
   };
 
   return { data, keyMap };
+}
 
+function getStatValues(runeWord, type, subtype = null) {
+  if (!runeWord || !runeWord.stats) return { min: 0, max: 0, avg: 0 };
+
+  // find stat that matches type (and subtype if provided)
+  const stat = runeWord.stats.find(s => 
+    s.type === type && (subtype === null || s.subtype === subtype)
+  );
+
+  if (!stat) return { min: 0, max: 0, avg: 0 };
+
+  // support both generic and special stat property names
+  const min = stat.minPossible ?? stat.min ?? 0;
+  const max = stat.maxPossible ?? stat.max ?? 0;
+  const avg = stat.avg ?? Math.floor((min + max) / 2);
+
+  return { min, max, avg };
+}
+
+export function weaponPhysicalDamageCalc(weaponBase, runeWord, isEthereal, isIronGolem = false) {
+  // Base Weapon Damage
+  let [, , , baseMin, baseMax] = weaponBase;
+  if (isEthereal) {
+    baseMin = Math.floor(baseMin * 1.5);
+    baseMax = Math.floor(baseMax * 1.5);
+  }
+  console.log("baseMin", baseMin);
+  console.log("baseMax", baseMax);
+
+  //Retrieve relevant runeword stats:
+  const ed = getStatValues(runeWord, "EnhancedDamage", "All");
+  // Accounting for superior on weapon base, which is added here:
+  ed.max = ed.max + 15;
+  ed.avg = Math.floor((ed.max + ed.min) / 2);
+  const addedMin = getStatValues(runeWord, "AddedMinDamage", "Physical");
+  const addedMax = getStatValues(runeWord, "AddedMaxDamage", "Physical");
+  const addedDamage = getStatValues(runeWord, "AddedDamage", "Physical");
+  console.log(weaponBase);
+  console.log("Raw ED:", ed);
+  console.log("AddedMin:", addedMin);
+  console.log("AddedMax:", addedMax);
+  console.log("AddedDamage:", addedDamage);
+
+  // -------------------------------
+  // Iron Golem per-difficulty bonuses
+  // -------------------------------
+  const IG_BONUS = {
+    Normal:    { min: 7,  max: 19 },
+    Nightmare: { min: 11, max: 30 },
+    Hell:      { min: 12, max: 33 }
+  };
+
+  // Helper: deep clone of stat objects
+  function cloneStat(s) {
+    return { min: s.min, avg: s.avg, max: s.max };
+  }
+
+  // Internal helper for worst/avg/best
+  const calcScenario = (minBase, maxBase, edValues, addMin, addMax, addFlat) => {
+    const worstMin = Math.floor(minBase * (1 + edValues.min / 100) + addMin.min + addFlat.min);
+    const worstMax = Math.floor(maxBase * (1 + edValues.min / 100) + addMin.max + addFlat.max);
+    const worstAvg = Math.floor((worstMin + worstMax) / 2);
+
+    const avgMin = Math.floor(minBase * (1 + edValues.avg / 100) + addMin.avg + addFlat.avg);
+    const avgMax = Math.floor(maxBase * (1 + edValues.avg / 100) + addMax.avg + addFlat.avg);
+    const avgAvg = Math.floor((avgMin + avgMax) / 2);
+
+    const bestMin = Math.floor(minBase * (1 + edValues.max / 100) + addMax.min + addFlat.min);
+    const bestMax = Math.floor(maxBase * (1 + edValues.max / 100) + addMax.max + addFlat.max);
+    const bestAvg = Math.floor((bestMin + bestMax) / 2);
+
+    return {
+      worstCase: [worstMin, worstMax, worstAvg],
+      avgCase:   [avgMin,  avgMax,  avgAvg],
+      bestCase:  [bestMin, bestMax, bestAvg]
+    };
+  };
+
+  // -------------------------------
+  // Build difficulty-specific damage
+  // -------------------------------
+  const difficulties = ["Normal", "Nightmare", "Hell"];
+  const output = {};
+
+  for (const diff of difficulties) {
+    const minAdd = cloneStat(addedMin);
+    const maxAdd = cloneStat(addedMax);
+
+    if (isIronGolem) {
+      const typeField = weaponBase[11] || "";
+      const isTwoHanded = typeField.includes("2H") || typeField.includes("Polearm");
+
+      if (!isTwoHanded) {
+        // add flat IG bonus for this difficulty
+        const ig = IG_BONUS[diff];
+        minAdd.min += ig.min;
+        minAdd.avg += ig.min;
+        minAdd.max += ig.min;
+
+        maxAdd.min += ig.max;
+        maxAdd.avg += ig.max;
+        maxAdd.max += ig.max;
+      }
+    }
+
+    output[diff] = calcScenario(
+      baseMin, baseMax,
+      ed,
+      minAdd, maxAdd,
+      addedDamage
+    );
+    console.log("=== IG + WeaponDamageOutputs ===");
+    console.log(diff)
+    console.log(output[diff]);
+  }
+
+  return output;
+}
+
+export function getAttackRatingValues(runeWord) {
+  console.log("=== getAttackRatingValues ===");
+  if (!runeWord?.stats) {
+    console.log("No stats found in runeWord");
+    return {
+      All: { Additive: {min:0,max:0,avg:0}, Percent: {min:0,max:0,avg:0} },
+      Demon: { Additive: {min:0,max:0,avg:0}, Percent: {min:0,max:0,avg:0} },
+      Undead: { Additive: {min:0,max:0,avg:0}, Percent: {min:0,max:0,avg:0} }
+    };
+  }
+
+  // template for easy zero fallback
+  function empty() {
+    return { min: 0, max: 0, avg: 0 };
+  }
+
+  const result = {
+    All: {
+      Additive: empty(),
+      Percent: empty()
+    },
+    Demon: {
+      Additive: empty(),
+      Percent: empty()
+    },
+    Undead: {
+      Additive: empty(),
+      Percent: empty()
+    }
+  };
+
+  // scan all stats
+  for (const stat of runeWord.stats) {
+    if (stat.type !== "AttackRating") continue;
+
+    const target = stat.target || "All";      // All, Demon, Undead
+    const subtype = stat.subtype || "Additive"; // Additive or Percent
+
+    // Safety: only handle known targets
+    if (!result[target]) continue;
+
+    result[target][subtype] = {
+      min: stat.min ?? 0,
+      max: stat.max ?? 0,
+      avg: stat.avg ?? 0
+    };
+    console.log(`Processed AR stat - Target: ${target}, Subtype: ${subtype}`, result[target][subtype]);
+  }
+  console.log("Final Attack Rating Values:", result);
+  return result;
+}
+
+function buildAttackRatingTable(baseAR, weaponAR) {
+  console.log("=== buildAttackRatingTable ===");
+  console.log("Base AR:", baseAR);
+  console.log("Weapon AR:", weaponAR);
+
+  const difficulties = ["Normal", "Nightmare", "Hell"];
+  const targets = ["All", "Demon", "Undead"];
+  const modes = ["Additive", "Percent"];
+
+  const results = {};
+
+  for (const diff of difficulties) {
+    results[diff] = {};
+
+    for (const target of targets) {
+      results[diff][target] = {};
+
+      for (const mode of modes) {
+        const mod = weaponAR[target]?.[mode];
+        if (!mod) continue;
+
+        if (mode === "Additive") {
+          // Correct → Additive directly modifies the base AR
+          results[diff][target][mode] = {
+            min: baseAR[diff] + mod.min,
+            max: baseAR[diff] + mod.max,
+            avg: baseAR[diff] + mod.avg
+          };
+        } else {
+          // Percent AR → stored AS percent, do not merge into base
+          results[diff][target][mode] = {
+            min: mod.min,
+            max: mod.max,
+            avg: mod.avg
+          };
+          console.log(`AR Table - Diff: ${diff}, Target: ${target}, Mode: ${mode}`, results[diff][target][mode]);
+        }
+      }
+    }
+  }
+  console.log("Final Attack Rating Table:", results);
+  return results;
+}
+
+/**
+ * Compare all relevant damage auras between a rune word and active party auras.
+ * Returns effective min/max/avg levels for each aura.
+ * For Fanaticism, also returns the source (user or ally) so we can apply full/half effect.
+ *
+ * @param {Object} runeWord - Parsed rune word object
+ * @param {Object} damageAuraMap - Active party auras (e.g., { Fanaticism: 8, Might: 12 })
+ * @param {Array<string>} auraNames - List of aura names to check
+ * @param {boolean} isUser - Whether the summon counts as the user (true) or ally (false)
+ * @returns {Object} - { Fanaticism: { min: [level, source], ... }, Might: { min: level, ... }, ... }
+ */
+function getEffectiveAuraLevelsAll(runeWord, damageAuraMap, auraNames, isUser = true) {
+  const result = {};
+
+  for (const auraName of auraNames) {
+    let runeWordAura = { min: 0, max: 0, avg: 0 };
+
+    if (runeWord.stats) {
+      for (const stat of runeWord.stats) {
+        if (stat.type === "Aura" && stat.aura === auraName) {
+          runeWordAura.min = stat.levelMin;
+          runeWordAura.max = stat.levelMax;
+          runeWordAura.avg = stat.levelAvg;
+          break;
+        }
+      }
+    }
+
+    const partyLevel = damageAuraMap[auraName] || 0;
+
+    if (auraName === "Fanaticism") {
+      // Determine which source wins for each scenario
+      const minLevel = Math.max(runeWordAura.min, partyLevel);
+      const maxLevel = Math.max(runeWordAura.max, partyLevel);
+      const avgLevel = Math.max(runeWordAura.avg, partyLevel);
+
+      // If the runeword level is higher, treat as user; otherwise ally
+      const minSource = runeWordAura.min >= partyLevel ? "user" : "ally";
+      const maxSource = runeWordAura.max >= partyLevel ? "user" : "ally";
+      const avgSource = runeWordAura.avg >= partyLevel ? "user" : "ally";
+
+      result[auraName] = {
+        min: [minLevel, minSource],
+        max: [maxLevel, maxSource],
+        avg: [avgLevel, avgSource],
+      };
+    } else {
+      // Other auras just return level (source irrelevant)
+      result[auraName] = {
+        min: partyLevel,
+        max: partyLevel,
+        avg: partyLevel,
+      };
+    }
+  }
+
+  console.log("============== [Aura Comparisons with Source] ==================");
+  console.log(result);
+  return result;
+}
+
+function calculateWeaponDamageAndARWithEnemyED(runeWord, damageAuraMap, boostsMap, skillLvl, attackRatingTable) {
+  const auraNames = ["Fanaticism", "Might", "Concentration"];
+  const effectiveAuras = getEffectiveAuraLevelsAll(runeWord, damageAuraMap, auraNames);
+
+  // AR % rolls from runeword (no %AR to demons/undead)
+  const ar = attackRatingTable?.Normal?.All?.Percent || { min: 0, max: 0, avg: 0 };
+  const arVals = { worst: ar.min, avg: ar.avg, best: ar.max };
+
+  console.log("============== [Attack Rating Percents] ==================");
+  console.log(arVals);
+
+  const percentDamageSkills = 6 * (boostsMap["FireGolem"] || 0);
+
+  const undeadED = getStatValues(runeWord, "EnhancedDamage", "Undead");
+  const demonED  = getStatValues(runeWord, "EnhancedDamage", "Demon");
+
+  const scenarioTypes = ["worst", "avg", "best"];
+  const scenarioMap = { worst: "min", avg: "avg", best: "max" };
+  const multipliers = { normal: {}, undead: {}, demon: {} };
+
+  for (const type of scenarioTypes) {
+    const key = scenarioMap[type];
+
+    const m = effectiveAuras["Might"][key] ?? 0;
+    const c = effectiveAuras["Concentration"][key] ?? 0;
+
+    // For Fanaticism, unpack the tuple [level, source]
+    const fTuple = effectiveAuras["Fanaticism"][key] ?? [0, "user"];
+    const fLevel = fTuple[0];
+    const fSource = fTuple[1];
+
+    const w = damageAuraMap["Wolverine"] ?? 0;
+    const arBonus = arVals[type] ?? 0;
+
+    console.log(`--- Scenario: ${type} ---`);
+    console.log({ m, c, fLevel, fSource, w, arBonus });
+
+    // Pass source info to totalAuraArAndDamageCalculation
+    const base = totalAuraArAndDamageCalculation(
+      m,
+      c,
+      fLevel,
+      w,
+      [percentDamageSkills, arBonus],
+      fSource === "ally" // fanaticismAlly = true if source is ally
+    );
+
+    multipliers.normal[`${type}Case`] = [...base];
+    multipliers.undead[`${type}Case`] = [
+      base[0] + (undeadED[key] ?? 0) / 100,
+      base[1]
+    ];
+    multipliers.demon[`${type}Case`] = [
+      base[0] + (demonED[key] ?? 0) / 100,
+      base[1]
+    ];
+  }
+
+  console.log("============== [All Multipliers] ==================");
+  console.log("Normal:", multipliers.normal);
+  console.log("Undead:", multipliers.undead);
+  console.log("Demon:", multipliers.demon);
+
+  return multipliers;
+}
+
+function mergeFinalDamageAndAR(weaponBaseDamage, auraResults, attackRatingTable) {
+  const scenarios = ["worstCase", "avgCase", "bestCase"];
+  const enemies = ["normal", "undead", "demon"];
+  const difficulties = ["Normal", "Nightmare", "Hell"];
+
+  const final = {};
+
+  // Helper: pick additive AR value for (difficulty, target, scenario)
+  function getAdditiveARValue(diff, target, scenario) {
+    const targetObj = attackRatingTable?.[diff]?.[target];
+    const allObj    = attackRatingTable?.[diff]?.All;
+
+    const additive = targetObj?.Additive ?? allObj?.Additive;
+    if (!additive) return 0;
+
+    if (scenario === "worstCase") return additive.min;
+    if (scenario === "bestCase")  return additive.max;
+    return additive.avg;
+  }
+
+  for (const enemy of enemies) {
+    final[enemy] = {};
+
+    for (const diff of difficulties) {
+      final[enemy][diff] = {};
+
+      for (const scenario of scenarios) {
+
+        // -------------------------------
+        // Get aura multipliers (same for all difficulties)
+        // -------------------------------
+        const [dmgMult, arMult] = auraResults[enemy][scenario];
+
+        // -------------------------------
+        // Get the correct base damage for this difficulty + scenario
+        // -------------------------------
+        const [baseMin, baseMax, baseAvg] =
+          weaponBaseDamage[diff][scenario];
+
+        // Final damage after multiplier
+        const finalMin = Math.floor(baseMin * dmgMult);
+        const finalMax = Math.floor(baseMax * dmgMult);
+        const finalAvg = Math.round(((finalMin + finalMax) / 2) * 100) / 100;
+
+        // -------------------------------
+        // Final AR for this difficulty
+        // -------------------------------
+        const arTarget =
+          enemy === "normal" ? "All" :
+          enemy === "undead" ? "Undead" :
+          "Demon";
+
+        const additiveAR = getAdditiveARValue(diff, arTarget, scenario);
+
+        const finalAR = Math.floor(additiveAR * arMult);
+
+        final[enemy][diff][scenario] = {
+          damage: [finalMin, finalMax, finalAvg],
+          attackRating: finalAR
+        };
+      }
+    }
+  }
+
+  return final;
+}
+
+/**
+ * Format an array of notes for modal display
+ * @param {string[]} notes - Array of strings for notes
+ * @returns {[Object, Object]} [data, keyMap] in modal-compatible format
+ */
+function formatNotesForModal(notes) {
+  const data = {};
+  const keyMap = {};
+
+  notes.forEach((note, idx) => {
+    const key = `Assumption ${idx + 1}`;
+    data[key] = note;
+    keyMap[key] = key;
+  });
+
+  return [data, keyMap];
+}
+
+/**
+ * Merge multiple data/keyMap pairs into one
+ * @param  {...any} sections - Each section is [data, keyMap]
+ * @returns {[Object, Object]} merged [data, keyMap]
+ */
+function mergeModalSections(...sections) {
+  const mergedData = {};
+  const mergedKeyMap = {};
+
+  sections.forEach(([data, keyMap]) => {
+    Object.assign(mergedData, data);
+    Object.assign(mergedKeyMap, keyMap);
+  });
+
+  return [mergedData, mergedKeyMap];
+}
+
+function formatHellDamageForModal(final) {
+  const enemies = ["normal", "undead", "demon"];
+  const scenarios = ["worstCase", "avgCase", "bestCase"];
+
+  const data = {};
+  const keyMap = {};
+
+  // Color mapping for D2R-style
+  const colorMap = {
+    worstCase: "#FFFF66",   // light yellow
+    avgCase: "#66CCFF",     // lighter blue
+    bestCase: "#FFDD55"     // greenish gold
+  };
+
+  const normalHellData = final["normal"]["Hell"];
+
+  for (const enemy of enemies) {
+    let html = `<b>${enemy.charAt(0).toUpperCase() + enemy.slice(1)}</b><br/>`;
+    const hellData = final[enemy]["Hell"];
+    let anyShown = false; // flag to know if we show at least one scenario
+
+    for (const scenario of scenarios) {
+      const [min, max, avg] = hellData[scenario].damage;
+      const [normMin, normMax, normAvg] = normalHellData[scenario].damage;
+
+      // Always show for "normal", otherwise only if different
+      if (enemy !== "normal" && min === normMin && max === normMax && avg === normAvg) {
+        continue; // skip this scenario
+      }
+
+      anyShown = true;
+      const label = scenario === "worstCase" ? "Worst" :
+                    scenario === "avgCase"   ? "Average" :
+                    "Best";
+      const color = colorMap[scenario];
+
+      html += `${label}: <span style="color:${color}; font-weight:bold">${min}</span> - <span style="color:${color}; font-weight:bold">${max}</span> (<span style="color:${color}; font-weight:bold">${avg}</span>)<br/>`;
+    }
+
+    // Only add to data if at least one scenario was shown
+    if (anyShown) {
+      html += "<br/>";
+      const key = `${enemy.charAt(0).toUpperCase() + enemy.slice(1)} Damage`;
+      data[key] = html;
+      keyMap[key] = key;
+    }
+  }
+
+  return [data, keyMap];
+}
+
+export async function calculateIronGolem(monStatsMap, skillLvl, gmSkillLvl, summonResistLvl, weaponBase, runeWord, isEthereal,
+   boostsMap, damageAuraMap, lifeAuraMap, defAuraMap) {
+    console.log(isEthereal);
+  
+  if (!monStatsMap) {
+      monStatsMap = await loadMonStats();
+    }
+
+  const monStat = monStatsMap.get(skillLvl);
+  if (!monStat) {
+    console.warn(`No MonStats entry found for level ${skillLvl}`);
+    return null;
+  }
+
+  // Weapon Stats, considered equipped by Iron Golem and includes iron golem damage:
+  const weaponPhysicalDamages = weaponPhysicalDamageCalc(weaponBase, runeWord, isEthereal, true);
+  const weaponAttackRating = getAttackRatingValues(runeWord);
+
+  // ===============[ATTACK RATING & DAMAGE]===================
+
+  const baseAR = {
+    Normal:    (80 + monStat.Normal)    + (gmSkillLvl * 25) + (boostsMap["ClayGolem"] * 20),
+    Nightmare: (138 + monStat.Nightmare)+ (gmSkillLvl * 25) + (boostsMap["ClayGolem"] * 20),
+    Hell:      (197 + monStat.Hell)     + (gmSkillLvl * 25) + (boostsMap["ClayGolem"] * 20)
+  };
+
+  // Combines the Iron golem's attack rating with any attack rating added from the weapon, organized
+  // by All, Undead, and Demon values. 
+  const attackRatingTable = buildAttackRatingTable(baseAR, weaponAttackRating);
+
+  // Percent Damage increases with skill increase and points in Fire Golem. This is additive with 
+  // the damage Auras as well as undead/demon bonuses:
+  const result = calculateWeaponDamageAndARWithEnemyED(runeWord, damageAuraMap, boostsMap, skillLvl, attackRatingTable);
+
+  const finalMerged = mergeFinalDamageAndAR(
+    weaponPhysicalDamages,
+    result,
+    attackRatingTable
+  );
+
+  const damageSection = formatHellDamageForModal(finalMerged);
+  const notesSection = formatNotesForModal([
+    "[<strong>Base Weapon Damage</strong> x <strong>Weapon Modifers</strong>] x [<strong>Aura Damage Multipliers</strong> + <strong>Fire Golem Boost</strong>]",
+    "I treat <strong>Iron Golem's Added Base Damage</strong> like other sources of Added Damage. <strong>It doesn't get added to 2 Handed Weapon bases</strong>",
+    "I add <strong>Undead</strong> & <strong>Demon Enhanced Damage</strong> with the Aura/Fire Golem Boost Enhanced Damage Multipliers"
+  ]);
+
+  // Merge both sections into one final object
+  const [finalData, finalKeyMap] = mergeModalSections(damageSection, notesSection);
+
+// ✅ Return in the same format as your other functions
+
+  return { data: finalData, keyMap: finalKeyMap };
 }

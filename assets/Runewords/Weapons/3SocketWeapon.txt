@@ -1,0 +1,195 @@
+Entry: Malice
+ImageURL: 
+RuneOrder: Ith|El|Eth
+CompatibleItems: Melee Weapons
+Stat: AddedMaxDamage | Physical | 9
+Stat: AddedMinDamage | Physical | 9
+Stat: EnhancedDamage | All | 33
+Stat: Misc | OpenWounds | 100
+Stat: Misc | PreventMonsterHeal | 100
+Stat: MinusDefenseOnHit | Additive | 100
+Stat: Regen | -Health | 5
+
+Entry: King's Grace
+ImageURL: 
+RuneOrder: Amn|Ral|Thul
+CompatibleItems: Swords|2HSwords|Scepters
+Stat: AddedMaxDamage | Physical | 9
+Stat: EnhancedDamage | 100
+Stat: AttackRating | All | Additive | 150
+Stat: EnhancedDamage | Demons | 100
+Stat: AttackRating | Demons | Additive | 100
+Stat: EnhancedDamage | Undead | 50
+Stat: AttackRating | Undead | Additive | 100
+Stat: AddedDamage | Fire | 5-30
+Stat: AddedDamage | Cold | 3-14
+Stat: EssenseSteal | Life | 7
+
+Entry: Black
+ImageURL: 
+RuneOrder: Thul|Io|Nef
+CompatibleItems: Hammers|2HHammers|Maces|Clubs
+Stat: EnhancedDamage | All | 120
+Stat: IAS | Percent | 15
+Stat: AttackRating | All | Additive | 200
+Stat: Misc | CrushingBlow | 40
+Stat: Misc | Knockback | 100
+Stat: Attribute | Vitality | 10
+Stat: DamageReducedBy | Magic | 2
+Stat: Charges | Corpse Explosion(4) | 12
+
+Entry: Hustle
+ImageURL: 
+RuneOrder: Shael|Ko|Eld
+CompatibleItems: All Weapons
+Stat: EnhancedDamage | All | 180-200
+Stat: IAS | Percent | 30
+Stat: EnhancedDamage | Undead | 75
+Stat: AttackRating | Undead | Additive | 50
+Stat: Attribute | Dexterity | 10
+Stat: ChanceToCast | Burst Of Speed | Level: 1 | %Chance: 5 | OnAttack
+Stat: Aura | Fanaticism | Level: 1
+
+Entry: Pattern
+ImageURL: 
+RuneOrder: Tal|Ort|Thul
+CompatibleItems: Claws
+Stat: EnhancedDamage | All | 40-80
+Stat: IAS | Percent | 30
+Stat: Block | FasterBlock | 30
+Stat: AttackRating | All | Percent | 10
+Stat: AddedDamage | Fire | 17-62
+Stat: AddedDamage | Lightning | 1-50
+Stat: AddedDamage | Cold | 3-14
+Stat: AddedDamage | Poison | 75(5)
+Stat: Attribute | Strength | 6
+Stat: Attribute | Dexterity | 6
+Stat: Resistance | All | 15
+
+Entry: Edge
+ImageURL: 
+RuneOrder: Tir|Tal|Amn
+CompatibleItems: Missile Weapons
+Stat: IAS | Percent | 35
+Stat: EnhancedDamage | Demons | 320-380
+Stat: EnhancedDamage | Undead | 280
+Stat: Aura | Thorns | Level: 15
+Stat: AddedDamage | Poison | 75(5)
+Stat: Misc | PreventMonsterHeal | 100
+Stat: Attribute | All | 5-10
+Stat: AfterEachKill | Mana | All | 2
+Stat: ReduceAllVendorPrices | Percent | 15
+
+Entry: Melody
+ImageURL: 
+RuneOrder: Shael|Ko|Nef
+CompatibleItems: Missile Weapons
+Stat: EnhancedDamage | All | 50-50
+Stat: IAS | Percent | 20
+Stat: EnhancedDamage | Undead | 300
+Stat: Skill | Slow Missiles | 3 | Amazon
+Stat: Skill | Dodge | 3 | Amazon Only
+Stat: Skill | Critical Strike | 3 | Amazon
+Stat: KnockBack | 100
+Stat: Attribute | Dexterity | 10
+
+Entry: Law Bringer
+ImageURL: 
+RuneOrder: Amn|Lem|Ko
+CompatibleItems: Swords|2HSwords|Hammers|2HHammers|Scepter
+Stat: ChanceToCast | Decrepify | Level: 15 | %Chance: 20 | Striking 
+Stat: Aura | Sanctuary | Level: 16-18
+Stat: MinusDefenseOnHit | Percent |-50
+Stat: AddedDamage | Fire | 150-210
+Stat: AddedDamage | Cold | 130-180
+Stat: EssenseSteal | Life | 7
+Stat: SlainMonstersRestInPeace | 100
+Stat: Defense | Missiles | 200-250
+Stat: Attribute | Dexterity | 10
+Stat: Finding | ExtraGoldFromMonsters | 75
+
+Entry: Crescent Moon
+ImageURL: 
+RuneOrder: Shael|Um|Tir
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Polearms
+Stat: EnhancedDamage | All | 180-220
+Stat: IAS | Percent | 20
+Stat: ChanceToCast | Chain Lightning | Level: 17 | %Chance: 10 | Striking 
+Stat: ChanceToCast | Static Field | Level: 13 | %Chance: 7 | Striking 
+Stat: IgnoreTargetDefense | 100
+Stat: ReduceEnemyResistance | Lightning | 35
+Stat: Misc | OpenWounds | 25
+Stat: Absorb | Magic | 9-11
+Stat: AfterEachKill | Mana | All | 2
+
+Entry: Venom
+ImageURL: 
+RuneOrder: Tal|Dol|Mal
+CompatibleItems: All Weapons
+Stat: Misc | IgnoreTargetDefense | 100
+Stat: AddedDamage | Poison | 273(6)
+Stat: EssenseSteal | Mana | 7
+Stat: PreventMonsterHeal | 100
+Stat: Misc | MonsterFlee | 25
+Stat: Charges | Poison Nova(13) | 11
+Stat: Charges | Poison Explosion(15) | 27
+
+Entry: Mosaic
+ImageURL: 
+RuneOrder: Mal|Gul|Amn
+CompatibleItems: Claws
+Stat: FinishingMoveFreeCharge | 50
+Stat: Skill | Martial Arts | 2 | Assassin
+Stat: IAS | Percent | 20
+Stat: EnhancedDamage | All | 200-250
+Stat: AttackRating | All | Percent | 20
+Stat: EssenseSteal | Life | 7
+Stat: ElementalDamageIncrease | Cold | 8-15
+Stat: ElementalDamageIncrease | Lightning | 8-15
+Stat: ElementalDamageIncrease | Fire | 8-15
+Stat: Misc | PreventMonsterHeal | 100
+Stat: IncreasesMaximumDurability | Percent | 12
+
+Entry: Chaos
+ImageURL: 
+RuneOrder: Fal|Ohm|Um
+CompatibleItems: Claws
+Stat: ChanceToCast | Frozen Orb | Level: 11 | %ChanceToCast: 9 | Striking
+Stat: ChanceToCast | Charged Bolt | Level: 9 | %ChanceToCast: 11 | Striking
+Stat: IAS | Percent | 35
+Stat: EnhancedDamage | All | 290-340
+Stat: AddedDamage | Magic | 216-471
+Stat: Misc | OpenWounds | 25
+Stat: Skill | Whirlwind | 1 | All
+Stat: Attribute | Strength | 10
+Stat: AfterEachKill | Life | Demon | 15
+
+Entry: Fury
+ImageURL: 
+RuneOrder: Jah|Gul|Eth
+CompatibleItems: Melee Weapons
+Stat: IAS | Percent | 40
+Stat: EnhancedDamage | All | 209
+Stat: IgnoreTargetDefense | 100
+Stat: MinusDefenseOnHit | Percent | 25
+Stat: AttackRating | All | Percent | 20
+Stat: EssenseSteal | Life | 6
+Stat: Misc | DeadlyStrike | 33
+Stat: Misc | OpenWounds | 66
+Stat: Skill | Frenzy | 5 | Barbarian
+Stat: Misc | PreventMonsterHeal | 100
+
+Entry: Plague
+ImageURL: 
+RuneOrder: Cham|Shael|Um
+CompatibleItems: Sword | 2HSword | Knife | Claws
+Stat: ChanceToCast | Poison Nova | Level: 15 | %Chance: 25 | Striking
+Stat: ChanceToCast | Lower Resist | Level: 12 | %Chance: 20 | WhenStruck
+Stat: Aura | Cleansing | Level: 13-17
+Stat: Skill | All | 1-2 | All
+Stat: IAS | Percent | 20
+Stat: EnhancedDamage | All | 220-320
+Stat: ReduceEnemyResistance | Poison | 23
+Stat: BasedOnCharcterLevel | DeadlyStrike | 0.3
+Stat: Misc | OpenWounds | 25
+Stat: Misc | FreezesTarget | 3

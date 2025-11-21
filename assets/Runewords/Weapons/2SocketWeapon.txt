@@ -1,0 +1,50 @@
+Entry: Steel
+ImageURL: 
+RuneOrder: Tir|El
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Maces|2HMaces
+Stat: IAS | Percent | 25
+Stat: EnhancedDamage | All | 20
+Stat: AddedMaxDamage | Physical | 3
+Stat: AddedMinDamage | Physical | 3
+Stat: AttackRating | All | Additive | 50
+Stat: Misc | OpenWounds | 50
+Stat: AfterEachKill | Mana | All | 2
+Stat: Misc | LightRadius | 1
+
+Entry: Zephyr
+ImageURL:
+RuneOrder: Ort|Eth
+CompatibleItems: Missile Weapons
+Stat: ChanceToCast | Twister | Level: 1 | %Chance: 7 | WhenStruck
+Stat: Misc | WalkRunSpeed | 25
+Stat: IAS | Percent | 25
+Stat: EnhancedDamage | All | 33
+Stat: MinusDefenseOnHit | Percent | 25
+Stat: AttackRating | All | Additive | 66
+Stat: AddedDamage | Lightning | 1-50
+Stat: Defense | All | 25
+
+Entry: Strength
+ImageURL: 
+RuneOrder: Amn|Tir
+CompatibleItems: Swords|2HSwords|Axes|2HAxes|Maces|Hammers|2HHammers|Polearms|2HSpears|Claws|Scepters
+Stat: EnhancedDamage | All | 35
+Stat: Misc | CrushingBlow | 25
+Stat: Attribute | Strength| 20
+Stat: Attribute | Vitality | 10
+Stat: AfterEachKill | Mana | All | 2
+
+Entry: Wind
+ImageURL:
+RuneOrder: Sur|El
+CompatibleItems: Melee Weapons
+Stat: ChanceToCast | Tornado | Level: 9 | %Chance: 10 | Striking
+Stat: Misc | WalkRunSpeed | 20
+Stat: IAS | Percent | 40
+Stat: Misc | FHR | 15
+Stat: EnhancedDamage | All | 120-160
+Stat: MinusDefenseOnHit | Percent | 50
+Stat: AttackRating | All | Additive | 50
+Stat: Misc | HitBlindsTarget | 100
+Stat: Misc | LightRadius | 1
+Stat: Charges | Twister(13) | 127

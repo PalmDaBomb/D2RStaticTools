@@ -112,6 +112,7 @@ export function createInputSection(containerSelector, sectionConfig) {
             checkbox.type = "checkbox";
             checkbox.id = item.id;
             checkbox.dataset.inputId = item.id;
+            checkbox.checked = false;
 
             row.append(label, checkbox);
             content.appendChild(row);
