@@ -3,6 +3,8 @@
 // Pure math functions for iLvl and Affix calculations
 // ==============================
 
+import { getIronGolemDisplay } from "./runewordFunctions.js";
+
 /**
  * Calculates the missing iLvl, cLvl, or mLvl based on the other two values present.
  * Formula: iLvl = (cLvl / 2) + (mLvl / 2)
@@ -842,19 +844,52 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
 function getStatValues(runeWord, type, subtype = null) {
   if (!runeWord || !runeWord.stats) return { min: 0, max: 0, avg: 0 };
 
-  // find stat that matches type (and subtype if provided)
-  const stat = runeWord.stats.find(s => 
+  const stat = runeWord.stats.find(s =>
     s.type === type && (subtype === null || s.subtype === subtype)
   );
 
   if (!stat) return { min: 0, max: 0, avg: 0 };
 
-  // support both generic and special stat property names
-  const min = stat.minPossible ?? stat.min ?? 0;
-  const max = stat.maxPossible ?? stat.max ?? 0;
-  const avg = stat.avg ?? Math.floor((min + max) / 2);
+  // support multiple naming conventions
+  const min = stat.minPossible ?? stat.levelMin ?? stat.min ?? 0;
+  const max = stat.maxPossible ?? stat.levelMax ?? stat.max ?? 0;
+  const avg = stat.avg ?? stat.levelAvg ?? Math.floor((min + max) / 2);
 
   return { min, max, avg };
+}
+
+function getIronGolemResistance(runeWord) {
+ const resistanceTypes = ["Fire", "Cold", "Lightning", "Poison", "Magic", "Physical", "All"];
+
+ //Base Iron Golem has 50 lightning resistance and 100 Poison Resistance:
+ const baseResist = {
+  Fire: 0,
+  Cold: 0,
+  Lightning: 50,
+  Poison: 100,
+  Magic: 0,
+  Physical: 0
+ }
+
+ const allResist = getStatValues(runeWord, "Resistance", "All").avg || 0;
+ if (allResist !== 0) {
+  ["Fire", "Cold", "Lightning", "Poison"].forEach(type => {
+    baseResist[type] += allResist;
+  });
+ }
+
+ for (const type of resistanceTypes) {
+    if (type === "All") continue; // handled already
+
+    const { avg } = getStatValues(runeWord, "Resistance", type);
+
+    if (avg !== 0) {
+      baseResist[type] += avg;
+    }
+  }
+
+  return baseResist;
+
 }
 
 export function weaponPhysicalDamageCalc(weaponBase, runeWord, isEthereal, isIronGolem = false) {
@@ -1283,11 +1318,17 @@ function mergeModalSections(...sections) {
 }
 
 function formatHellDamageForModal(final) {
+  const damageHeaderKey = "__damageHeader";
+  const damageKeyMapLabel = `<span style="color:#FFFF00;"><u><strong>DAMAGE & ATTACK RATING</strong></u></span>`;
   const enemies = ["normal", "undead", "demon"];
   const scenarios = ["worstCase", "avgCase", "bestCase"];
 
   const data = {};
   const keyMap = {};
+
+  // Add header for modal
+  data[damageHeaderKey] = "";                  // placeholder value
+  keyMap[damageKeyMapLabel] = damageHeaderKey; // display label -> header key
 
   // Color mapping for D2R-style
   const colorMap = {
@@ -1351,6 +1392,37 @@ export async function calculateIronGolem(monStatsMap, skillLvl, gmSkillLvl, summ
   const weaponPhysicalDamages = weaponPhysicalDamageCalc(weaponBase, runeWord, isEthereal, true);
   const weaponAttackRating = getAttackRatingValues(runeWord);
 
+  // ===============[DEFENSE & RESISTANCE]===================
+  var baseResistances = getIronGolemResistance(runeWord);
+  var resistances = resistanceCalculation(baseResistances, summonResistLvl);
+  const defenseHeaderKey = "__defenseHeader";
+
+  const defenseData = {
+    [defenseHeaderKey]: "",
+    totalFireResist: resistances["Fire"],
+    totalLightningResist: resistances["Lightning"],
+    totalColdResist: resistances["Cold"],
+    totalPoisonResist: resistances["Poison"],
+    totalMagicResist: resistances["Magic"],
+    totalPhysicalResist: resistances["Physical"],
+  };
+
+  const defenseKeyMapLabel = `<span style="color:#FFFF00;"><u><strong>RESISTANCES & DEFENSE</strong></u></span>`;
+
+  const defenseKeyMap = {
+    [defenseKeyMapLabel]: defenseHeaderKey,
+    "<span class='fire'>Fire Resist</span>": "totalFireResist",
+    "<span class='cold'>Cold Resist</span>": "totalColdResist",
+    "<span class='lightning'>Lightning Resist</span>": "totalLightningResist",
+    "<span class='poison'>Poison Resist</span>": "totalPoisonResist",
+    "<span class='magic'>Magic Resist</span>": "totalMagicResist",
+    "<span class='physical'>Physical Resist</span>": "totalPhysicalResist",
+  };
+
+  // Combine into an array like your other display functions
+  const defenseArray = [defenseData, defenseKeyMap];
+
+
   // ===============[ATTACK RATING & DAMAGE]===================
 
   const baseAR = {
@@ -1380,8 +1452,11 @@ export async function calculateIronGolem(monStatsMap, skillLvl, gmSkillLvl, summ
     "I add <strong>Undead</strong> & <strong>Demon Enhanced Damage</strong> with the Aura/Fire Golem Boost Enhanced Damage Multipliers"
   ]);
 
-  // Merge both sections into one final object
-  const [finalData, finalKeyMap] = mergeModalSections(damageSection, notesSection);
+  
+
+  // Merge sections into one final object
+  const runeWordDisplay = getIronGolemDisplay(runeWord);
+  const [finalData, finalKeyMap] = mergeModalSections(damageSection, defenseArray, runeWordDisplay);
 
 // ✅ Return in the same format as your other functions
 

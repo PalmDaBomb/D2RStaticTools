@@ -497,7 +497,10 @@ function parseSingleRuneWord(block) {
     runeOrder: [],
     sockets: 0,
     compatibleItems: [],
-    stats: []
+    stats: [],
+
+    data: {},
+    keyMap: {}
   };
 
   for (const line of lines.slice(1)) {
@@ -530,9 +533,26 @@ function parseSingleRuneWord(block) {
     }
 
     else if (line.startsWith("Stat:")) {
-      rw.stats.push(parseStatLine(line.replace("Stat:", "").trim()));
+      const parsed = parseStatLine(line.replace("Stat:", "").trim());
+
+      if (parsed) {
+        // store the structured stat object
+        rw.stats.push(parsed.stat);
+
+        // merge modal data
+        Object.assign(rw.data, parsed.data);
+
+        // merge modal keyMap
+        Object.assign(rw.keyMap, parsed.keyMap);
+      }
     }
   }
+
+  // --- Log modal-ready data/keyMap for this rune word ---
+  console.log(`RuneWord: ${rw.name}`);
+  console.log("  Data:", rw.data);
+  console.log("  KeyMap:", rw.keyMap);
+  // --------------------------------------------
 
   return rw;
 }
@@ -549,14 +569,32 @@ function parseCtc(text) {
   if (!text.startsWith("ChanceToCast")) return null;
 
   const parts = text.split("|").map(p => p.trim());
+  const rawLevel = parts[2].replace("Level:", "").trim(); 
+  const { min, max, avg } = parseRangeValue(rawLevel); 
 
-  return {
+  const stat = {
     type: "ChanceToCast",
     skill: parts[1],
-    level: Number(parts[2].replace("Level:", "").trim()),
+    levelMin: min,
+    levelMax: max,
+    levelAvg: avg,
     chance: Number(parts[3].replace(/%Chance:?/i, "").trim()),
     trigger: parts[4]
   };
+
+  // Create a variable name for data (like your other constants)
+  const dataKey = `${stat.type}${stat.skill}`;
+  const dataValue = maxMinDisplay(stat.levelMax, stat.levelMin, stat.levelAvg);
+
+  const data = {
+    [dataKey]: ""
+  };
+
+  const keyMap = {
+    [`${stat.chance}% Chance to Cast a Level ${dataValue} ${stat.skill} (${stat.trigger})`]: dataKey
+  };
+
+  return { stat, data, keyMap };
 }
 
 function parseAura(text) {
@@ -566,13 +604,28 @@ function parseAura(text) {
   parts[2] = parts[2].replace("Level:", "").trim();
   const { min, max, avg } = parseRangeValue(parts[2]);
 
-  return {
+  // Structured stat object for calculations
+  const stat = {
     type: "Aura",
     aura: parts[1],
     levelMin: min,
     levelMax: max,
-    levelAvg: avg,
+    levelAvg: avg
   };
+
+  // Create a variable name for data (like your other constants)
+  const dataKey = stat.aura.replace(/\s+/g, ""); // e.g., "Fanaticism"
+  const dataValue = maxMinDisplay(stat.levelMax, stat.levelMin, stat.levelAvg);
+
+  const data = {
+    [dataKey]: dataValue
+  };
+
+  const keyMap = {
+    [`${stat.aura} Aura Level`]: dataKey
+  };
+
+  return { stat, data, keyMap };
 }
 
 function parseSkill(text) {
@@ -581,7 +634,7 @@ function parseSkill(text) {
   const parts = text.split("|").map(p => p.trim());
   const { min, max, avg } = parseRangeValue(parts[2]);
 
-  return {
+  const stat = {
     type: "Skill",
     skill: parts[1],
     levelMin: min,
@@ -589,6 +642,19 @@ function parseSkill(text) {
     levelAvg: avg,
     class: parts[3] || "All"
   };
+
+  const dataKey = stat.skill.replace(/\s+/g, "");
+  const dataValue = maxMinDisplay(stat.levelMax, stat.levelMin, stat.levelAvg);
+
+  const data = {
+    [dataKey]: dataValue
+  };
+
+  const keyMap = {
+    [`${stat.skill} (${stat.class})`]: dataKey
+  };
+
+  return { stat, data, keyMap };
 }
 
 function parseCharges(text) {
@@ -599,7 +665,7 @@ function parseCharges(text) {
   const match = parts[1].match(/(.+)\((\d+)\)/);
   const { min, max, avg } = parseRangeValue(match[2]);
 
-  return {
+  const stat = {
     type: "Charges",
     skill: match[1].trim(),
     levelMin: min,
@@ -607,6 +673,19 @@ function parseCharges(text) {
     levelAvg: avg,
     charges: Number(parts[2])
   };
+
+  const dataKey = stat.skill;
+  const dataValue = maxMinDisplay(stat.levelMax, stat.levelMin, stat.levelAvg);
+
+  const data = {
+    [dataKey]: dataValue
+  };
+
+  const keyMap = {
+    [`${stat.skill} (${stat.charges} Charges)`]: dataKey
+  };
+
+  return { stat, data, keyMap };
 }
 
 function parseAfterEachKill(text) {
@@ -615,7 +694,7 @@ function parseAfterEachKill(text) {
   const parts = text.split("|").map(p => p.trim());
   const { min, max, avg } = parseRangeValue(parts[3]);
 
-  return {
+  const stat = {
     type: "AfterEachKill",
     resource: parts[1],         // "Life"
     target: parts[2],           // "Demon"
@@ -623,6 +702,24 @@ function parseAfterEachKill(text) {
     max: max,
     avg: avg    // 15
   };
+
+  const dataKey = `${stat.resource}${stat.target}Kills`
+  const dataValue = maxMinDisplay(stat.max, stat.min, stat.avg);
+
+  var target = "";
+  if (stat.target == "Demon" || stat.target == "Undead") {
+    target = stat.target;
+  }
+
+  const data = {
+    [dataKey]: dataValue
+  };
+
+  const keyMap = {
+    [`${stat.resource} After Each ${target} Kill`]: dataKey
+  };
+
+  return { stat, data, keyMap };
 }
 
 function parseAttackRating(text) {
@@ -631,8 +728,7 @@ function parseAttackRating(text) {
   const parts = text.split("|").map(p => p.trim());
   const { min, max, avg } = parseRangeValue(parts[3]);
 
-
-  return {
+  const stat = {
     type: "AttackRating",
     target: parts[1],         // "All, Demon, Undead"
     subtype: parts[2],           // "Additive, Percent"
@@ -640,29 +736,56 @@ function parseAttackRating(text) {
     max: max,
     avg: avg
   };
+
+  const dataKey = ` ${stat.subtype}AttackRating${stat.target}`;
+  const dataValue = maxMinDisplay(stat.max, stat.min, stat.avg);
+
+  const data = {
+    [dataKey]: dataValue
+  };
+
+  const keyMap = {
+    [`Attack Rating ${stat.subtype} (${stat.target})`]: dataKey
+  };
+
+  return { stat, data, keyMap };
 }
 
 function parseGenericStat(text) {
   const parts = text.split("|").map(p => p.trim());
 
-  const obj = { type: parts[0] };
+  const stat = { type: parts[0] };
 
-  if (parts.length >= 2) obj.subtype = parts[1];
+  let min = 0, max = 0, avg = 0; // <-- define here
+
+  if (parts.length >= 2) stat.subtype = parts[1];
   if (parts.length >= 3) {
-    obj.value = parts[2];
-
-    const { min, max, avg } = parseRangeValue(obj.value);
-    obj.minPossible = min;
-    obj.maxPossible = max;
-    obj.avg = avg;
+    stat.value = parts[2];
+    ({ min, max, avg } = parseRangeValue(stat.value)); // <-- destructure here
+    stat.minPossible = min;
+    stat.maxPossible = max;
+    stat.avg = avg;
   }
 
-  //Saftey Bit, in case of weird extra values:
+  // Safety bit for weird extra values
   if (parts.length > 3) {
-    obj.extra = parts.slice(3);
+    stat.extra = parts.slice(3);
   }
 
-  return obj;
+  // ---- Add modal-compatible data / keyMap ----
+  const dataKey = `${stat.type}(${stat.subtype || ""})`;
+  const dataValue = maxMinDisplay(min, max, avg);
+
+  const data = {
+    [dataKey]: dataValue
+  };
+
+  const keyMap = {
+    [`${stat.type} (${stat.subtype || ""})`]: dataKey
+  };
+  // --------------------------------------------
+
+  return { stat, data, keyMap };
 }
 
 function parseRangeValue(valueStr) {
@@ -717,6 +840,14 @@ function compatibleWeaponLists(list) {
     } else {
       return "ERROR"
     }
+}
+
+function maxMinDisplay(max,min,avg) {
+  if (max == min && max == avg) {
+    return `${avg}`;
+  } else {
+    return `${min}-${max} (${avg})`;
+  }
 }
 
 const STAT_PARSERS = [
