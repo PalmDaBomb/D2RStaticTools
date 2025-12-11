@@ -40,13 +40,6 @@ export function createInputSection(containerSelector, sectionConfig) {
     // ==============================
     // Helpers
     // ==============================
-    const createLabel = (text, forId) => {
-        const label = document.createElement("label");
-        label.textContent = text;
-        label.htmlFor = forId;
-        return label;
-    };
-
     const clampValue = (field, min, max) => {
         field.addEventListener("input", () => {
             if (!field.value) return;
@@ -57,12 +50,21 @@ export function createInputSection(containerSelector, sectionConfig) {
         });
     };
 
+    const createLabel = (text) => {
+        const label = document.createElement("label");
+        label.textContent = text;
+        return label;
+    };
+
+    // Dependency registry
+    const dependencyMap = new Map();
+
     // ==============================
     // Inputs
     // ==============================
     sectionConfig.inputs.forEach(item => {
 
-        // Section header
+        // Section header inside inputs
         if (item.header) {
             const h = document.createElement("div");
             h.classList.add("input-header");
@@ -74,17 +76,18 @@ export function createInputSection(containerSelector, sectionConfig) {
         const row = document.createElement("div");
         row.classList.add("input-row");
 
-        const label = createLabel(item.label, item.id);
+        const label = createLabel(item.label);
 
-        // ---- Item list (select) ----
+        // ------------------------------
+        // SELECT (Item List)
+        // ------------------------------
         if (item.type === "itemList") {
             const select = document.createElement("select");
-            select.id = item.id;
             select.dataset.inputId = item.id;
 
             item.options.forEach(opt => {
                 const op = document.createElement("option");
-                op.value = opt.name ?? opt;      // support simple strings or objects
+                op.value = opt.name ?? opt;
                 op.textContent = opt.name ?? opt;
                 select.appendChild(op);
             });
@@ -92,11 +95,9 @@ export function createInputSection(containerSelector, sectionConfig) {
             row.append(label, select);
             content.appendChild(row);
 
-            // Register dependency (if any)
+            // Register dependency
             if (item.dependsOn) {
-                if (!content.dependencyMap) content.dependencyMap = new Map();
-
-                content.dependencyMap.set(item.id, {
+                dependencyMap.set(item.id, {
                     targetId: item.dependsOn,
                     filterFn: item.filter,
                     options: item.options
@@ -106,11 +107,12 @@ export function createInputSection(containerSelector, sectionConfig) {
             return;
         }
 
-        // ---- Checkbox ----
+        // ------------------------------
+        // CHECKBOX
+        // ------------------------------
         if (item.type === "checkbox") {
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.id = item.id;
             checkbox.dataset.inputId = item.id;
             checkbox.checked = false;
 
@@ -119,10 +121,11 @@ export function createInputSection(containerSelector, sectionConfig) {
             return;
         }
 
-        // ---- Standard input ----
+        // ------------------------------
+        // STANDARD INPUT FIELD
+        // ------------------------------
         const field = document.createElement("input");
         field.type = item.type || "number";
-        field.id = item.id;
         field.dataset.inputId = item.id;
         field.placeholder = item.placeholder ?? "";
 
@@ -136,11 +139,9 @@ export function createInputSection(containerSelector, sectionConfig) {
         row.append(label, field);
         content.appendChild(row);
 
-        // Standard input can also have dependency rules
+        // Register dependency if any
         if (item.dependsOn) {
-            if (!content.dependencyMap) content.dependencyMap = new Map();
-
-            content.dependencyMap.set(item.id, {
+            dependencyMap.set(item.id, {
                 targetId: item.dependsOn,
                 filterFn: item.filter,
                 options: item.options,
@@ -148,31 +149,40 @@ export function createInputSection(containerSelector, sectionConfig) {
             });
         }
     });
-    // Activate dependency listeners
-    if (content.dependencyMap) {
-        content.dependencyMap.forEach((config, childId) => {
-            const targetElement = content.querySelector(`#${config.targetId}`);
-            const childElement = content.querySelector(`#${childId}`);
 
-            if (!targetElement || !childElement) return;
+    // ==============================
+    // Apply Dependency Logic
+    // ==============================
+    dependencyMap.forEach((config, childId) => {
 
-            targetElement.addEventListener("change", () => {
-                const selectedValue = targetElement.value;
+        const targetElement = content.querySelector(
+            `[data-input-id="${config.targetId}"]`
+        );
 
-                // Rebuild options for dependent select
+        const childElement = content.querySelector(
+            `[data-input-id="${childId}"]`
+        );
+
+        if (!targetElement || !childElement) return;
+
+        targetElement.addEventListener("change", () => {
+            const selectedValue = targetElement.value;
+
+            // Only rebuild options for select-type children
+            if (childElement.tagName === "SELECT") {
                 childElement.innerHTML = "";
 
                 config.options.forEach(opt => {
                     if (!config.filterFn || config.filterFn(selectedValue, opt, config.context)) {
                         const op = document.createElement("option");
-                        op.value = opt.name ?? opt;   // support both objects and strings
+                        op.value = opt.name ?? opt;
                         op.textContent = opt.name ?? opt;
                         childElement.appendChild(op);
                     }
                 });
-            });
+            }
         });
-    }
+    });
 
     // ==============================
     // Buttons
@@ -184,7 +194,10 @@ export function createInputSection(containerSelector, sectionConfig) {
         sectionConfig.buttons.forEach(btnConfig => {
             const btn = document.createElement("button");
             btn.textContent = btnConfig.text;
-            if (btnConfig.className) btn.className = btnConfig.className;
+
+            if (btnConfig.className) {
+                btn.className = btnConfig.className;
+            }
 
             btn.addEventListener("click", () => {
                 btnConfig.onClick?.(content);
@@ -196,7 +209,9 @@ export function createInputSection(containerSelector, sectionConfig) {
         content.appendChild(buttonContainer);
     }
 
-    // Build final
+    // ==============================
+    // Final Assembly
+    // ==============================
     section.append(header, content);
     container.appendChild(section);
 

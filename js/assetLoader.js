@@ -774,7 +774,7 @@ function parseGenericStat(text) {
 
   // ---- Add modal-compatible data / keyMap ----
   const dataKey = `${stat.type}(${stat.subtype || ""})`;
-  const dataValue = maxMinDisplay(min, max, avg);
+  const dataValue = maxMinDisplay(max, min, avg);
 
   const data = {
     [dataKey]: dataValue

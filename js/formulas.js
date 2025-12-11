@@ -3,7 +3,7 @@
 // Pure math functions for iLvl and Affix calculations
 // ==============================
 
-import { getIronGolemDisplay } from "./runewordFunctions.js";
+import { getIronGolemDisplay, getElementalTotals, getStatValues } from "./runewordFunctions.js";
 
 /**
  * Calculates the missing iLvl, cLvl, or mLvl based on the other two values present.
@@ -841,23 +841,6 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
   return { data, keyMap };
 }
 
-function getStatValues(runeWord, type, subtype = null) {
-  if (!runeWord || !runeWord.stats) return { min: 0, max: 0, avg: 0 };
-
-  const stat = runeWord.stats.find(s =>
-    s.type === type && (subtype === null || s.subtype === subtype)
-  );
-
-  if (!stat) return { min: 0, max: 0, avg: 0 };
-
-  // support multiple naming conventions
-  const min = stat.minPossible ?? stat.levelMin ?? stat.min ?? 0;
-  const max = stat.maxPossible ?? stat.levelMax ?? stat.max ?? 0;
-  const avg = stat.avg ?? stat.levelAvg ?? Math.floor((min + max) / 2);
-
-  return { min, max, avg };
-}
-
 function getIronGolemResistance(runeWord) {
  const resistanceTypes = ["Fire", "Cold", "Lightning", "Poison", "Magic", "Physical", "All"];
 
@@ -930,18 +913,21 @@ export function weaponPhysicalDamageCalc(weaponBase, runeWord, isEthereal, isIro
     return { min: s.min, avg: s.avg, max: s.max };
   }
 
+  const elemental = getElementalTotals(runeWord);
+  console.log("ElementalTotals:", elemental);
+
   // Internal helper for worst/avg/best
-  const calcScenario = (minBase, maxBase, edValues, addMin, addMax, addFlat) => {
-    const worstMin = Math.floor(minBase * (1 + edValues.min / 100) + addMin.min + addFlat.min);
-    const worstMax = Math.floor(maxBase * (1 + edValues.min / 100) + addMin.max + addFlat.max);
+  const calcScenario = (minBase, maxBase, edValues, addMin, addMax, addFlat, elemental) => {
+    const worstMin = Math.floor(minBase * (1 + edValues.min / 100) + addMin.min + addFlat.min + elemental.min);
+    const worstMax = Math.floor(maxBase * (1 + edValues.min / 100) + addMin.max + addFlat.max + elemental.max);
     const worstAvg = Math.floor((worstMin + worstMax) / 2);
 
-    const avgMin = Math.floor(minBase * (1 + edValues.avg / 100) + addMin.avg + addFlat.avg);
-    const avgMax = Math.floor(maxBase * (1 + edValues.avg / 100) + addMax.avg + addFlat.avg);
+    const avgMin = Math.floor(minBase * (1 + edValues.avg / 100) + addMin.avg + addFlat.avg + elemental.avg);
+    const avgMax = Math.floor(maxBase * (1 + edValues.avg / 100) + addMax.avg + addFlat.avg + elemental.avg);
     const avgAvg = Math.floor((avgMin + avgMax) / 2);
 
-    const bestMin = Math.floor(minBase * (1 + edValues.max / 100) + addMax.min + addFlat.min);
-    const bestMax = Math.floor(maxBase * (1 + edValues.max / 100) + addMax.max + addFlat.max);
+    const bestMin = Math.floor(minBase * (1 + edValues.max / 100) + addMax.min + addFlat.min + elemental.max);
+    const bestMax = Math.floor(maxBase * (1 + edValues.max / 100) + addMax.max + addFlat.max + elemental.max);
     const bestAvg = Math.floor((bestMin + bestMax) / 2);
 
     return {
@@ -982,7 +968,7 @@ export function weaponPhysicalDamageCalc(weaponBase, runeWord, isEthereal, isIro
       baseMin, baseMax,
       ed,
       minAdd, maxAdd,
-      addedDamage
+      addedDamage, elemental
     );
     console.log("=== IG + WeaponDamageOutputs ===");
     console.log(diff)
@@ -1163,7 +1149,7 @@ function calculateWeaponDamageAndARWithEnemyED(runeWord, damageAuraMap, boostsMa
   const percentDamageSkills = 6 * (boostsMap["FireGolem"] || 0);
 
   const undeadED = getStatValues(runeWord, "EnhancedDamage", "Undead");
-  const demonED  = getStatValues(runeWord, "EnhancedDamage", "Demon");
+  const demonED  = getStatValues(runeWord, "EnhancedDamage", "Demons");
 
   const scenarioTypes = ["worst", "avg", "best"];
   const scenarioMap = { worst: "min", avg: "avg", best: "max" };
@@ -1340,7 +1326,7 @@ function formatHellDamageForModal(final) {
   const normalHellData = final["normal"]["Hell"];
 
   for (const enemy of enemies) {
-    let html = `<b>${enemy.charAt(0).toUpperCase() + enemy.slice(1)}</b><br/>`;
+    let html = ``;
     const hellData = final[enemy]["Hell"];
     let anyShown = false; // flag to know if we show at least one scenario
 
@@ -1365,7 +1351,12 @@ function formatHellDamageForModal(final) {
     // Only add to data if at least one scenario was shown
     if (anyShown) {
       html += "<br/>";
-      const key = `${enemy.charAt(0).toUpperCase() + enemy.slice(1)} Damage`;
+      // Override label for "normal"
+      const key =
+        enemy === "normal"
+          ? "Damage"
+          : `${enemy.charAt(0).toUpperCase() + enemy.slice(1)} Damage`;
+
       data[key] = html;
       keyMap[key] = key;
     }

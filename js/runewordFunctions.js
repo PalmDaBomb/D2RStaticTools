@@ -29,7 +29,7 @@ export function getRuneWordModalData(runeWord) {
 export function getIronGolemDisplay(runeWord) {
   if (!runeWord) return { data: {}, keyMap: {} };
 
-  const excludePatterns = ["resist", "enhanced", "life", "defense", "rating", "attribute", "mana"];
+  const excludePatterns = ["resist", "enhanced", "defense", "rating", "attribute", "mana"];
 
   const filteredData = {};
   const filteredKeyMap = {};
@@ -52,4 +52,28 @@ export function getIronGolemDisplay(runeWord) {
   }
 
   return [filteredData, filteredKeyMap];
+}
+
+// --------------------------------------------
+// Helper: Collect and consolidate elemental dmg
+// --------------------------------------------
+export function getElementalTotals(rw, includePoison = false) {
+  var elements = ["Cold", "Fire", "Lightning"];
+
+  if (includePoison) {
+    elements = ["Cold", "Fire", "Lightning", "Poison"];
+  }
+  
+  const totals = { min: 0, avg: 0, max: 0 };
+
+  for (const elem of elements) {
+    const elemDamage = getStatValues(rw, "AddedDamage", elem);
+    if (!elemDamage) continue;
+
+    totals.min += elemDamage.min;
+    totals.avg += elemDamage.avg;
+    totals.max += elemDamage.max;
+  }
+
+  return totals;
 }

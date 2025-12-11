@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>D2R Static Tools | Necro Summons</title>
+    <meta name="description" content="Comprehensive Diablo 2 Resurrected Necromancer Summon Calculator. Includes Raise Skeleton, Skeletal Mage, Iron Golem, Blood Golem, Revive, Fire Golem, Clay Golem, and full damage, life, resist, and aura interaction analysis based on D2R data files. Includes assumptions, discrepancies, and research notes." />
+    <title>D2R Static Tools | Necromancer Summons Calculator & Research</title>
+    <link rel="canonical" href="https://palmdabomb.github.io/D2RStaticTools/index.html" />
     <link rel="stylesheet" href="../styles/homepage.css" />
     <link rel="stylesheet" href="../styles/expandableSection.css" />
     <link rel="stylesheet" href="../styles/tables.css" />
@@ -126,7 +128,75 @@
                 </ul>
             </div>
         </section>
+
         <div class="summon-container"></div>
+
+        <section class="expandable-section">
+            <div class="expandable-header">
+                <span class="expand-icon">+</span>
+                <span class="expand-title">References</span>
+            </div>
+            <div class="expandable-content">
+                <h2>References</h2>
+                <ul>
+                    <li>
+                        <cite>Diablo II Resurrected Game Files</cite>
+                        <a href="https://github.com/pinkufairy/D2R-Excel" target="_blank">D2R Files By pinkufairy</a>
+                    </li>
+                    <li>
+                        <cite>The Amazon Basin</cite>
+                        <a href="https://www.theamazonbasin.com/wiki/index.php/Summoning_Spells" target="_blank">The Amazon Basin</a>
+                    </li>
+                    <li>
+                        <cite>d2library</cite>
+                        <a href="https://www.mannm.org/d2library/faqtoids/minions_eng.html" target="_blank">Sympathy For The Devil</a>
+                    </li>
+                </ul>
+                <h2>General Notes</h2>
+                <ul>
+                    <li>
+                        <a href="https://www.theamazonbasin.com/wiki/index.php/Summoning_Spells" target="_blank">The Amazon Basin</a> uses data from MonStats.txt and the skill
+                        level of the particular summon for a variety of stats like Defense & Attack Rating. This isn't reflected in other sources, but is used here in the calculator.
+                    </li>
+                </ul>
+                <h2>NecroMage Notes</h2>
+                <ul>
+                    <li>
+                        It is important to note that there are many contradictory accounts pertaining to Necromancer Summoning Skills. For example, 
+                        the <a href="https://diablo.fandom.com/wiki/Raise_Skeletal_Mage" target="_blank">Diablo Wiki</a> claims that Necro Mages resist the specific element they use; however, this isn't supported by the D2R files
+                        or specific other sources like the Amazon Basin.
+                    </li>
+                    <li>
+                        MaxRoll values for Necro Mage Damages are exactly 1 level higher than this calculator's values. The values above are based on
+                        the D2R data files. Since the D2R patch notes stated that there were no increases to Fire Necro Mage damages, the above calculator used 
+                        that as a reference when doing the calculations. The calculator returns the same damage for Fire Necro Mages as other necromancer calculators,
+                        which suggests that Max Roll may be slightly off. 
+                    </li>
+                    <li>
+                        The patch notes state that Necro Mage life was improved. Looking at the D2R file formulas, it seems that the %HP modifer was adjusted to be the 
+                        same as Necro Skeletons. Assuming no other changes, this results in a massive improvement to Necro Mage Life. This may or may not be correct as the 
+                        in game tooltip does not correctly display the Life Value.
+                    </li>
+                </ul>
+                <h2>NecroSkele Notes</h2>
+                <ul>
+                    <li>
+                        Necro Skeles recieve an attack rating bonus based on the caster's character level but it isn't clear where this is handled in the game files. 
+                        At the time of this writing, MaxRoll's value for this was always based on a character level of 99. The above calculator scales this value 
+                        according to the caster's level and the formula presented in <a href="https://www.mannm.org/d2library/faqtoids/minions_eng.html" target="_blank">Sympathy For The Devil</a>
+                    </li>
+                </ul>
+                <h2>Iron Golem Notes</h2>
+                <ul>
+                    <li>
+                        Iron Golem has a Base Damage value that is used when it is created from armor. This Base Damage Value is added to the weapon damage 
+                        if Iron Golem is made from a One-Handed Weapon but not a Two-Handed Weapon. It is unclear where in the damage formula Iron Golem's base damage is added, 
+                        but the calculator treats it as an Added Damage source where the weapon's enhanced damage value does not apply, but damage boosts from Fire Golem 
+                        Synergy & Auras do apply.
+                    </li>
+                </ul>
+            </div>
+        </section>
     </main>
     <!-- Raise Skeleton Results Modal -->
     <div id="resultModal" class="modal">

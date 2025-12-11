@@ -195,10 +195,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             { label: "Blood Golem Base-Lvl", id: "bGolemBase", type: "number", placeholder: "1-20", min: 0, max: 20 },
             { label: "Fire Golem Base-Lvl", id: "fGolemBase", type: "number", placeholder: "1-20", min: 0, max: 20 },
             { header: "Damage & Attack Rating Auras:"},
-            { label: "Fanaticism Aura (User) Lvl", id: "fanaticismUser", type: "number", placeholder: "1-99", min: 0, max: 99 },
             { label: "Fanaticism Aura (Ally) Lvl", id: "fanaticismAlly", type: "number", placeholder: "1-99", min: 0, max: 99 },
-            { label: "Concentration Aura Lvl", id: "concentration", type: "number", placeholder: "1-99", min: 0, max: 99 },
-            { label: "Might Aura Lvl", id: "might", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Concentration Aura (Ally) Lvl", id: "concentration", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Might Aura (Ally) Lvl", id: "might", type: "number", placeholder: "1-99", min: 0, max: 99 },
             { label: "Heart of Wolverine", id: "hWolverine", type: "number", placeholder: "1-99", min: 0, max: 99 },
             { header: "Life Auras:"},
             { label: "Oak Sage", id: "hOakSage", type: "number", placeholder: "1-99", min: 0, max: 99 },
@@ -357,7 +356,6 @@ function collectIGolemInputs(sectionContent, weaponMap, runeWordMap) {
     const damageAuras = {
         Might: getVal("might"),
         Concentration: getVal("concentration"),
-        FanaticismUser: getVal("fanaticismUser"),
         FanaticismAlly: getVal("fanaticismAlly"),
         Wolverine: getVal("hWolverine")
     };

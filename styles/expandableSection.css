@@ -51,6 +51,20 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Flame-styled references like your <strong> styling */
+.expandable-content cite {
+    color: #ffb347; /* warm gold-orange flame tone */
+    text-shadow:
+        0 0 6px rgba(255, 120, 0, 0.7),
+        0 0 12px rgba(255, 60, 0, 0.6),
+        0 0 18px rgba(255, 0, 0, 0.5);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-style: normal;      
+    margin-right: 6px;       
+    display: inline-block;   
+}
+
 .expandable-section.active .expandable-content {
   display: block;
 }
