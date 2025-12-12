@@ -2,7 +2,7 @@
 // necroSummons.js
 // ==============================
 import { createInputSection } from "./formFactory.js";
-import { calculateRaiseSkeleton, calculateRaiseSkeletonMage, calculateBloodGolem, calculateIronGolem} from "./formulas.js";
+import { calculateRaiseSkeleton, calculateRaiseSkeletonMage, calculateClayGolem, calculateBloodGolem, calculateIronGolem} from "./formulas.js";
 import { ModalManager } from "./modalManager.js";
 import { loadIGCompatibleWeapons, loadRuneWords } from "./assetLoader.js";
 
@@ -95,6 +95,58 @@ document.addEventListener("DOMContentLoaded", async () => {
                         skillLevel,
                         masteryLevel,
                         summonResistLevel,
+                        lifeAuras,
+                        defAuras
+                    );
+
+                    modalManager.show(data, keyMap);
+                }
+            },
+            {
+                text: "Clear",
+                className: "StandardBTN",
+                onClick: (sectionContent) => clearInputs(sectionContent)
+            }
+        ]
+    });
+    createInputSection(".summon-container", {
+        title: "Clay Golem Calculator",
+        inputs: [
+            { header: "Skills:"},
+            { label: "Clay Golem Skill-Lvl", id: "skillLevel", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Golem Mastery Skill-Lvl", id: "golemMastery", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Summon Resist Skill-Lvl", id: "summonResist", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { header: "Relevant Boosts:"},
+            { label: "Blood Golem Base-Lvl", id: "bGolemBase", type: "number", placeholder: "1-20", min: 0, max: 20 },
+            { label: "Iron Golem Base-Lvl", id: "iGolemBase", type: "number", placeholder: "1-20", min: 0, max: 20 },
+            { label: "Fire Golem Base-Lvl", id: "fGolemBase", type: "number", placeholder: "1-20", min: 0, max: 20 },
+            { header: "Damage & Attack Rating Auras:"},
+            { label: "Fanaticism Aura Lvl", id: "fanaticism", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Concentration Aura Lvl", id: "concentration", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Might Aura Lvl", id: "might", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Heart of Wolverine", id: "hWolverine", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { header: "Life Auras:"},
+            { label: "Oak Sage", id: "hOakSage", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Battle Orders", id: "battleOrders", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { header: "Defense Auras:"},
+            { label: "Defiance", id: "defiance", type: "number", placeholder: "1-99", min: 0, max: 99 },
+            { label: "Shout", id: "shout", type: "number", placeholder: "1-99", min: 0, max: 99 },
+        ],
+        buttons: [
+            {
+                text: "Calculate",
+                className: "StandardBTN",
+                onClick: async (sectionContent) => {
+                    const { skillLevel, masteryLevel, summonResistLevel, boosts, damageAuras, lifeAuras, defAuras } =
+                        collectCGolemInputs(sectionContent);
+
+                    const { data, keyMap } = await calculateClayGolem(
+                        null,
+                        skillLevel,
+                        masteryLevel,
+                        summonResistLevel,
+                        boosts,
+                        damageAuras,
                         lifeAuras,
                         defAuras
                     );
@@ -280,6 +332,38 @@ function collectRaiseSkeletalMageInputs(sectionContent) {
         skillLevel: getVal("skillLevel"),
         masteryLevel: getVal("skeletonMastery"),
         summonResistLevel: getVal("summonResist"),
+        lifeAuras: {
+            "BattleOrders": getVal("battleOrders"),
+            "OakSage": getVal("hOakSage")
+        },
+        defAuras: {
+            "Defiance": getVal("defiance"),
+            "Shout": getVal("shout")
+        }
+    };
+}
+
+function collectCGolemInputs(sectionContent) {
+    const getVal = id => {
+        const input = sectionContent.querySelector(`input[data-input-id="${id}"]`);
+        return parseFloat(input?.value) || 0;
+    };
+
+    return {
+        skillLevel: getVal("skillLevel"),
+        masteryLevel: getVal("golemMastery"),
+        summonResistLevel: getVal("summonResist"),
+        boosts: {
+            "BloodGolem" : getVal("bGolemBase"),
+            "IronGolem" : getVal("iGolemBase"),
+            "FireGolem" : getVal("fGolemBase")
+        },
+        damageAuras: {
+            "Might": getVal("might"),
+            "Concentration": getVal("concentration"),
+            "Fanaticism": getVal("fanaticism"),
+            "Wolverine": getVal("hWolverine")
+        },
         lifeAuras: {
             "BattleOrders": getVal("battleOrders"),
             "OakSage": getVal("hOakSage")

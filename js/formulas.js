@@ -4,6 +4,7 @@
 // ==============================
 
 import { getIronGolemDisplay, getElementalTotals, getStatValues } from "./runewordFunctions.js";
+import { injectSectionHeaders, getSummonHealthRegen } from "./summonCalcs.js";
 
 /**
  * Calculates the missing iLvl, cLvl, or mLvl based on the other two values present.
@@ -465,13 +466,21 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
 
   //Aura Multiplier calculation:
   const auraLifeMultiplier = totalLifeCalculation(lifeAuraMap["BattleOrders"], lifeAuraMap["OakSage"]);
-  const totalNormalLife = normalLife * auraLifeMultiplier;
-  const totalNightmareLife = nightmareLife * auraLifeMultiplier;
-  const totalHellLife = hellLife * auraLifeMultiplier;
+  const totalNormalLife = Math.floor(normalLife * auraLifeMultiplier);
+  const totalNightmareLife = Math.floor(nightmareLife * auraLifeMultiplier);
+  const totalHellLife = Math.floor(hellLife * auraLifeMultiplier);
   const displayLife = 
   `<span class="nrm">${totalNormalLife}</span> /
    <span class="nmt">${totalNightmareLife}</span> /
    <span class="hell">${totalHellLife}</span>`;
+  
+  const normalRegen = getSummonHealthRegen("RaiseSkeleton", totalNormalLife);
+  const nightmareRegen = getSummonHealthRegen("RaiseSkeleton", totalNightmareLife);
+  const hellRegen = getSummonHealthRegen("RaiseSkeleton", totalHellLife);
+  const displayRegen =
+  `<span class="nrm">${normalRegen}</span> /
+   <span class="nmt">${nightmareRegen}</span> /
+   <span class="hell">${hellRegen}</span>`;
 
   //Managing Return values for modal display:
   const critChanceNote = `Total Damages Include Average Critical Hit Damage Output <strong>(~10% Damage Increase)</strong>`;
@@ -482,6 +491,7 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
     displayDamage,
     displayAR,
     displayLife,
+    displayRegen,
     defenseDisplay,
     totalFireResist,
     totalLightningResist,
@@ -497,6 +507,7 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
     "Damage (All Difficulties)": "displayDamage",
     "Attack Rating (Norm/Night/Hell)": "displayAR",
     "Total Life (Norm/Night/Hell)": "displayLife",
+    "Life/Second (Norm/Night/Hell)": "displayRegen",
     "Defense (Norm/Night/Hell)" : "defenseDisplay",
     "<span class='fire'>Fire Resist</span>" : "totalFireResist",
     "<span class='cold'>Cold Resist</span>" : "totalColdResist",
@@ -507,7 +518,33 @@ export async function calculateRaiseSkeleton(monStatsMap, skillLvl, mSkillLvl, s
     "AttackRating Note" : "ARNote"
   };
 
-  return { data, keyMap };
+  const sections = {
+    "DAMAGE": [
+      "Damage (All Difficulties)",
+      "Attack Rating (Norm/Night/Hell)"
+    ],
+    "LIFE": [
+      "Total Life (Norm/Night/Hell)",
+      "Life/Second (Norm/Night/Hell)"
+    ],
+    "DEFENSES": [
+      "Defense (Norm/Night/Hell)",
+      "<span class='fire'>Fire Resist</span>",
+      "<span class='cold'>Cold Resist</span>",
+      "<span class='lightning'>Lightning Resist</span>",
+      "<span class='poison'>Poison Resist</span>",
+      "<span class='magic'>Magic Resist</span>"
+    ],
+    "MISC" : [
+      "Maximum Skeletons"
+    ],
+    "NOTES" : [
+      "Crit Chance",
+      "AttackRating Note"
+    ]
+  };
+
+  return injectSectionHeaders(data, keyMap, sections);
 }
 
 function computeSkeletalMageDamage(skelMageLvl, skelMasteryLvl) {
@@ -643,6 +680,14 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
   const totalNightmareLife = Math.floor(nightmareBaseLife * lifeModifier * otherLifeModifers);
   const totalHellLife = Math.floor(hellBaseLife * lifeModifier * otherLifeModifers);
 
+  const normalRegen = getSummonHealthRegen("RaiseSkeleton", totalNormalLife);
+  const nightmareRegen = getSummonHealthRegen("RaiseSkeleton", totalNightmareLife);
+  const hellRegen = getSummonHealthRegen("RaiseSkeleton", totalHellLife);
+  const displayRegen =
+  `<span class="nrm">${normalRegen}</span> /
+   <span class="nmt">${nightmareRegen}</span> /
+   <span class="hell">${hellRegen}</span>`;
+
   const displayLife = displayDifficultyValues(totalNormalLife, totalNightmareLife, totalHellLife);
   const lifeNote = `There are inconsistencies with %Life Increase values. The formula in <strong>skills.txt</strong> reads:
   <strong> 50 x (skillLvl - 3)</strong> but other sources use <strong>(10 x skillLvl) - 21</strong>. The calculation above 
@@ -657,6 +702,7 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
     Cold: displayMap["Cold"],
     Lightning: displayMap["Lightning"],
     displayLife,
+    displayRegen,
     displayDef,
     totalFireResist: resistances["Fire"],
     totalLightningResist: resistances["Lightning"],
@@ -675,6 +721,7 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
     "Cold Mage Damage": "Cold",
     "Lightning Mage Damage": "Lightning",
     "Total Life (Norm/Night/Hell)": "displayLife",
+    "Life/Second (Norm/Night/Hell)": "displayRegen",
     "Defense (Norm/Night/Hell)" : "displayDef",
     "<span class='fire'>Fire Resist</span>" : "totalFireResist",
     "<span class='cold'>Cold Resist</span>" : "totalColdResist",
@@ -685,7 +732,223 @@ export async function calculateRaiseSkeletonMage(monStatsMap, skillLvl, mSkillLv
     "ResistNote" : "resistNote"
   };
 
-  return { data, keyMap };
+  const sections = {
+    "DAMAGE": [
+      "Poison Mage Damage",
+      "Fire Mage Damage",
+      "Cold Mage Damage",
+      "Lightning Mage Damage"
+    ],
+    "LIFE": [
+      "Total Life (Norm/Night/Hell)",
+      "Life/Second (Norm/Night/Hell)"
+    ],
+    "DEFENSES": [
+      "Defense (Norm/Night/Hell)",
+      "<span class='fire'>Fire Resist</span>",
+      "<span class='cold'>Cold Resist</span>",
+      "<span class='lightning'>Lightning Resist</span>",
+      "<span class='poison'>Poison Resist</span>",
+      "<span class='magic'>Magic Resist</span>"
+    ],
+    "MISC" : [
+      "Maximum NecroMages"
+    ]
+  };
+
+  return injectSectionHeaders(data, keyMap, sections);
+}
+
+/**
+ * Calculates Necromancer's Blood stats based on skill levels, mastery, boosts
+ * and active aura bonuses.
+ * @param {Map} monStatsMap - (optional) Cached MonStats map from loadMonStats().
+ * @param {number} skillLvl - Blood Golem skill level.
+ * @param {number} gmSkillLvl - Golem Mastery skill level.
+ * @param {[string],number} boostsMap - Total Levels of Boost Skills.
+ * @param {[string],number} damageAuraMap - Total Damage Aura Levels (might, fanat, con, wolverine).
+ * @param {[string],number} lifeAuraMap - Total Life Aura Levels (battle orders, oaksage).
+ * @param {[string],number} defAuraMap - Total def Aura Levels (defiance, shout).
+ * @returns {Promise<object>} - Promise resolving to computed skeleton stats.
+ */
+export async function calculateClayGolem(monStatsMap, skillLvl, gmSkillLvl, summonResistLvl, boostsMap, damageAuraMap, lifeAuraMap, defAuraMap) {
+  if (!monStatsMap) {
+      monStatsMap = await loadMonStats();
+    }
+
+    const monStat = monStatsMap.get(skillLvl);
+    if (!monStat) {
+      console.warn(`No MonStats entry found for level ${skillLvl}`);
+      return null;
+    }
+  
+  // ===============[ATTACK RATING & DAMAGE]===================
+  var normalMinDmg = 2;
+  var nightmareMinDmg = 2;
+  var hellMinDmg = 3;
+
+  var normalMaxDmg = 5
+  var nightmareMaxDmg = 6
+  var hellMaxDmg = 7;
+
+  var normalARBase = (40 + (20 * skillLvl) + monStat.Normal) + (gmSkillLvl * 25);
+  var nightmareARBase = (66 + (20 * skillLvl) + monStat.Nightmare) + (gmSkillLvl * 25);
+  var hellARBase = (92 + (20 * skillLvl) + monStat.Hell) + (gmSkillLvl * 25);
+
+  // Percent Damage increases with skill increase and points in Fire Golem. This is additive with 
+  // the damage Auras. No Percent increases to Attack Rating from Skills. 
+  const percentDamageSkills = (35 * skillLvl) - 35 + (6 * boostsMap["FireGolem"]);
+  const percentAttackRating = 0;
+  const damageAndArMultipliers = totalAuraArAndDamageCalculation(
+                                 damageAuraMap["Might"], 
+                                 damageAuraMap["Concentration"],
+                                 damageAuraMap["Fanaticism"], 
+                                 damageAuraMap["Wolverine"],
+                                 [percentDamageSkills,percentAttackRating]);
+
+  var damageMultiplier = damageAndArMultipliers[0];
+  var arMultiplier = damageAndArMultipliers[1];
+
+  //Normal Damage:
+  var totalNormalMinDmg = Math.floor(normalMinDmg * damageMultiplier);
+  var totalNormalMaxDmg = Math.floor(normalMaxDmg * damageMultiplier);
+  var normalAvgDmg = Math.round((totalNormalMinDmg + totalNormalMaxDmg) / 2 * 100) / 100;
+
+  //Normal Damage:
+  var totalNightmareMinDmg = Math.floor(nightmareMinDmg * damageMultiplier);
+  var totalNightmareMaxDmg = Math.floor(nightmareMaxDmg * damageMultiplier);
+  var nightmareAvgDmg = Math.round((totalNightmareMinDmg + totalNightmareMaxDmg) / 2 * 100) / 100;
+
+  // Hell Damage:
+  var totalHellMinDmg = Math.floor(hellMinDmg * damageMultiplier);
+  var totalHellMaxDmg = Math.floor(hellMaxDmg * damageMultiplier);
+  var hellAvgDmg = Math.round((totalHellMinDmg + totalHellMaxDmg) / 2 * 100) / 100;
+
+  // Interpolated strings for Return
+  const normalDamage = `${totalNormalMinDmg} - ${totalNormalMaxDmg} (${normalAvgDmg})`;
+  const nightmareDamage = `${totalNightmareMinDmg} - ${totalNightmareMaxDmg} (${nightmareAvgDmg})`;
+  const hellDamage = `${totalHellMinDmg} - ${totalHellMaxDmg} (${hellAvgDmg})`;
+  const normalAR = Math.floor(normalARBase * arMultiplier);
+  const nightmareAR = Math.floor(nightmareARBase * arMultiplier);
+  const hellAR = Math.floor(hellARBase * arMultiplier);
+  const displayAR = `<span class="nrm">${normalAR}</span> /
+   <span class="nmt">${nightmareAR}</span> /
+   <span class="hell">${hellAR}</span>`;
+
+   // ===============[DEFENSE & RESIST]===================
+  var normalBaseDef = 100 + monStat.Normal + (35 * boostsMap["IronGolem"]);
+  var nightmareBaseDef = 100 + monStat.Nightmare + (35 * boostsMap["IronGolem"]);
+  var hellBaseDef = 100 + monStat.Hell + (35 * boostsMap["IronGolem"]);
+  const percentageDef = 0; // No percent defense increases granted from skill
+
+  const defenseMultiplier = totalDefCalculation(defAuraMap["Defiance"], defAuraMap["Shout"], percentageDef);
+  const totalNormalDef = Math.floor(normalBaseDef * defenseMultiplier);
+  const totalNightmareDef = Math.floor(nightmareBaseDef * defenseMultiplier);
+  const totalHellDef = Math.floor(hellBaseDef * defenseMultiplier);
+  const defenseDisplay =
+  `<span class="nrm">${totalNormalDef}</span> /
+   <span class="nmt">${totalNightmareDef}</span> /
+   <span class="hell">${totalHellDef}</span>`;
+
+   var allResist = 0;
+   if (summonResistLvl > 0) {
+      allResist = Math.min(20 + (55 * ((110 * summonResistLvl) / (summonResistLvl + 6) / 100)), 75);
+   }
+   var totalFireResist = `<span class='fire'>${allResist}%</span>`;
+   var totalColdResist =  `<span class='cold'>${allResist + 50}%</span>`;
+   var totalLightningResist = `<span class='lightning'>${allResist + 20}%</span>`;
+   var totalPoisonResist = `<span class='poison'>${allResist}%</span>`;
+   var totalMagicResist = `<span class='magic'>${20}%</span>`;
+   var totalPhysicalResist = `${25}%`;
+
+  // ===============[LIFE]===================
+  const baseLifeMultiplier = (1 + (((boostsMap["BloodGolem"] * 5)  + (gmSkillLvl * 20)) / 100));
+  const baseLifeNormal = 100 * (65 + (35 * skillLvl)) / 100;
+  const baseLifeNightmare = 175 * (65 + (35 * skillLvl)) / 100;
+  const baseLifeHell = 275 * (65 + (35 * skillLvl)) / 100;
+
+  const lifeMultiplier = totalLifeCalculation(lifeAuraMap["BattleOrders"], lifeAuraMap["OakSage"]);
+  var totalLifeNormal = Math.floor(baseLifeNormal * baseLifeMultiplier * lifeMultiplier);
+  var totalLifeNightmare = Math.floor(baseLifeNightmare * baseLifeMultiplier * lifeMultiplier);
+  var totalLifeHell = Math.floor(baseLifeHell * baseLifeMultiplier * lifeMultiplier);
+  const lifeDisplay =
+  `<span class="nrm">${totalLifeNormal}</span> /
+   <span class="nmt">${totalLifeNightmare}</span> /
+   <span class="hell">${totalLifeHell}</span>`;
+  
+  const normalRegen = getSummonHealthRegen("cgolem", totalLifeNormal);
+  const nightmareRegen = getSummonHealthRegen("cgolem", totalLifeNightmare);
+  const hellRegen = getSummonHealthRegen("cgolem", totalLifeHell);
+  const displayRegen =
+  `<span class="nrm">${normalRegen}</span> /
+   <span class="nmt">${nightmareRegen}</span> /
+   <span class="hell">${hellRegen}</span>`;
+  
+  // ===============[SLOWS TARGET]===================
+  var slowsTarget = Math.floor(Math.min(75 * ((110 * skillLvl) / (skillLvl + 6)) / 100, 75));
+  var displaySlowsTarget = `${slowsTarget}%`;
+
+  const data = {
+    normalDamage,
+    nightmareDamage,
+    hellDamage,
+    displayAR,
+    lifeDisplay,
+    displayRegen,
+    defenseDisplay,
+    totalFireResist,
+    totalLightningResist,
+    totalColdResist,
+    totalPoisonResist,
+    totalMagicResist,
+    totalPhysicalResist,
+    displaySlowsTarget
+  };
+
+  const keyMap = {
+    "Damage (Normal)": "normalDamage",
+    "Damage (Nightmare)": "nightmareDamage",
+    "Damage (Hell)": "hellDamage",
+    "Attack Rating (Norm/Night/Hell)": "displayAR",
+    "Clay Golem Life" : "lifeDisplay",
+    "Life/Second" : "displayRegen",
+    "Defense (Norm/Night/Hell)" : "defenseDisplay",
+    "<span class='fire'>Fire Resist</span>" : "totalFireResist",
+    "<span class='cold'>Cold Resist</span>" : "totalColdResist",
+    "<span class='lightning'>Lightning Resist</span>" : "totalLightningResist",
+    "<span class='poison'>Poison Resist</span>" : "totalPoisonResist",
+    "<span class='magic'>Magic Resist</span>" : "totalMagicResist",
+    "Physical Resist" : "totalPhysicalResist",
+    "Slows Target On Hit" : "displaySlowsTarget"
+  };
+
+  const sections = {
+    "DAMAGE & ATTACK RATING": [
+      "Damage (Normal)",
+      "Damage (Nightmare)",
+      "Damage (Hell)",
+      "Attack Rating (Norm/Night/Hell)"
+    ],
+    "LIFE": [
+      "Clay Golem Life",
+      "Life/Second"
+    ],
+    "DEFENSES": [
+      "Defense (Norm/Night/Hell)",
+      "<span class='fire'>Fire Resist</span>",
+      "<span class='cold'>Cold Resist</span>",
+      "<span class='lightning'>Lightning Resist</span>",
+      "<span class='poison'>Poison Resist</span>",
+      "<span class='magic'>Magic Resist</span>",
+      "Physical Resist"
+    ],
+    "MISC" : [
+      "Slows Target On Hit"
+    ]
+  };
+
+  return injectSectionHeaders(data, keyMap, sections);
+
 }
 
 /**
@@ -801,9 +1064,12 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
   
 
   // ===============[LIFE]===================
-  const baseLife = 637 * (1 + ((((skillLvl - 1) * 20) + (gmSkillLvl * 20)) / 100));
+  const baseLife = 637 * (1 + (((skillLvl - 1) * 20) / 100));
+  const boostMultiplier = (1 + ((gmSkillLvl * 20) / 100));
   const lifeMultiplier = totalLifeCalculation(lifeAuraMap["BattleOrders"], lifeAuraMap["OakSage"]);
-  var totalLife = Math.floor(baseLife * lifeMultiplier);
+  var totalLife = Math.floor(baseLife * boostMultiplier * lifeMultiplier);
+
+  const normalRegen = getSummonHealthRegen("bgolem", totalLife);
 
 
   const data = {
@@ -814,6 +1080,7 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
     nightmareLifeReturned,
     hellLifeReturned,
     totalLife,
+    normalRegen,
     defenseDisplay,
     totalFireResist,
     totalLightningResist,
@@ -830,6 +1097,7 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
     "Caster Life Returned (Nightmare)": "nightmareLifeReturned",
     "Caster Life Returned (Hell)": "hellLifeReturned",
     "Blood Golem Life" : "totalLife",
+    "Life/Second" : "normalRegen",
     "Defense (Norm/Night/Hell)" : "defenseDisplay",
     "<span class='fire'>Fire Resist</span>" : "totalFireResist",
     "<span class='cold'>Cold Resist</span>" : "totalColdResist",
@@ -838,7 +1106,30 @@ export async function calculateBloodGolem(monStatsMap, skillLvl, gmSkillLvl, sum
     "<span class='magic'>Magic Resist</span>" : "totalMagicResist",
   };
 
-  return { data, keyMap };
+  const sections = {
+    "DAMAGE & ATTACK RATING": [
+      "Damage (All Difficulties)",
+      "Attack Rating (Norm/Night/Hell)"
+    ],
+    "LIFE": [
+      "Life Stolen (%)",
+      "Caster Life Returned (Normal)",
+      "Caster Life Returned (Nightmare)",
+      "Caster Life Returned (Hell)",
+      "Blood Golem Life",
+      "Life/Second"
+    ],
+    "DEFENSES": [
+      "Defense (Norm/Night/Hell)",
+      "<span class='fire'>Fire Resist</span>",
+      "<span class='cold'>Cold Resist</span>",
+      "<span class='lightning'>Lightning Resist</span>",
+      "<span class='poison'>Poison Resist</span>",
+      "<span class='magic'>Magic Resist</span>"
+    ]
+  };
+
+  return injectSectionHeaders(data, keyMap, sections);
 }
 
 function getIronGolemResistance(runeWord) {
